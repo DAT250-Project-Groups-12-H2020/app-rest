@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="App.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="no.hvl.dat250.app.AppPrototype2Application" />
+    <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/src/main/resources" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <additionalParameters>
+      <param>
+        <option name="enabled" value="true" />
+        <option name="name" value="spring.jpa.show-sql" />
+        <option name="value" value="true" />
+      </param>
+    </additionalParameters>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
