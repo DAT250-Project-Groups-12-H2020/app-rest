@@ -14,12 +14,13 @@ import javax.validation.Valid
  * @author Elg
  */
 @RestController
+@RequestMapping(API_VERSION_1)
 class AccountController {
 
     @Autowired
     lateinit var accountRepository: AccountRepository
 
-    @GetMapping("$API_VERSION_1/account/{id}")
+    @GetMapping("/public/account/{id}")
     fun publicAccountInformation(@PathVariable id: Long): PublicAccountResponse? {
         val account = accountRepository.findById(id)
         return if (account.isEmpty) {
@@ -29,11 +30,16 @@ class AccountController {
         }
     }
 
-    @PostMapping("$API_VERSION_1/account")
+    @PostMapping("/protected/account")
     fun createAccount(@Valid @RequestBody accountRequest: AccountRequest): AccountResponse {
         if (accountRepository.existsAccountByEmail(accountRequest.email)) {
             throw NotUniqueAccountEmailException()
         }
         return accountRepository.saveAndFlush(accountRequest.toAccount()).toResponse()
+    }
+
+    @GetMapping("/public/test_user")
+    fun getTestUser() {
+        Fire
     }
 }

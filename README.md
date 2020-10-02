@@ -2,7 +2,7 @@
 
 ## Authentication with firebase 
 
-*Based on <https://thepro.io/post/firebase-authentication-for-spring-boot-rest-api-KL>, and <https://firebase.google.com/docs/admin/setup#java>*
+Based on <https://github.com/gladius/firebase-spring-boot-rest-api-authentication>, and <https://firebase.google.com/docs/admin/setup#java>
 
 ## Using firebase as database
 

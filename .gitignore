@@ -34,3 +34,5 @@ out/
 .vscode/
 
 src/main/resources/secrets/
+
+web/node_modules/

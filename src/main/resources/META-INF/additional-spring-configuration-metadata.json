@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "security.firebase-props.session-expiry-in-days",
+      "type": "java.lang.String",
+      "description": "Description for security.firebase-props.session-expiry-in-days."
+    }
+  ]
+}
