@@ -1,7 +1,12 @@
 package no.hvl.dat250.app.model
 
 import java.time.OffsetDateTime
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.OneToMany
 
 @Entity
 class Poll {
@@ -21,7 +26,7 @@ class Poll {
   lateinit var secondAnswer: String
 
   @field:OneToMany(cascade = [CascadeType.ALL])
-  lateinit var votes: MutableSet<Vote>
+  var votes: MutableSet<Vote> = HashSet()
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
