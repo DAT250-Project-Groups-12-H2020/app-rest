@@ -36,3 +36,5 @@ out/
 src/main/resources/secrets/
 
 web/node_modules/
+
+src/main/resources/secret/dat250-gr-2-h2020-app-firebase-adminsdk.json
