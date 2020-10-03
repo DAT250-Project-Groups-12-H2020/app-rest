@@ -54,7 +54,7 @@ public class SessionAuthController {
     if (securityService.getCredentials().getType() == Credentials.CredentialType.SESSION &&
         secProps.getFirebaseProps().isEnableLogoutEverywhere()) {
       try {
-        FirebaseAuth.getInstance().revokeRefreshTokens(securityService.getUser().getUid());
+        FirebaseAuth.getInstance().revokeRefreshTokens(securityService.getFirebaseUser().getUid());
       } catch (FirebaseAuthException e) {
         e.printStackTrace();
       }

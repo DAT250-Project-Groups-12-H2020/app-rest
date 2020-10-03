@@ -10,6 +10,7 @@ import no.hvl.dat250.app.dto.toResponse
 import no.hvl.dat250.app.exception.AccountNotFoundException
 import no.hvl.dat250.app.exception.NotUniqueAccountEmailException
 import no.hvl.dat250.app.repository.AccountRepository
+import no.hvl.dat250.app.security.SecurityService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -30,8 +31,11 @@ class AccountController {
   @Autowired
   lateinit var accountRepository: AccountRepository
 
+  @Autowired
+  lateinit var securityService: SecurityService
+
   @GetMapping("/public/account/{id}")
-  fun publicAccountInformation(@PathVariable id: Long): PublicAccountResponse? {
+  fun publicAccountInformation(@PathVariable id: String): PublicAccountResponse? {
     val account = accountRepository.findById(id)
     return if (account.isEmpty) {
       throw AccountNotFoundException(id)

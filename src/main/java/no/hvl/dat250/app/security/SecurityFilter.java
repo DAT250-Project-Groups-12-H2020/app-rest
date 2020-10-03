@@ -21,7 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.WebUtils;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -48,7 +47,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     FirebaseToken decodedToken = null;
     CredentialType type = null;
     boolean strictServerSessionEnabled = securityProps.getFirebaseProps().isEnableStrictServerSession();
-    Cookie sessionCookie = WebUtils.getCookie(request, "session");
+    Cookie sessionCookie = cookieUtils.getCookie("session");
     String token = securityService.getBearerToken(request);
     try {
       if (sessionCookie != null) {

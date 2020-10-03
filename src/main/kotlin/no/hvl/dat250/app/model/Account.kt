@@ -17,27 +17,45 @@ class Account {
   lateinit var id: String
 
   @field:Enumerated(EnumType.STRING)
-  lateinit var role: Role
+  var role: Role = Role.USER
 
   @field:OneToMany(cascade = [CascadeType.ALL])
   @field:JoinColumn
   var polls: MutableSet<Poll> = mutableSetOf()
 
-
   @field:ManyToMany(cascade = [CascadeType.ALL])
   var votes: MutableMap<Poll, Vote> = mutableMapOf()
 
+  //////////////
+  // Firebase //
+  //////////////
+
+  var name: String? = null
+
+  var email: String? = null
+
+  var isEmailVerified = false
+
+  var picture: String? = null
+
+  override fun toString(): String {
+    return "Account(id='$id', role=$role, name='$name', email='$email')"
+  }
+
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
-    if (other !is Account) return false
+    if (javaClass != other?.javaClass) return false
+
+    other as Account
 
     if (id != other.id) return false
     if (role != other.role) return false
     if (polls != other.polls) return false
+    if (votes != other.votes) return false
     if (name != other.name) return false
     if (email != other.email) return false
-    if (password != other.password) return false
-    if (votes != other.votes) return false
+    if (isEmailVerified != other.isEmailVerified) return false
+    if (picture != other.picture) return false
 
     return true
   }
@@ -47,10 +65,10 @@ class Account {
     result = 31 * result + role.hashCode()
     result = 31 * result + polls.hashCode()
     result = 31 * result + votes.hashCode()
+    result = 31 * result + (name?.hashCode() ?: 0)
+    result = 31 * result + (email?.hashCode() ?: 0)
+    result = 31 * result + isEmailVerified.hashCode()
+    result = 31 * result + (picture?.hashCode() ?: 0)
     return result
-  }
-
-  override fun toString(): String {
-    return "Account(id='$id', admin=$role, name='$name', email='$email')"
   }
 }

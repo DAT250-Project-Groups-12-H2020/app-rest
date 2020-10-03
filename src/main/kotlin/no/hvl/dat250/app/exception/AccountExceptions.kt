@@ -10,4 +10,4 @@ import org.springframework.web.bind.annotation.ResponseStatus
 class NotUniqueAccountEmailException : RuntimeException("An account with the given email already exists")
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-class AccountNotFoundException(id: Long) : RuntimeException("Failed to find an account with the given id $id")
+class AccountNotFoundException(id: String) : RuntimeException("Failed to find an account with the given id $id")

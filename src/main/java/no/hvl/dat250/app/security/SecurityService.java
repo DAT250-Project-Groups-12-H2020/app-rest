@@ -1,9 +1,13 @@
 package no.hvl.dat250.app.security;
 
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+import no.hvl.dat250.app.model.Account;
+import no.hvl.dat250.app.repository.AccountRepository;
 import no.hvl.dat250.app.security.models.Credentials;
 import no.hvl.dat250.app.security.models.FirebaseUser;
 import no.hvl.dat250.app.security.models.SecurityProperties;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,14 +23,41 @@ public class SecurityService {
   @Autowired
   private SecurityProperties securityProps;
 
-  public FirebaseUser getUser() {
-    FirebaseUser firebaseUserPrincipal = null;
+  @Autowired
+  private AccountRepository accountRepository;
+
+
+  @Nullable
+  public FirebaseUser getFirebaseUser() {
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Object principal = securityContext.getAuthentication().getPrincipal();
     if (principal instanceof FirebaseUser) {
-      firebaseUserPrincipal = ((FirebaseUser) principal);
+      return ((FirebaseUser) principal);
     }
-    return firebaseUserPrincipal;
+    return null;
+  }
+
+  @Nullable
+  public Account getAccount() {
+    FirebaseUser firebaseUser = getFirebaseUser();
+    if (firebaseUser == null) {
+      return null;
+    }
+    Account account;
+    Optional<Account> accountOptional = accountRepository.findById(firebaseUser.getUid());
+    if (accountOptional.isEmpty()) {
+      //first time we have this account
+      account = new Account();
+      account.id = firebaseUser.getUid();
+    }
+    else {
+      account = accountOptional.get();
+    }
+    account.setName(firebaseUser.getName());
+    account.setEmail(firebaseUser.getEmail());
+    account.setEmailVerified(firebaseUser.isEmailVerified());
+    account.setPicture(firebaseUser.getPicture());
+    return accountRepository.saveAndFlush(account);
   }
 
   public Credentials getCredentials() {
@@ -42,7 +73,7 @@ public class SecurityService {
     String bearerToken = null;
     String authorization = request.getHeader("Authorization");
     if (StringUtils.hasText(authorization) && authorization.startsWith("Bearer ")) {
-      bearerToken = authorization.substring(7, authorization.length());
+      bearerToken = authorization.substring(7);
     }
     return bearerToken;
   }
