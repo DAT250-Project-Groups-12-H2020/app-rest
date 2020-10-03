@@ -3,14 +3,14 @@ server:
 security:
   firebase-props:
     database-url: ${FIREBASE_DATABASE}
-    enable-strict-server-session: ${ENABLE_SERVER_SESSION}
+    enable-strict-server-session: true
     enable-check-session-revoked: false
     enable-logout-everywhere: false
     session-expiry-in-days: 5
   cookie-props:
     max-age-in-minutes: 7200
-    http-only: true
-    secure: true
+    http-only: false
+    secure: false
     domain: ${CORS_DOMAIN}
     path: /
   allow-credentials: true
