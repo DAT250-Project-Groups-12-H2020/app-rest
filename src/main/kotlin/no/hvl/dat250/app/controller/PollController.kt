@@ -111,6 +111,15 @@ class PollController {
   @DeleteMapping("/{id}")
   fun deletePoll(@PathVariable id: Long): PollResponse {
     val account = securityService.account ?: throw NotLoggedInException("Delete poll")
-    TODO()
+    val optionalPoll: Optional<Poll> = pollRepository.findById(id)
+    if (optionalPoll.isEmpty) {
+      throw PollNotFoundException(id)
+    }
+    val poll = optionalPoll.get()
+    // check user owns poll
+    if (!account.polls.contains(poll)) {
+      throw PollNotFoundException(id)
+    }
+
   }
 }
