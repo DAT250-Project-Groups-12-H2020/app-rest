@@ -5,10 +5,7 @@ import no.hvl.dat250.app.dto.PollRequest
 import no.hvl.dat250.app.dto.PollResponse
 import no.hvl.dat250.app.dto.toPoll
 import no.hvl.dat250.app.dto.toResponse
-import no.hvl.dat250.app.exception.MissingFieldException
-import no.hvl.dat250.app.exception.NotLoggedInException
-import no.hvl.dat250.app.exception.PollNotFoundException
-import no.hvl.dat250.app.exception.PollNotPublicException
+import no.hvl.dat250.app.exception.*
 import no.hvl.dat250.app.model.Poll
 import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.repository.PollRepository
@@ -70,7 +67,7 @@ class PollController {
     val poll = optionalPoll.get()
     // check user owns poll
     if (!account.polls.contains(poll)) {
-      throw PollNotFoundException(id)
+      throw PollNotOwnedByUserException(id, account.name)
     }
     if (pollRequest.question?.isNotBlank() == true) {
       poll.question = pollRequest.question
@@ -118,8 +115,12 @@ class PollController {
     val poll = optionalPoll.get()
     // check user owns poll
     if (!account.polls.contains(poll)) {
-      throw PollNotFoundException(id)
+      throw PollNotOwnedByUserException(id, account.name)
     }
+    account.polls.remove(poll)
+    accountRepository.saveAndFlush(account)
+    pollRepository.delete(poll)
+    return poll.toResponse()
 
   }
 }
