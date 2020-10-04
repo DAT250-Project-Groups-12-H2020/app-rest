@@ -1,18 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="App.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="no.hvl.dat250.app.Application" />
     <option name="HIDE_BANNER" value="true" />
     <option name="ENABLE_JMX_AGENT" value="false" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/src/main/resources" />
     <option name="ALTERNATIVE_JRE_PATH" />
-    <additionalParameters>
-      <param>
-        <option name="enabled" value="true" />
-        <option name="name" value="spring.jpa.show-sql" />
-        <option name="value" value="true" />
-      </param>
-    </additionalParameters>
     <envs>
       <env name="GOOGLE_APPLICATION_CREDENTIALS" value="./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json" />
       <env name="FIREBASE_DATABASE" value="https://dat250-gr-2-h2020-app.firebaseio.com/" />
@@ -20,6 +13,7 @@
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="spotlessApply" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
     </method>
   </configuration>
 </component>

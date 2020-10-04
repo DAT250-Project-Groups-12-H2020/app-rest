@@ -1,5 +1,10 @@
 server:
   port: 8080
+  error:
+    include-stacktrace: never
+spring:
+  jpa:
+    show-sql: true
 security:
   firebase-props:
     database-url: ${FIREBASE_DATABASE}
