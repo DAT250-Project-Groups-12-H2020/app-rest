@@ -1,11 +1,13 @@
 package no.hvl.dat250.app.controller
-
-// import no.hvl.dat250.app.API_VERSION_1
 import no.hvl.dat250.app.dto.PollRequest
 import no.hvl.dat250.app.dto.PollResponse
 import no.hvl.dat250.app.dto.toPoll
 import no.hvl.dat250.app.dto.toResponse
-import no.hvl.dat250.app.exception.*
+import no.hvl.dat250.app.exception.MissingFieldException
+import no.hvl.dat250.app.exception.NotLoggedInException
+import no.hvl.dat250.app.exception.PollNotFoundException
+import no.hvl.dat250.app.exception.PollNotOwnedByUserException
+import no.hvl.dat250.app.exception.PollNotPublicException
 import no.hvl.dat250.app.model.Poll
 import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.repository.PollRepository
@@ -23,10 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.Optional
 import javax.validation.Valid
-const val API_VERSION_1 = "/api/v1"
 
 @RestController
-@RequestMapping("$API_VERSION_1/polls")
+@RequestMapping("/api/v1/polls")
 class PollController {
 
   @Autowired
@@ -121,6 +122,5 @@ class PollController {
     accountRepository.saveAndFlush(account)
     pollRepository.delete(poll)
     return poll.toResponse()
-
   }
 }
