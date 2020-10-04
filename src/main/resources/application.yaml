@@ -47,8 +47,9 @@ security:
   allowed-public-apis:
     - /favicon.ico
     - /session/login
-    - /public/*
-    - /api/v1/public/*
+    - /api/v1/polls/create
+    - /api/v1/polls/*
+    - /api/v1/accounts/*
   exposed-headers:
     - X-Xsrf-Token
 

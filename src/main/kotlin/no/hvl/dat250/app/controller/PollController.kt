@@ -5,11 +5,15 @@ import no.hvl.dat250.app.dto.PollRequest
 import no.hvl.dat250.app.dto.PollResponse
 import no.hvl.dat250.app.dto.toPoll
 import no.hvl.dat250.app.dto.toResponse
+import no.hvl.dat250.app.exception.NotLoggedInException
+import no.hvl.dat250.app.exception.PollNotFoundException
+import no.hvl.dat250.app.exception.PollNotPublicException
 import no.hvl.dat250.app.model.Poll
 import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.repository.PollRepository
 import no.hvl.dat250.app.security.SecurityService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -32,9 +36,10 @@ class PollController {
   @Autowired
   lateinit var securityService: SecurityService
 
+  @ExceptionHandler(NotLoggedInException::class)
   @PostMapping("/create")
   fun createPoll(@Valid @RequestBody pollRequest: PollRequest): PollResponse {
-    val account = securityService.account!!
+    val account = securityService.account ?: throw NotLoggedInException("Create poll")
     val poll = pollRepository.saveAndFlush(pollRequest.toPoll())
     account.polls.add(poll)
     accountRepository.saveAndFlush(account)
@@ -47,13 +52,18 @@ class PollController {
 //  }
 
   // TODO make public
+  @ExceptionHandler(PollNotFoundException::class, PollNotPublicException::class)
   @GetMapping("/{id}")
   fun getPoll(@PathVariable id: Long): PollResponse {
-    val poll: Optional<Poll> = pollRepository.findById(id)
-    if (poll.isEmpty) {
-      throw IllegalAccessError()
+    val optionalPoll: Optional<Poll> = pollRepository.findById(id)
+    if (optionalPoll.isEmpty) {
+      throw PollNotFoundException(id)
     }
-    return poll.get().toResponse()
+    val poll = optionalPoll.get()
+    if (poll.private && securityService.account == null) {
+      throw PollNotPublicException(id)
+    }
+    return poll.toResponse()
   }
 
 //  @DeleteMapping("/{id}")

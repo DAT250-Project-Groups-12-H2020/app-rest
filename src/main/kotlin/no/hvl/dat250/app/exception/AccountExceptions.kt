@@ -11,3 +11,6 @@ class NotUniqueAccountEmailException : RuntimeException("An account with the giv
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class AccountNotFoundException(id: String) : RuntimeException("Failed to find an account with the given id $id")
+
+@ResponseStatus(HttpStatus.FORBIDDEN)
+class NotLoggedInException(action: String) : RuntimeException("Tried to '$action' while not logged in")
