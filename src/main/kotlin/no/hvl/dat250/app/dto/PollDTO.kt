@@ -4,9 +4,9 @@ import no.hvl.dat250.app.model.Poll
 import java.time.OffsetDateTime
 
 data class PollRequest(
-  val question: String,
-  val firstAnswer: String,
-  val secondAnswer: String,
+  val question: String? = null,
+  val firstAnswer: String? = null,
+  val secondAnswer: String? = null,
   val startDateTime: OffsetDateTime? = null,
   val endDateTime: OffsetDateTime? = null,
   val private: Boolean? = null
@@ -29,9 +29,9 @@ fun PollRequest.toPoll(id: Long? = null): Poll {
   poll.startDate = startDateTime
   poll.endDate = endDateTime
   poll.private = private ?: false
-  poll.question = question
-  poll.firstAnswer = firstAnswer
-  poll.secondAnswer = secondAnswer
+  poll.question = question ?: ""
+  poll.firstAnswer = firstAnswer ?: ""
+  poll.secondAnswer = secondAnswer ?: ""
   return poll
 }
 

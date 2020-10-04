@@ -26,7 +26,7 @@ class Account {
   var votes: MutableMap<Poll, Vote> = mutableMapOf()
 
   // ////////////
-  // Firebase //
+  // Firebase  //
   // ////////////
 
   var name: String? = null
