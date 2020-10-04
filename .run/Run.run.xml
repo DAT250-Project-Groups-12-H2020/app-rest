@@ -14,10 +14,9 @@
       </param>
     </additionalParameters>
     <envs>
-      <env name="GOOGLE_APPLICATION_CREDENTIALS" value="secret/dat250-gr-2-h2020-app-firebase-adminsdk.json" />
+      <env name="GOOGLE_APPLICATION_CREDENTIALS" value="./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json" />
       <env name="FIREBASE_DATABASE" value="https://dat250-gr-2-h2020-app.firebaseio.com/" />
       <env name="CORS_DOMAIN" value="localhost" />
-      <env name="ENABLE_SERVER_SESSION" value="true" />
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />
