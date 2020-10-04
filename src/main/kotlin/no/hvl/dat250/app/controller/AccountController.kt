@@ -33,9 +33,7 @@ class AccountController {
   @ExceptionHandler(NotLoggedInException::class)
   @GetMapping("/me")
   fun getUser(): AccountResponse {
-    return securityService.account?.toResponse()?.also {
-      println(accountRepository.findByIdOrNull(it.id))
-    } ?: throw NotLoggedInException("Retrieving current user info")
+    return securityService.account?.toResponse() ?: throw NotLoggedInException("Retrieving current user info")
   }
 
   @ExceptionHandler(AccountNotFoundException::class)
