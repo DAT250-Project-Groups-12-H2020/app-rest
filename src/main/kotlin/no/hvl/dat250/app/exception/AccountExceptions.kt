@@ -14,3 +14,6 @@ class AccountNotFoundException(id: String) : RuntimeException("Failed to find an
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
 class NotLoggedInException(action: String) : RuntimeException("Tried to '$action' while not logged in")
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class MissingFieldException(field: String) : RuntimeException("Blank or missing required field: $field ")
