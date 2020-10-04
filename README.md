@@ -41,5 +41,32 @@ Expected response for `account/me` is
 
 Based on <https://github.com/gladius/firebase-spring-boot-rest-api-authentication>, and <https://firebase.google.com/docs/admin/setup#java>
 
+## Spotless
 
+This project is using spotless to make sure the code format does not deviate between each user.
 
+### Spotless errors
+
+If spotless gives you any erros try chaning the settings in intelliJ
+
+* Open settings (`ctrl-alt-s`)
+  * For Kotlin go to `Editor > Code Style > Kotlin`
+    * In the `Tabs and Indents` tab
+      * Uncheck `Use tab character`
+      * Set `Tab size` to `2`
+      * Set `Indent` to `2`
+      * Set `continuation indent` to `2`
+    * In the `Import` tab
+      * set `Top level symbols` and `Java statics and enum members` to `Use single import`
+      * Remove all packages under `Packages to use import with '*'`
+  * For Java go to `Editor > Code Style > Java`
+    * In the `Tabs and Indents` tab
+      * Uncheck `Use tab character`
+      * Set `Tab size` to `2`
+      * Set `Indent` to `2`
+      * Set `continuation indent` to `2`
+    * In the `Imports` tab
+      * Check `Use single class import`
+      * Set `Class count to use import with '*'` to `999`
+      * Set `Names count to use static import with '*'` to `999`
+      * Remove all packages under `Packages to use import with '*'`

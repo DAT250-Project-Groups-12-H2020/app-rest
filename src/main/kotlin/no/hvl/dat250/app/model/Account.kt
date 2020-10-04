@@ -1,6 +1,13 @@
 package no.hvl.dat250.app.model
 
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToMany
+import javax.persistence.OneToMany
 
 @Entity
 class Account {
@@ -18,9 +25,9 @@ class Account {
   @field:ManyToMany(cascade = [CascadeType.ALL])
   var votes: MutableMap<Poll, Vote> = mutableMapOf()
 
-  //////////////
+  // ////////////
   // Firebase //
-  //////////////
+  // ////////////
 
   var name: String? = null
 
