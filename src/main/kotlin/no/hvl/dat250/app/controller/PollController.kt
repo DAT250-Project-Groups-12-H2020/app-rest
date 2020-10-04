@@ -44,13 +44,13 @@ class PollController {
   @ExceptionHandler(NotLoggedInException::class)
   @PostMapping("/create")
   fun createPoll(@Valid @RequestBody pollRequest: PollRequest): PollResponse {
-    if (pollRequest.question?.isNotBlank() == true) {
+    if (pollRequest.question == null || pollRequest.question == "") {
       throw MissingFieldException("question")
     }
-    if (pollRequest.firstAnswer?.isNotBlank() == true) {
+    if (pollRequest.firstAnswer == null || pollRequest.firstAnswer == "") {
       throw MissingFieldException("firstAnswer")
     }
-    if (pollRequest.secondAnswer?.isNotBlank() == true) {
+    if (pollRequest.secondAnswer == null || pollRequest.secondAnswer == "") {
       throw MissingFieldException("secondAnswer")
     }
     val account = securityService.account ?: throw NotLoggedInException("Create poll")
