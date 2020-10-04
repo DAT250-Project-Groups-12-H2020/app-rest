@@ -13,12 +13,15 @@ import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.repository.PollRepository
 import no.hvl.dat250.app.security.SecurityService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.Optional
 import javax.validation.Valid
@@ -46,15 +49,15 @@ class PollController {
     return poll.toResponse()
   }
 
-//  @PutMapping("/{id}")
-//  fun updatePoll(@PathVariable id: Long, @Valid @RequestBody pollRequest: PollRequest): PollResponse {
-//    pollRequest.toPoll()
-//  }
+  @PutMapping("/{id}")
+  fun updatePoll(@PathVariable id: Long, @Valid @RequestBody pollRequest: PollRequest): PollResponse {
+    val account = securityService.account ?: throw NotLoggedInException("Update poll")
+    TODO()
+  }
 
-  // TODO make public
   @ExceptionHandler(PollNotFoundException::class, PollNotPublicException::class)
-  @GetMapping("/{id}")
-  fun getPoll(@PathVariable id: Long): PollResponse {
+  @GetMapping
+  fun getPoll(@RequestParam("id") id: Long): PollResponse {
     val optionalPoll: Optional<Poll> = pollRepository.findById(id)
     if (optionalPoll.isEmpty) {
       throw PollNotFoundException(id)
@@ -66,8 +69,9 @@ class PollController {
     return poll.toResponse()
   }
 
-//  @DeleteMapping("/{id}")
-//  fun deletePoll(@PathVariable id: Long): PollResponse {
-//    pollRequest.toPoll()
-//  }
+  @DeleteMapping("/{id}")
+  fun deletePoll(@PathVariable id: Long): PollResponse {
+    val account = securityService.account ?: throw NotLoggedInException("Delete poll")
+    TODO()
+  }
 }
