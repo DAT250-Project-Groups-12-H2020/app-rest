@@ -46,7 +46,7 @@ security:
     - Id-Token
   allowed-public-apis:
     - /favicon.ico
-    - /session/login
+    - /api/v1/session/login
     - /api/v1/polls/create
     - /api/v1/polls/*
     - /api/v1/accounts/*

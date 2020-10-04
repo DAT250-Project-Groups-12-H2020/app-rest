@@ -7,15 +7,18 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import no.hvl.dat250.app.ApplicationKt;
 import no.hvl.dat250.app.security.SecurityService;
 import no.hvl.dat250.app.security.models.Credentials;
 import no.hvl.dat250.app.security.models.SecurityProperties;
 import no.hvl.dat250.app.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(ApplicationKt.API_VERSION_1 + "/session")
 public class SessionAuthController {
 
   @Autowired private SecurityService securityService;
@@ -24,7 +27,7 @@ public class SessionAuthController {
 
   @Autowired private SecurityProperties secProps;
 
-  @PostMapping("/session/login")
+  @PostMapping("/login")
   public void sessionLogin(HttpServletRequest request, HttpServletResponse response)
       throws IOException, FirebaseAuthException {
     String idToken = securityService.getBearerToken(request);
@@ -46,7 +49,7 @@ public class SessionAuthController {
     }
   }
 
-  @PostMapping("/session/logout")
+  @PostMapping("/logout")
   public void sessionLogout() {
     if (securityService.getCredentials().getType() == Credentials.CredentialType.SESSION
         && secProps.getFirebaseProps().isEnableLogoutEverywhere()) {
