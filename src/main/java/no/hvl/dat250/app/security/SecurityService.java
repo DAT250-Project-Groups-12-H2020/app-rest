@@ -17,15 +17,11 @@ import org.springframework.util.StringUtils;
 @Service
 public class SecurityService {
 
-  @Autowired
-  private HttpServletRequest httpServletRequest;
+  @Autowired private HttpServletRequest httpServletRequest;
 
-  @Autowired
-  private SecurityProperties securityProps;
+  @Autowired private SecurityProperties securityProps;
 
-  @Autowired
-  private AccountRepository accountRepository;
-
+  @Autowired private AccountRepository accountRepository;
 
   @Nullable
   public FirebaseUser getFirebaseUser() {
@@ -46,11 +42,10 @@ public class SecurityService {
     Account account;
     Optional<Account> accountOptional = accountRepository.findById(firebaseUser.getUid());
     if (accountOptional.isEmpty()) {
-      //first time we have this account
+      // first time we have this account
       account = new Account();
       account.id = firebaseUser.getUid();
-    }
-    else {
+    } else {
       account = accountOptional.get();
     }
     account.setName(firebaseUser.getName());
@@ -77,5 +72,4 @@ public class SecurityService {
     }
     return bearerToken;
   }
-
 }

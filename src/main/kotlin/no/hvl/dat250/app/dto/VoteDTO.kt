@@ -3,7 +3,6 @@ package no.hvl.dat250.app.dto
 import no.hvl.dat250.app.model.Vote
 import java.time.OffsetDateTime
 
-
 data class VoteRequest(
   val id: Long? = null,
   val firstVotes: Int? = null,

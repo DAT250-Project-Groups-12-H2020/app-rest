@@ -46,7 +46,7 @@ class PollController {
 //    pollRequest.toPoll()
 //  }
 
-  //TODO make public
+  // TODO make public
   @GetMapping("/{id}")
   fun getPoll(@PathVariable id: Long): PollResponse {
     val poll: Optional<Poll> = pollRepository.findById(id)

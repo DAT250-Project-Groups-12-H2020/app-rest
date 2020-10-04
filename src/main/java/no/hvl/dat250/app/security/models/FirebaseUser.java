@@ -14,29 +14,53 @@ public class FirebaseUser implements Serializable {
 
   public FirebaseUser() {}
 
-  public String getUid() {return uid;}
+  public String getUid() {
+    return uid;
+  }
 
-  public String getName() {return name;}
+  public String getName() {
+    return name;
+  }
 
-  public String getEmail() {return email;}
+  public String getEmail() {
+    return email;
+  }
 
-  public boolean isEmailVerified() {return isEmailVerified;}
+  public boolean isEmailVerified() {
+    return isEmailVerified;
+  }
 
-  public String getIssuer() {return issuer;}
+  public String getIssuer() {
+    return issuer;
+  }
 
-  public String getPicture() {return picture;}
+  public String getPicture() {
+    return picture;
+  }
 
-  public void setUid(String uid) {this.uid = uid; }
+  public void setUid(String uid) {
+    this.uid = uid;
+  }
 
-  public void setName(String name) {this.name = name; }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-  public void setEmail(String email) {this.email = email; }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-  public void setEmailVerified(boolean isEmailVerified) {this.isEmailVerified = isEmailVerified; }
+  public void setEmailVerified(boolean isEmailVerified) {
+    this.isEmailVerified = isEmailVerified;
+  }
 
-  public void setIssuer(String issuer) {this.issuer = issuer; }
+  public void setIssuer(String issuer) {
+    this.issuer = issuer;
+  }
 
-  public void setPicture(String picture) {this.picture = picture; }
+  public void setPicture(String picture) {
+    this.picture = picture;
+  }
 
   @Override
   public boolean equals(final Object o) {
@@ -81,7 +105,9 @@ public class FirebaseUser implements Serializable {
     return true;
   }
 
-  protected boolean canEqual(final Object other) {return other instanceof FirebaseUser;}
+  protected boolean canEqual(final Object other) {
+    return other instanceof FirebaseUser;
+  }
 
   @Override
   public int hashCode() {
@@ -103,7 +129,18 @@ public class FirebaseUser implements Serializable {
 
   @Override
   public String toString() {
-    return "User(uid=" + getUid() + ", name=" + getName() + ", email=" + getEmail() +
-           ", isEmailVerified=" + isEmailVerified() + ", issuer=" + getIssuer() + ", picture=" + getPicture() + ")";
+    return "User(uid="
+        + getUid()
+        + ", name="
+        + getName()
+        + ", email="
+        + getEmail()
+        + ", isEmailVerified="
+        + isEmailVerified()
+        + ", issuer="
+        + getIssuer()
+        + ", picture="
+        + getPicture()
+        + ")";
   }
 }

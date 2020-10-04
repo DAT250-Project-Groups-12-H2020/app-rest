@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/protected")
 public class ProtectedController {
 
-  @Autowired
-  private SecurityService securityService;
+  @Autowired private SecurityService securityService;
 
   @GetMapping("/data")
   public Map<String, Object> getData() {
@@ -22,5 +21,4 @@ public class ProtectedController {
     response.put("msg", "Hello " + name + ", you have accessed protected data from spring boot");
     return response;
   }
-
 }

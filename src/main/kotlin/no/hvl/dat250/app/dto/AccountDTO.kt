@@ -25,7 +25,7 @@ data class AccountResponse(
 data class PublicAccountResponse(
   val id: String,
   val role: Role,
-  val name: String?,
+  val name: String?
 )
 
 fun AccountRequest.toAccount(): Account {
@@ -35,7 +35,6 @@ fun AccountRequest.toAccount(): Account {
   account.email = email
   return account
 }
-
 
 fun Account.toResponse(): AccountResponse {
   return AccountResponse(

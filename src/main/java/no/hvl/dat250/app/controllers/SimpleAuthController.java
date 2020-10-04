@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SimpleAuthController {
 
-  @Autowired
-  private SecurityService securityService;
+  @Autowired private SecurityService securityService;
 
   @GetMapping("/me")
   public AccountResponse getUser() {
@@ -22,7 +21,7 @@ public class SimpleAuthController {
 
   @GetMapping("/create/token")
   public String getCustomToken() throws FirebaseAuthException {
-    return FirebaseAuth.getInstance().createCustomToken(String.valueOf(securityService.getFirebaseUser().getUid()));
+    return FirebaseAuth.getInstance()
+        .createCustomToken(String.valueOf(securityService.getFirebaseUser().getUid()));
   }
-
 }

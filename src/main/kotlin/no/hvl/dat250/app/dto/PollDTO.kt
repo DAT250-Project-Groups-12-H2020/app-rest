@@ -9,7 +9,7 @@ data class PollRequest(
   val secondAnswer: String,
   val startDateTime: OffsetDateTime? = null,
   val endDateTime: OffsetDateTime? = null,
-  val private: Boolean? = null,
+  val private: Boolean? = null
 )
 
 data class PollResponse(

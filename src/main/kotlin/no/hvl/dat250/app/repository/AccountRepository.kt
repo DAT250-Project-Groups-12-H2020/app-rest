@@ -15,6 +15,4 @@ interface AccountRepository : JpaRepository<Account, String> {
   fun findByEmail(email: String): Account?
 
   fun existsAccountByEmail(email: String): Boolean
-
-
 }

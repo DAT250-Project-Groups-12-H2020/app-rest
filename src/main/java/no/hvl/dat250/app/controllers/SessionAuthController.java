@@ -18,18 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SessionAuthController {
 
-  @Autowired
-  private SecurityService securityService;
+  @Autowired private SecurityService securityService;
 
-  @Autowired
-  private CookieUtils cookieUtils;
+  @Autowired private CookieUtils cookieUtils;
 
-  @Autowired
-  private SecurityProperties secProps;
+  @Autowired private SecurityProperties secProps;
 
   @PostMapping("/session/login")
   public void sessionLogin(HttpServletRequest request, HttpServletResponse response)
-  throws IOException, FirebaseAuthException {
+      throws IOException, FirebaseAuthException {
     String idToken = securityService.getBearerToken(request);
     if (idToken == null) {
       response.sendError(400, "No bearer token found");
@@ -51,8 +48,8 @@ public class SessionAuthController {
 
   @PostMapping("/session/logout")
   public void sessionLogout() {
-    if (securityService.getCredentials().getType() == Credentials.CredentialType.SESSION &&
-        secProps.getFirebaseProps().isEnableLogoutEverywhere()) {
+    if (securityService.getCredentials().getType() == Credentials.CredentialType.SESSION
+        && secProps.getFirebaseProps().isEnableLogoutEverywhere()) {
       try {
         FirebaseAuth.getInstance().revokeRefreshTokens(securityService.getFirebaseUser().getUid());
       } catch (FirebaseAuthException e) {
@@ -61,7 +58,5 @@ public class SessionAuthController {
     }
     cookieUtils.deleteSecureCookie("session");
     cookieUtils.deleteCookie("authenticated");
-
   }
-
 }

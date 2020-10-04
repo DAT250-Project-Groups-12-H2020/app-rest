@@ -59,6 +59,4 @@ class Poll {
   override fun toString(): String {
     return "Poll(id=$id, startDate=$startDate, endDate=$endDate, private=$private, question='$question')"
   }
-
-
 }

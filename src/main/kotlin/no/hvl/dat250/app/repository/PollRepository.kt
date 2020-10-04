@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository
 interface PollRepository : JpaRepository<Poll, Long?> {
 
 //    fun findAllByVotes(id: Long): List<Account>
-
 }

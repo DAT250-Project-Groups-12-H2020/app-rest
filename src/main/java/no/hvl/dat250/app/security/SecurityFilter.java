@@ -14,6 +14,7 @@ import no.hvl.dat250.app.security.models.Credentials.CredentialType;
 import no.hvl.dat250.app.security.models.FirebaseUser;
 import no.hvl.dat250.app.security.models.SecurityProperties;
 import no.hvl.dat250.app.utils.CookieUtils;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,18 +27,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class SecurityFilter extends OncePerRequestFilter {
 
   private static final Logger log = org.slf4j.LoggerFactory.getLogger(SecurityFilter.class);
-  @Autowired
-  private SecurityService securityService;
+  @Autowired private SecurityService securityService;
 
-  @Autowired
-  private CookieUtils cookieUtils;
+  @Autowired private CookieUtils cookieUtils;
 
-  @Autowired
-  private SecurityProperties securityProps;
+  @Autowired private SecurityProperties securityProps;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-  throws ServletException, IOException {
+  protected void doFilterInternal(
+      @NotNull HttpServletRequest request,
+      @NotNull HttpServletResponse response,
+      FilterChain filterChain)
+      throws ServletException, IOException {
     verifyToken(request);
     filterChain.doFilter(request, response);
   }
@@ -46,35 +47,34 @@ public class SecurityFilter extends OncePerRequestFilter {
     String sessionCookieValue = null;
     FirebaseToken decodedToken = null;
     CredentialType type = null;
-    boolean strictServerSessionEnabled = securityProps.getFirebaseProps().isEnableStrictServerSession();
+    boolean strictServerSessionEnabled =
+        securityProps.getFirebaseProps().isEnableStrictServerSession();
     Cookie sessionCookie = cookieUtils.getCookie("session");
     String token = securityService.getBearerToken(request);
     try {
       if (sessionCookie != null) {
         sessionCookieValue = sessionCookie.getValue();
-        decodedToken = FirebaseAuth.getInstance().verifySessionCookie(sessionCookieValue,
-                                                                      securityProps.getFirebaseProps()
-                                                                                   .isEnableCheckSessionRevoked());
+        decodedToken =
+            FirebaseAuth.getInstance()
+                .verifySessionCookie(
+                    sessionCookieValue,
+                    securityProps.getFirebaseProps().isEnableCheckSessionRevoked());
         type = CredentialType.SESSION;
-      }
-      else if (!strictServerSessionEnabled) {
-        if (token != null && !token.equalsIgnoreCase("undefined")) {
-          decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-          type = CredentialType.ID_TOKEN;
-        }
+      } else if (!strictServerSessionEnabled
+          && token != null
+          && !token.equalsIgnoreCase("undefined")) {
+        decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+        type = CredentialType.ID_TOKEN;
       }
     } catch (FirebaseAuthException e) {
-      log.error("Firebase Exception:: %s", e.getLocalizedMessage());
+      log.error("Firebase Exception:: {}", e.getLocalizedMessage());
       e.printStackTrace();
     }
     FirebaseUser firebaseUser = firebaseTokenToUserDto(decodedToken);
     if (firebaseUser != null) {
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(firebaseUser,
-                                                                                                   new Credentials(type,
-                                                                                                                   decodedToken,
-                                                                                                                   token,
-                                                                                                                   sessionCookieValue),
-                                                                                                   null);
+      UsernamePasswordAuthenticationToken authentication =
+          new UsernamePasswordAuthenticationToken(
+              firebaseUser, new Credentials(type, decodedToken, token, sessionCookieValue), null);
       authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -93,5 +93,4 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
     return firebaseUser;
   }
-
 }

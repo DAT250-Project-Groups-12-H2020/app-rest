@@ -24,7 +24,6 @@ class Vote {
    */
   lateinit var castTime: OffsetDateTime
 
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is Vote) return false
@@ -48,6 +47,4 @@ class Vote {
   override fun toString(): String {
     return "Vote(id=$id, yesVotes=$firstVotes, noVotes=$secondVotes, castTime=$castTime)"
   }
-
-
 }
