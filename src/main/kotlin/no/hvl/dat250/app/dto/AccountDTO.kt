@@ -14,10 +14,10 @@ data class AccountRequest(
 )
 
 data class AccountCreationRequest(
-  val name: String? = null,
   val email: String,
-  val photoUrl: String? = null,
   val password: String,
+  val name: String? = null,
+  val photoUrl: String? = null,
   val role: Role? = null,
 )
 

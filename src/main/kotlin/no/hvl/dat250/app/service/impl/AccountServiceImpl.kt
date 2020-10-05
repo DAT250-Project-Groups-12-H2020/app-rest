@@ -7,6 +7,7 @@ import com.google.firebase.auth.UserRecord.CreateRequest
 import com.google.firebase.auth.UserRecord.UpdateRequest
 import no.hvl.dat250.app.dto.AccountCreationRequest
 import no.hvl.dat250.app.dto.AccountRequest
+import no.hvl.dat250.app.exception.AccountCreationFailedException
 import no.hvl.dat250.app.exception.AccountNotFoundException
 import no.hvl.dat250.app.exception.AccountUpdateFailedException
 import no.hvl.dat250.app.exception.InsufficientAccessException
@@ -56,16 +57,20 @@ class AccountServiceImpl : AccountService {
       throw InsufficientAccessException("create new account")
     }
 
-    val createRequest: CreateRequest = CreateRequest()
-      .setEmail(request.email)
-      .setPassword(request.password)
-      .setDisplayName(request.name)
-      .setPhotoUrl(request.photoUrl)
-
     val userRecord: UserRecord = try {
+      val createRequest = CreateRequest()
+      createRequest.setEmail(request.email)
+      createRequest.setPassword(request.password)
+      if (request.name?.isNotBlank() == true) {
+        createRequest.setDisplayName(request.name)
+      }
+      if (request.photoUrl?.isNotBlank() == true) {
+        createRequest.setPhotoUrl(request.photoUrl)
+      }
+
       FirebaseAuth.getInstance().createUser(createRequest)
-    } catch (e: FirebaseAuthException) {
-      throw AccountUpdateFailedException(e.message)
+    } catch (e: Exception) {
+      throw AccountCreationFailedException(e.message)
     }
 
     val account = refreshAccount(userRecord.uid)
@@ -84,23 +89,24 @@ class AccountServiceImpl : AccountService {
 
     val target = getAccountByUid(uid)
     val updateRequest = UpdateRequest(uid)
-    if (request.name != null && request.name != target.name) {
-      updateRequest.setDisplayName(request.name)
-    }
-    if (request.email != null && request.email != target.email) {
-      updateRequest.setEmail(request.email)
-      updateRequest.setEmailVerified(false)
-    }
-    if (request.photoUrl != target.photoUrl) {
-      updateRequest.setPhotoUrl(request.photoUrl)
-    }
-    if (request.disabled != null && request.disabled != target.disabled) {
-      updateRequest.setDisabled(request.disabled)
-    }
 
     try {
+      if (request.name != null && request.name != target.name) {
+        updateRequest.setDisplayName(request.name)
+      }
+      if (request.email != null && request.email != target.email) {
+        updateRequest.setEmail(request.email)
+        updateRequest.setEmailVerified(false)
+      }
+      if (request.photoUrl != target.photoUrl) {
+        updateRequest.setPhotoUrl(request.photoUrl)
+      }
+      if (request.disabled != null && request.disabled != target.disabled) {
+        updateRequest.setDisabled(request.disabled)
+      }
+
       FirebaseAuth.getInstance().updateUser(updateRequest)
-    } catch (e: FirebaseAuthException) {
+    } catch (e: Exception) {
       throw AccountUpdateFailedException(e.message)
     }
     return refreshAccount(uid)
