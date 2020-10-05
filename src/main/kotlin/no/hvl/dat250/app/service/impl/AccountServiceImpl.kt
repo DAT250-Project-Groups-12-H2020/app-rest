@@ -106,12 +106,16 @@ class AccountServiceImpl : AccountService {
   override val isLoggedIn: Boolean get() = securityService.getLoggedInUid() != null
   override val isNotLoggedIn: Boolean get() = securityService.getLoggedInUid() == null
 
-  override fun getAccountByUid(id: String): Account {
-    return getAccountByUidOrNull(id) ?: throw AccountNotFoundException(id)
+  override fun getAccountByUid(uid: String): Account {
+    return accountRepository.findByIdOrNull(uid) ?: return refreshAccount(uid)
   }
 
-  override fun getAccountByUidOrNull(id: String): Account? {
-    return accountRepository.findByIdOrNull(id)
+  override fun getAccountByUidOrNull(uid: String): Account? {
+    return try {
+      getAccountByUid(uid)
+    } catch (e: Exception) {
+      null
+    }
   }
 
   override fun addPoll(poll: Poll, account: Account) {
