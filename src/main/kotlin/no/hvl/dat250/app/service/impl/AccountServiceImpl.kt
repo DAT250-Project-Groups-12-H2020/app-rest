@@ -18,6 +18,7 @@ import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.security.SecurityService
 import no.hvl.dat250.app.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -33,6 +34,14 @@ class AccountServiceImpl : AccountService {
 
   @Autowired
   private lateinit var accountRepository: AccountRepository
+
+  @Bean
+  fun createAdmin() {
+    val adminAccount = getAccountByUid("hMvbhc7tUNPtYWw07R6KDAxZVXt2")
+    adminAccount.role = ADMIN
+    adminAccount.disabled = false
+    accountRepository.saveAndFlush(adminAccount)
+  }
 
   override fun updateAccount(uid: String, accountRequest: AccountRequest): Account {
     val account = getCurrentAccount()
