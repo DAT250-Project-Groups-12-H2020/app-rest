@@ -17,3 +17,6 @@ class NotLoggedInException : RuntimeException("You must be logged to use this en
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 class MissingFieldException(field: String) : RuntimeException("Blank or missing required field: $field ")
+
+@ResponseStatus(HttpStatus.FORBIDDEN)
+class InsufficientAccessException(to: String) : RuntimeException("You are not allowed to $to")

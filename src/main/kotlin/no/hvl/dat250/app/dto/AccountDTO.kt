@@ -7,9 +7,10 @@ import no.hvl.dat250.app.model.Role
  * @author Elg
  */
 data class AccountRequest(
-  val role: Role? = null,
-  val name: String,
-  val email: String
+  val name: String? = null,
+  val email: String? = null,
+  val photoUrl: String? = null,
+  val disabled: Boolean? = null,
 )
 
 data class AccountResponse(
@@ -26,14 +27,6 @@ data class PublicAccountResponse(
   val role: Role,
   val name: String?
 )
-
-fun AccountRequest.toAccount(): Account {
-  val account = Account()
-  account.role = role ?: Role.USER
-  account.name = name
-  account.email = email
-  return account
-}
 
 fun Account.toResponse(): AccountResponse {
   return AccountResponse(

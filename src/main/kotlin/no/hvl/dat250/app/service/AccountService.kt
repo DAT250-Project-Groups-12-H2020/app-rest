@@ -2,20 +2,31 @@ package no.hvl.dat250.app.service
 
 import no.hvl.dat250.app.dto.AccountRequest
 import no.hvl.dat250.app.exception.AccountNotFoundException
+import no.hvl.dat250.app.exception.InsufficientAccessException
 import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.model.Account
 import no.hvl.dat250.app.model.Poll
+import no.hvl.dat250.app.model.Role
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 interface AccountService {
 
-  fun createAccount(uid: String, accountRequest: AccountRequest)
-
+  /**
+   * Update an account information. Does not work if the used does not exist locally.
+   * If the given [uid] is not the logged in user an [InsufficientAccessException] might be thrown
+   */
+  @ExceptionHandler(NotLoggedInException::class, AccountNotFoundException::class, InsufficientAccessException::class)
   fun updateAccount(uid: String, accountRequest: AccountRequest)
 
-  @ExceptionHandler(AccountNotFoundException::class)
+  @ExceptionHandler(NotLoggedInException::class, AccountNotFoundException::class, InsufficientAccessException::class)
   fun deleteAccount(uid: String)
+
+  @ExceptionHandler(NotLoggedInException::class, AccountNotFoundException::class, InsufficientAccessException::class)
+  fun changeRole(uid: String, role: Role)
+
+  @ExceptionHandler(AccountNotFoundException::class)
+  fun refreshAccount(uid: String): Account
 
   @ExceptionHandler(NotLoggedInException::class)
   fun getCurrentAccount(): Account

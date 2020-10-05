@@ -57,8 +57,8 @@ class SessionAuthController {
     cookieUtils.deleteCookie(AUTHENTICATED_PATH)
     if (securityService.getCredentials().type == SESSION && secProps.firebaseProps.isEnableLogoutEverywhere) {
       try {
-        val firebaseUser = securityService.getCurrentFirebaseUser() ?: return
-        FirebaseAuth.getInstance().revokeRefreshTokens(firebaseUser.uid)
+        val uid = securityService.getLoggedInUid() ?: return
+        FirebaseAuth.getInstance().revokeRefreshTokens(uid)
       } catch (ignore: FirebaseAuthException) {
         // ignored
       }

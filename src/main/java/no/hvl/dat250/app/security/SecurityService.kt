@@ -1,9 +1,6 @@
 package no.hvl.dat250.app.security
 
 import no.hvl.dat250.app.security.models.Credentials
-import no.hvl.dat250.app.security.models.FirebaseUser
-import no.hvl.dat250.app.security.models.SecurityProperties
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
@@ -12,15 +9,12 @@ import javax.servlet.http.HttpServletRequest
 @Service
 class SecurityService {
 
-  @Autowired
-  private lateinit var securityProps: SecurityProperties
-
-  fun getCurrentFirebaseUser(): FirebaseUser? {
+  /**
+   * @return Unique id of the logged in user, or {@code null} if the requester is not logged in
+   */
+  fun getLoggedInUid(): String? {
     val securityContext = SecurityContextHolder.getContext()
-    val principal = securityContext.authentication.principal
-    return if (principal is FirebaseUser) {
-      principal
-    } else null
+    return securityContext.authentication.principal as? String
   }
 
   fun getCredentials(): Credentials {

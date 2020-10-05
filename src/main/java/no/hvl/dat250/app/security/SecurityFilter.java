@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import no.hvl.dat250.app.security.models.Credentials;
 import no.hvl.dat250.app.security.models.Credentials.CredentialType;
-import no.hvl.dat250.app.security.models.FirebaseUser;
 import no.hvl.dat250.app.security.models.SecurityProperties;
 import no.hvl.dat250.app.utils.CookieUtils;
 import org.jetbrains.annotations.NotNull;
@@ -70,28 +69,12 @@ public class SecurityFilter extends OncePerRequestFilter {
       log.error("Firebase Exception:: {}", e.getLocalizedMessage());
       e.printStackTrace();
     }
-    FirebaseUser firebaseUser = firebaseTokenToUserDto(decodedToken);
-    if (firebaseUser != null) {
-      UsernamePasswordAuthenticationToken authentication =
-          new UsernamePasswordAuthenticationToken(
-              firebaseUser, new Credentials(type, decodedToken, token, sessionCookieValue), null);
+    if (decodedToken != null && decodedToken.getUid() != null) {
+      var credentials = new Credentials(type, decodedToken, token, sessionCookieValue);
+      var authentication =
+          new UsernamePasswordAuthenticationToken(decodedToken.getUid(), credentials, null);
       authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
-  }
-
-  private FirebaseUser firebaseTokenToUserDto(FirebaseToken decodedToken) {
-    FirebaseUser firebaseUser = null;
-    if (decodedToken != null) {
-      firebaseUser =
-          new FirebaseUser(
-              decodedToken.getUid(),
-              decodedToken.getName(),
-              decodedToken.getEmail(),
-              decodedToken.isEmailVerified(),
-              decodedToken.getIssuer(),
-              decodedToken.getPicture());
-    }
-    return firebaseUser;
   }
 }
