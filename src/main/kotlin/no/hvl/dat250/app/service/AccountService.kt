@@ -23,7 +23,7 @@ interface AccountService {
   fun createAccount(request: AccountCreationRequest): Account
 
   /**
-   * Update an account information. Does not work if the used does not exist locally.
+   * Update account information. Does not work if the used does not exist locally.
    * If the given [uid] is not the logged in user an [InsufficientAccessException] might be thrown
    */
   @ExceptionHandler(
