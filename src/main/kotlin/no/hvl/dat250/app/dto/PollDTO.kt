@@ -12,6 +12,15 @@ data class PollRequest(
   val private: Boolean? = null
 )
 
+data class PollCreateRequest(
+        val question: String,
+        val firstAnswer: String,
+        val secondAnswer: String,
+        val startDateTime: OffsetDateTime? = null,
+        val endDateTime: OffsetDateTime? = null,
+        val private: Boolean? = null
+)
+
 data class PollResponse(
   val id: Long,
   val startDateTime: OffsetDateTime?,
@@ -24,6 +33,17 @@ data class PollResponse(
 )
 
 fun PollRequest.toPoll(id: Long = -1): Poll {
+  val poll = Poll()
+  poll.id = id
+  poll.startDate = startDateTime
+  poll.endDate = endDateTime
+  poll.private = private ?: false
+  poll.question = question ?: ""
+  poll.firstAnswer = firstAnswer ?: ""
+  poll.secondAnswer = secondAnswer ?: ""
+  return poll
+}
+fun PollCreateRequest.toPoll(id: Long = -1): Poll {
   val poll = Poll()
   poll.id = id
   poll.startDate = startDateTime
