@@ -58,8 +58,8 @@ class AccountController {
 
   @DeleteMapping("/{id}")
   fun deleteAccount(@PathVariable id: String): AccountResponse {
-    val account = accountService.getCurrentAccount()
+    val deleted = accountService.getAccountByUid(id)
     accountService.deleteAccount(id)
-    return account.toResponse()
+    return deleted.toResponse()
   }
 }
