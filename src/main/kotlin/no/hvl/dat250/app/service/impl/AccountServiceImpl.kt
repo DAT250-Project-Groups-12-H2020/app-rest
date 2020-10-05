@@ -3,17 +3,20 @@ package no.hvl.dat250.app.service.impl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.UserRecord
+import com.google.firebase.auth.UserRecord.CreateRequest
 import com.google.firebase.auth.UserRecord.UpdateRequest
+import no.hvl.dat250.app.dto.AccountCreationRequest
 import no.hvl.dat250.app.dto.AccountRequest
 import no.hvl.dat250.app.exception.AccountNotFoundException
+import no.hvl.dat250.app.exception.AccountUpdateFailedException
 import no.hvl.dat250.app.exception.InsufficientAccessException
 import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
-import no.hvl.dat250.app.exception.UpdateFailedException
 import no.hvl.dat250.app.model.Account
 import no.hvl.dat250.app.model.Poll
 import no.hvl.dat250.app.model.Role
 import no.hvl.dat250.app.model.Role.ADMIN
+import no.hvl.dat250.app.model.Role.USER
 import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.security.SecurityService
 import no.hvl.dat250.app.service.AccountService
@@ -27,6 +30,10 @@ class AccountServiceImpl : AccountService {
 
   private fun Account.canNotUpdate(uid: String): Boolean {
     return disabled || uid != this.id && this.role != ADMIN
+  }
+
+  private fun Account.isNotAdmin(): Boolean {
+    return disabled || this.role != ADMIN
   }
 
   @Autowired
@@ -43,51 +50,77 @@ class AccountServiceImpl : AccountService {
     accountRepository.saveAndFlush(adminAccount)
   }
 
-  override fun updateAccount(uid: String, accountRequest: AccountRequest): Account {
+  override fun createAccount(request: AccountCreationRequest): Account {
+    val admin = getCurrentAccount()
+    if (admin.isNotAdmin()) {
+      throw InsufficientAccessException("create new account")
+    }
+
+    val createRequest: CreateRequest = CreateRequest()
+      .setEmail(request.email)
+      .setPassword(request.password)
+      .setDisplayName(request.name)
+      .setPhotoUrl(request.photoUrl)
+
+    val userRecord: UserRecord = try {
+      FirebaseAuth.getInstance().createUser(createRequest)
+    } catch (e: FirebaseAuthException) {
+      throw AccountUpdateFailedException(e.message)
+    }
+
+    val account = refreshAccount(userRecord.uid)
+    return if (request.role != null && request.role != USER) {
+      changeRole(userRecord.uid, request.role)
+    } else {
+      account
+    }
+  }
+
+  override fun updateAccount(uid: String, request: AccountRequest): Account {
     val account = getCurrentAccount()
     if (account.canNotUpdate(uid)) {
-      throw InsufficientAccessException("update user data")
+      throw InsufficientAccessException("update account data")
     }
 
     val target = getAccountByUid(uid)
     val updateRequest = UpdateRequest(uid)
-    if (accountRequest.name != null && accountRequest.name != target.name) {
-      updateRequest.setDisplayName(accountRequest.name)
+    if (request.name != null && request.name != target.name) {
+      updateRequest.setDisplayName(request.name)
     }
-    if (accountRequest.email != null && accountRequest.email != target.email) {
-      updateRequest.setEmail(accountRequest.email)
+    if (request.email != null && request.email != target.email) {
+      updateRequest.setEmail(request.email)
       updateRequest.setEmailVerified(false)
     }
-    if (accountRequest.photoUrl != target.photoUrl) {
-      updateRequest.setPhotoUrl(accountRequest.photoUrl)
+    if (request.photoUrl != target.photoUrl) {
+      updateRequest.setPhotoUrl(request.photoUrl)
     }
-    if (accountRequest.disabled != null && accountRequest.disabled != target.disabled) {
-      updateRequest.setDisabled(accountRequest.disabled)
+    if (request.disabled != null && request.disabled != target.disabled) {
+      updateRequest.setDisabled(request.disabled)
     }
 
     try {
       FirebaseAuth.getInstance().updateUser(updateRequest)
-    } catch (e: Exception) {
-      throw UpdateFailedException(e.message)
+    } catch (e: FirebaseAuthException) {
+      throw AccountUpdateFailedException(e.message)
     }
     return refreshAccount(uid)
   }
 
   override fun deleteAccount(uid: String) {
     if (getCurrentAccount().canNotUpdate(uid)) {
-      throw InsufficientAccessException("delete users")
+      throw InsufficientAccessException("delete account")
     }
     accountRepository.deleteById(uid)
     FirebaseAuth.getInstance().deleteUserAsync(uid)
   }
 
-  override fun changeRole(uid: String, role: Role) {
-    if (getCurrentAccount().canNotUpdate(uid)) {
-      throw InsufficientAccessException("change role of users")
+  override fun changeRole(uid: String, role: Role): Account {
+    if (getCurrentAccount().isNotAdmin()) {
+      throw InsufficientAccessException("change role of account")
     }
     val target = getAccountByUid(uid)
     target.role = role
-    accountRepository.saveAndFlush(target)
+    return accountRepository.saveAndFlush(target)
   }
 
   override fun refreshAccount(uid: String): Account {

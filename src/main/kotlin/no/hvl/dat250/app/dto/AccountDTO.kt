@@ -13,6 +13,14 @@ data class AccountRequest(
   val disabled: Boolean? = null,
 )
 
+data class AccountCreationRequest(
+  val name: String? = null,
+  val email: String,
+  val photoUrl: String? = null,
+  val password: String,
+  val role: Role? = null,
+)
+
 data class AccountResponse(
   val id: String,
   val role: Role,

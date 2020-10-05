@@ -22,4 +22,7 @@ class MissingFieldException(field: String) : RuntimeException("Blank or missing 
 class InsufficientAccessException(to: String) : RuntimeException("You are not allowed to $to")
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-class UpdateFailedException(message: String?) : RuntimeException(message)
+class AccountUpdateFailedException(message: String?) : RuntimeException(message)
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class AccountCreationFailedException(message: String?) : RuntimeException(message)
