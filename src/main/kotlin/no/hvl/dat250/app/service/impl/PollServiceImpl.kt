@@ -3,7 +3,6 @@ package no.hvl.dat250.app.service.impl
 import no.hvl.dat250.app.dto.PollCreateRequest
 import no.hvl.dat250.app.dto.PollRequest
 import no.hvl.dat250.app.dto.toPoll
-import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotFoundException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.exception.PollNotPublicException
@@ -20,14 +19,20 @@ import org.springframework.stereotype.Service
 class PollServiceImpl : PollService {
   @Autowired
   private lateinit var pollRepository: PollRepository
+
   @Autowired
   private lateinit var accountService: AccountService
 
+  override fun getOwnedPoll(id: Long): Poll {
+    val poll = pollRepository.findByIdOrNull(id) ?: throw PollNotFoundException(id)
+    if (accountService.isNotOwnerOf(poll)) {
+      throw PollNotOwnedByUserException(poll.id)
+    }
+    return poll
+  }
+
   override fun createPoll(request: PollCreateRequest): Poll {
     val poll = request.toPoll()
-    if (poll.private && accountService.isNotLoggedIn) {
-      throw NotLoggedInException()
-    }
     return pollRepository.saveAndFlush(poll)
   }
 
@@ -39,12 +44,8 @@ class PollServiceImpl : PollService {
     return poll
   }
 
-  override fun updatePoll(request: PollRequest, id: Long): Poll {
-    var poll = pollRepository.findByIdOrNull(id) ?: throw PollNotFoundException(id)
-
-    if (accountService.isNotOwnerOf(poll)) {
-      throw PollNotOwnedByUserException(poll.id)
-    }
+  override fun updatePoll(id: Long, request: PollRequest): Poll {
+    val poll = getOwnedPoll(id)
 
     if (request.question?.isNotBlank() == true) {
       poll.question = request.question
@@ -56,20 +57,18 @@ class PollServiceImpl : PollService {
       poll.secondAnswer = request.secondAnswer
     }
     if (request.startDateTime != null) {
-      poll.startDate = request.startDateTime
+      poll.startDateTime = request.startDateTime
     }
     if (request.endDateTime != null) {
-      poll.endDate = request.endDateTime
+      poll.endDateTime = request.endDateTime
     }
     if (request.private != null) {
       poll.private = request.private
     }
-    poll = pollRepository.saveAndFlush(poll)
-    return poll
+    return pollRepository.saveAndFlush(poll)
   }
 
-  override fun delete(poll: Poll): Poll {
-    pollRepository.delete(poll)
-    return poll
+  override fun delete(id: Long) {
+    pollRepository.delete(getOwnedPoll(id))
   }
 }

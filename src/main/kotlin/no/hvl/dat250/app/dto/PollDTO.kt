@@ -29,25 +29,14 @@ data class PollResponse(
   val question: String,
   val firstAnswer: String,
   val secondAnswer: String,
-  val votes: Int,
+  val votes: List<VoteResponse>,
 )
 
-fun PollRequest.toPoll(id: Long = -1): Poll {
-  val poll = Poll()
-  poll.id = id
-  poll.startDate = startDateTime
-  poll.endDate = endDateTime
-  poll.private = private ?: false
-  poll.question = question ?: ""
-  poll.firstAnswer = firstAnswer ?: ""
-  poll.secondAnswer = secondAnswer ?: ""
-  return poll
-}
 fun PollCreateRequest.toPoll(id: Long = -1): Poll {
   val poll = Poll()
   poll.id = id
-  poll.startDate = startDateTime
-  poll.endDate = endDateTime
+  poll.startDateTime = startDateTime
+  poll.endDateTime = endDateTime
   poll.private = private ?: false
   poll.question = question
   poll.firstAnswer = firstAnswer
@@ -56,5 +45,14 @@ fun PollCreateRequest.toPoll(id: Long = -1): Poll {
 }
 
 fun Poll.toResponse(): PollResponse {
-  return PollResponse(id, startDate, endDate, private, question, firstAnswer, secondAnswer, votes.count())
+  return PollResponse(
+    id,
+    startDateTime,
+    endDateTime,
+    private,
+    question,
+    firstAnswer,
+    secondAnswer,
+    votes.map { it.toResponse() }
+  )
 }
