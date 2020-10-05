@@ -36,7 +36,7 @@ class AccountController {
   }
 
   @GetMapping("/me")
-  fun getUser(): AccountResponse {
+  fun getMe(): AccountResponse {
     return accountService.getCurrentAccount().toResponse()
   }
 
@@ -68,5 +68,10 @@ class AccountController {
     val deleted = accountService.getAccountByUid(id)
     accountService.deleteAccount(id)
     return deleted.toResponse()
+  }
+
+  @GetMapping("/{id}")
+  fun getAccount(@PathVariable id: String): AccountResponse {
+    return accountService.getAccountByUid(id).toResponse()
   }
 }
