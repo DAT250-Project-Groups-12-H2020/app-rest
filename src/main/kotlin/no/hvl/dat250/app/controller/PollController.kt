@@ -10,9 +10,8 @@ import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotFoundException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.exception.PollNotPublicException
-import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.repository.PollRepository
-import no.hvl.dat250.app.security.SecurityService
+import no.hvl.dat250.app.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -32,13 +31,10 @@ import javax.validation.Valid
 class PollController {
 
   @Autowired
-  lateinit var accountRepository: AccountRepository
-
-  @Autowired
   lateinit var pollRepository: PollRepository
 
   @Autowired
-  lateinit var securityService: SecurityService
+  private lateinit var accountService: AccountService
 
   @ExceptionHandler(NotLoggedInException::class)
   @PostMapping("/create")
@@ -52,22 +48,20 @@ class PollController {
     if (pollRequest.secondAnswer == null || pollRequest.secondAnswer == "") {
       throw MissingFieldException("secondAnswer")
     }
-    val account = securityService.account ?: throw NotLoggedInException("Create poll")
     val poll = pollRepository.saveAndFlush(pollRequest.toPoll())
-    account.polls.add(poll)
-    accountRepository.saveAndFlush(account)
+    accountService.addPoll(poll)
     return poll.toResponse()
   }
 
   @PutMapping("/{id}")
   fun updatePoll(@PathVariable id: Long, @Valid @RequestBody pollRequest: PollRequest): PollResponse {
-    val account = securityService.account ?: throw NotLoggedInException("Update poll")
     val poll = pollRepository.findByIdOrNull(id) ?: throw PollNotFoundException(id)
 
     // check user owns poll
-    if (!account.polls.contains(poll)) {
-      throw PollNotOwnedByUserException(id, account.name)
+    if (accountService.isNotOwnerOf(poll)) {
+      throw PollNotOwnedByUserException(id)
     }
+
     if (pollRequest.question?.isNotBlank() == true) {
       poll.question = pollRequest.question
     }
@@ -93,7 +87,7 @@ class PollController {
   @GetMapping
   fun getPoll(@RequestParam("id") id: Long): PollResponse {
     val poll = pollRepository.findByIdOrNull(id) ?: throw PollNotFoundException(id)
-    if (poll.private && securityService.account == null) {
+    if (poll.private && accountService.isNotLoggedIn) {
       throw PollNotPublicException(id)
     }
     return poll.toResponse()
@@ -101,16 +95,8 @@ class PollController {
 
   @DeleteMapping("/{id}")
   fun deletePoll(@PathVariable id: Long): PollResponse {
-    val account = securityService.account ?: throw NotLoggedInException("Delete poll")
     val poll = pollRepository.findByIdOrNull(id) ?: throw PollNotFoundException(id)
-
-    // check user owns poll
-    if (poll !in account.polls) {
-      throw PollNotOwnedByUserException(id, account.name)
-    }
-
-    account.polls.remove(poll)
-    accountRepository.saveAndFlush(account)
+    accountService.removePoll(poll)
     pollRepository.delete(poll)
     return poll.toResponse()
   }

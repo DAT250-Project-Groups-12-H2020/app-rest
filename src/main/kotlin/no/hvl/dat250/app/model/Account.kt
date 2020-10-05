@@ -35,7 +35,9 @@ class Account {
 
   var isEmailVerified = false
 
-  var picture: String? = null
+  var photoUrl: String? = null
+
+  var disabled: Boolean = false
 
   override fun toString(): String {
     return "Account(id='$id', role=$role, name='$name', email='$email')"
@@ -54,7 +56,7 @@ class Account {
     if (name != other.name) return false
     if (email != other.email) return false
     if (isEmailVerified != other.isEmailVerified) return false
-    if (picture != other.picture) return false
+    if (photoUrl != other.photoUrl) return false
 
     return true
   }
@@ -67,7 +69,7 @@ class Account {
     result = 31 * result + (name?.hashCode() ?: 0)
     result = 31 * result + (email?.hashCode() ?: 0)
     result = 31 * result + isEmailVerified.hashCode()
-    result = 31 * result + (picture?.hashCode() ?: 0)
+    result = 31 * result + (photoUrl?.hashCode() ?: 0)
     return result
   }
 }
