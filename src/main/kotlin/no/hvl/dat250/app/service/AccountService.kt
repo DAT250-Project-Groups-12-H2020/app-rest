@@ -83,5 +83,6 @@ interface AccountService {
   @ExceptionHandler(NotLoggedInException::class)
   fun isOwnerOf(poll: Poll, account: Account = getCurrentAccount()): Boolean
 
+  @ExceptionHandler(NotLoggedInException::class)
   fun isNotOwnerOf(poll: Poll, account: Account = getCurrentAccount()): Boolean = !isOwnerOf(poll, account)
 }

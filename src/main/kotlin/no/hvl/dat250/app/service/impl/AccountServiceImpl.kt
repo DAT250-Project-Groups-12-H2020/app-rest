@@ -138,7 +138,7 @@ class AccountServiceImpl : AccountService {
 
     val accountOptional = accountRepository.findById(userRecord.uid)
     val account: Account = if (accountOptional.isEmpty) {
-      // first time we have this account
+      // first time we have seen this account
       Account().also {
         it.id = userRecord.uid
       }
