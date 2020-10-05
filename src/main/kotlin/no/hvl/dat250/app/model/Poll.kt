@@ -13,7 +13,7 @@ class Poll {
 
   @field:Id
   @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-  var id: Long? = null
+  var id: Long = -1
 
   var startDate: OffsetDateTime? = null
 

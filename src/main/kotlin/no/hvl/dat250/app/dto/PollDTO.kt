@@ -23,7 +23,7 @@ data class PollResponse(
   val votes: Int,
 )
 
-fun PollRequest.toPoll(id: Long? = null): Poll {
+fun PollRequest.toPoll(id: Long = -1): Poll {
   val poll = Poll()
   poll.id = id
   poll.startDate = startDateTime

@@ -13,7 +13,7 @@ class NotUniqueAccountEmailException : RuntimeException("An account with the giv
 class AccountNotFoundException(id: String) : RuntimeException("Failed to find an account with the given id $id")
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
-class NotLoggedInException(action: String) : RuntimeException("Tried to '$action' while not logged in")
+class NotLoggedInException : RuntimeException("You must be logged to use this endpoint")
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 class MissingFieldException(field: String) : RuntimeException("Blank or missing required field: $field ")

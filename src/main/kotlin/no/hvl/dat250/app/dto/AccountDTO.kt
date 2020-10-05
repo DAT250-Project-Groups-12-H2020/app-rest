@@ -9,8 +9,7 @@ import no.hvl.dat250.app.model.Role
 data class AccountRequest(
   val role: Role? = null,
   val name: String,
-  val email: String,
-  val password: String
+  val email: String
 )
 
 data class AccountResponse(

@@ -13,5 +13,4 @@ class PollNotFoundException(id: Long) : RuntimeException("Failed to find a poll 
 class PollNotPublicException(id: Long) : RuntimeException("The poll $id is not public")
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
-class PollNotOwnedByUserException(id: Long, account: String?) :
-  RuntimeException("The poll $id is owned by account $account")
+class PollNotOwnedByUserException(id: Long) : RuntimeException("You do not own the poll $id")
