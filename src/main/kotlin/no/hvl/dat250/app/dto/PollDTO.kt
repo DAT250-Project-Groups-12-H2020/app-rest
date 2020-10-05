@@ -49,12 +49,12 @@ fun PollCreateRequest.toPoll(id: Long = -1): Poll {
   poll.startDate = startDateTime
   poll.endDate = endDateTime
   poll.private = private ?: false
-  poll.question = question ?: ""
-  poll.firstAnswer = firstAnswer ?: ""
-  poll.secondAnswer = secondAnswer ?: ""
+  poll.question = question
+  poll.firstAnswer = firstAnswer
+  poll.secondAnswer = secondAnswer
   return poll
 }
 
 fun Poll.toResponse(): PollResponse {
-  return PollResponse(id!!, startDate, endDate, private, question, firstAnswer, secondAnswer, votes.count())
+  return PollResponse(id, startDate, endDate, private, question, firstAnswer, secondAnswer, votes.count())
 }
