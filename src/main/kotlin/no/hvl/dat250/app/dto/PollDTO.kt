@@ -13,12 +13,12 @@ data class PollRequest(
 )
 
 data class PollCreateRequest(
-        val question: String,
-        val firstAnswer: String,
-        val secondAnswer: String,
-        val startDateTime: OffsetDateTime? = null,
-        val endDateTime: OffsetDateTime? = null,
-        val private: Boolean? = null
+  val question: String,
+  val firstAnswer: String,
+  val secondAnswer: String,
+  val startDateTime: OffsetDateTime? = null,
+  val endDateTime: OffsetDateTime? = null,
+  val private: Boolean? = null
 )
 
 data class PollResponse(
