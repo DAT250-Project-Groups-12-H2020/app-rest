@@ -5,6 +5,7 @@ import no.hvl.dat250.app.exception.AccountNotFoundException
 import no.hvl.dat250.app.exception.InsufficientAccessException
 import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
+import no.hvl.dat250.app.exception.UpdateFailedException
 import no.hvl.dat250.app.model.Account
 import no.hvl.dat250.app.model.Poll
 import no.hvl.dat250.app.model.Role
@@ -16,8 +17,13 @@ interface AccountService {
    * Update an account information. Does not work if the used does not exist locally.
    * If the given [uid] is not the logged in user an [InsufficientAccessException] might be thrown
    */
-  @ExceptionHandler(NotLoggedInException::class, AccountNotFoundException::class, InsufficientAccessException::class)
-  fun updateAccount(uid: String, accountRequest: AccountRequest)
+  @ExceptionHandler(
+    NotLoggedInException::class,
+    AccountNotFoundException::class,
+    InsufficientAccessException::class,
+    UpdateFailedException::class
+  )
+  fun updateAccount(uid: String, accountRequest: AccountRequest): Account
 
   @ExceptionHandler(NotLoggedInException::class, AccountNotFoundException::class, InsufficientAccessException::class)
   fun deleteAccount(uid: String)
@@ -32,6 +38,11 @@ interface AccountService {
   fun getCurrentAccount(): Account
 
   fun getCurrentAccountOrNull(): Account?
+
+  @get:ExceptionHandler(AccountNotFoundException::class)
+  val loggedInUid: String
+
+  val loggedInUidOrNull: String?
 
   val isLoggedIn: Boolean
 

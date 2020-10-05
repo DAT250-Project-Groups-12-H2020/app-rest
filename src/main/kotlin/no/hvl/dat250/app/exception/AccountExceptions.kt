@@ -20,3 +20,6 @@ class MissingFieldException(field: String) : RuntimeException("Blank or missing 
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
 class InsufficientAccessException(to: String) : RuntimeException("You are not allowed to $to")
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class UpdateFailedException(message: String?) : RuntimeException(message)

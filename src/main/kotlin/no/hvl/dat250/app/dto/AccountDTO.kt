@@ -16,29 +16,37 @@ data class AccountRequest(
 data class AccountResponse(
   val id: String,
   val role: Role,
-  val polls: List<PollResponse>,
   val name: String?,
   val email: String?,
+  val disabled: Boolean,
+  val photoUrl: String?,
+  val isEmailVerified: Boolean,
+  val polls: List<PollResponse>,
   val votes: Map<PollResponse, VoteResponse>
 )
 
 data class PublicAccountResponse(
   val id: String,
   val role: Role,
-  val name: String?
+  val name: String?,
+  val disabled: Boolean,
+  val photoUrl: String?,
 )
 
 fun Account.toResponse(): AccountResponse {
   return AccountResponse(
     id,
     role,
-    polls.map { it.toResponse() },
     name,
     email,
+    disabled,
+    photoUrl,
+    isEmailVerified,
+    polls.map { it.toResponse() },
     votes.mapKeys { it.key.toResponse() }.mapValues { it.value.toResponse() }
   )
 }
 
 fun Account.toPublicResponse(): PublicAccountResponse {
-  return PublicAccountResponse(id, role, name)
+  return PublicAccountResponse(id, role, name, disabled, photoUrl)
 }

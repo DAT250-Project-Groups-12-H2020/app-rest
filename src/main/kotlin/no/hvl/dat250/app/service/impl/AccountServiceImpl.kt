@@ -9,6 +9,7 @@ import no.hvl.dat250.app.exception.AccountNotFoundException
 import no.hvl.dat250.app.exception.InsufficientAccessException
 import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
+import no.hvl.dat250.app.exception.UpdateFailedException
 import no.hvl.dat250.app.model.Account
 import no.hvl.dat250.app.model.Poll
 import no.hvl.dat250.app.model.Role
@@ -23,25 +24,30 @@ import org.springframework.stereotype.Service
 @Service
 class AccountServiceImpl : AccountService {
 
+  private fun Account.canNotUpdate(uid: String): Boolean {
+    return disabled || uid != this.id && this.role != ADMIN
+  }
+
   @Autowired
   private lateinit var securityService: SecurityService
 
   @Autowired
   private lateinit var accountRepository: AccountRepository
 
-  override fun updateAccount(uid: String, accountRequest: AccountRequest) {
+  override fun updateAccount(uid: String, accountRequest: AccountRequest): Account {
     val account = getCurrentAccount()
-    if (uid != account.id && account.role != ADMIN) {
+    if (account.canNotUpdate(uid)) {
       throw InsufficientAccessException("update user data")
     }
 
     val target = getAccountByUid(uid)
     val updateRequest = UpdateRequest(uid)
-    if (accountRequest.name != target.name) {
+    if (accountRequest.name != null && accountRequest.name != target.name) {
       updateRequest.setDisplayName(accountRequest.name)
     }
-    if (accountRequest.email != target.email) {
+    if (accountRequest.email != null && accountRequest.email != target.email) {
       updateRequest.setEmail(accountRequest.email)
+      updateRequest.setEmailVerified(false)
     }
     if (accountRequest.photoUrl != target.photoUrl) {
       updateRequest.setPhotoUrl(accountRequest.photoUrl)
@@ -49,12 +55,17 @@ class AccountServiceImpl : AccountService {
     if (accountRequest.disabled != null && accountRequest.disabled != target.disabled) {
       updateRequest.setDisabled(accountRequest.disabled)
     }
-    FirebaseAuth.getInstance().updateUser(updateRequest)
-    refreshAccount(uid)
+
+    try {
+      FirebaseAuth.getInstance().updateUser(updateRequest)
+    } catch (e: Exception) {
+      throw UpdateFailedException(e.message)
+    }
+    return refreshAccount(uid)
   }
 
   override fun deleteAccount(uid: String) {
-    if (getCurrentAccount().role != ADMIN) {
+    if (getCurrentAccount().canNotUpdate(uid)) {
       throw InsufficientAccessException("delete users")
     }
     accountRepository.deleteById(uid)
@@ -62,7 +73,7 @@ class AccountServiceImpl : AccountService {
   }
 
   override fun changeRole(uid: String, role: Role) {
-    if (getCurrentAccount().role != ADMIN) {
+    if (getCurrentAccount().canNotUpdate(uid)) {
       throw InsufficientAccessException("change role of users")
     }
     val target = getAccountByUid(uid)
@@ -103,8 +114,11 @@ class AccountServiceImpl : AccountService {
     return refreshAccount(uid)
   }
 
-  override val isLoggedIn: Boolean get() = securityService.getLoggedInUid() != null
-  override val isNotLoggedIn: Boolean get() = securityService.getLoggedInUid() == null
+  override val loggedInUid: String get() = loggedInUidOrNull ?: throw NotLoggedInException()
+  override val loggedInUidOrNull: String? get() = securityService.getLoggedInUid()
+
+  override val isLoggedIn: Boolean get() = loggedInUidOrNull != null
+  override val isNotLoggedIn: Boolean get() = loggedInUidOrNull == null
 
   override fun getAccountByUid(uid: String): Account {
     return accountRepository.findByIdOrNull(uid) ?: return refreshAccount(uid)
