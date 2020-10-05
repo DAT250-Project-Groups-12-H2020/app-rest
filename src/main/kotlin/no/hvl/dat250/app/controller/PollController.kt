@@ -1,17 +1,17 @@
 package no.hvl.dat250.app.controller
 
-import no.hvl.dat250.app.API_VERSION_1
-import no.hvl.dat250.app.dto.*
-import no.hvl.dat250.app.exception.MissingFieldException
+import no.hvl.dat250.app.dto.PollCreateRequest
+import no.hvl.dat250.app.dto.PollRequest
+import no.hvl.dat250.app.dto.PollResponse
+import no.hvl.dat250.app.dto.toPoll
+import no.hvl.dat250.app.dto.toResponse
 import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotFoundException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.exception.PollNotPublicException
-import no.hvl.dat250.app.repository.PollRepository
 import no.hvl.dat250.app.service.AccountService
 import no.hvl.dat250.app.service.PollService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("$API_VERSION_1/polls")
+@RequestMapping("api/v1/polls")
 class PollController {
 
   @Autowired
@@ -34,12 +34,14 @@ class PollController {
   @Autowired
   private lateinit var pollService: PollService
 
-
   @ExceptionHandler(NotLoggedInException::class)
   @PostMapping("/create")
   fun createPoll(@Valid @RequestBody pollRequest: PollCreateRequest): PollResponse {
-    val poll = pollRequest.toPoll()
-    pollService.createPoll(poll)
+    var poll = pollRequest.toPoll()
+    if (poll.private && accountService.isNotLoggedIn) {
+      throw NotLoggedInException()
+    }
+    poll = pollService.createPoll(poll)
     accountService.addPoll(poll)
     return poll.toResponse()
   }
@@ -74,8 +76,6 @@ class PollController {
     return poll.toResponse()
   }
 
-
-
   @ExceptionHandler(PollNotFoundException::class, PollNotPublicException::class)
   @GetMapping
   fun getPoll(@RequestParam("id") id: Long): PollResponse {
@@ -89,7 +89,7 @@ class PollController {
   @DeleteMapping("/{id}")
   fun deletePoll(@PathVariable id: Long): PollResponse {
     val poll = pollService.getPoll(id)
-    if (accountService.isNotOwnerOf(poll)){
+    if (accountService.isNotOwnerOf(poll)) {
       throw PollNotOwnedByUserException(id)
     }
     accountService.removePoll(poll)
