@@ -13,4 +13,4 @@ class PollNotOpenedException(startDateTime: OffsetDateTime?) :
   RuntimeException(if (startDateTime != null) "The poll will open at $startDateTime" else "The poll is not yet open")
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
-class PollClosedException(endDateTime: OffsetDateTime) : RuntimeException("The closed at $endDateTime")
+class PollClosedException(endDateTime: OffsetDateTime) : RuntimeException("The poll closed at $endDateTime")

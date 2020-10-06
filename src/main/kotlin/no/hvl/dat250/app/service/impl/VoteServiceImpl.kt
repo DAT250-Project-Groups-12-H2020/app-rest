@@ -6,10 +6,8 @@ import no.hvl.dat250.app.dto.toResponse
 import no.hvl.dat250.app.dto.toVote
 import no.hvl.dat250.app.exception.PollClosedException
 import no.hvl.dat250.app.exception.PollNotOpenedException
-import no.hvl.dat250.app.repository.AccountRepository
 import no.hvl.dat250.app.repository.PollRepository
 import no.hvl.dat250.app.repository.VoteRepository
-import no.hvl.dat250.app.service.AccountService
 import no.hvl.dat250.app.service.PollService
 import no.hvl.dat250.app.service.VoteService
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,12 +24,6 @@ class VoteServiceImpl : VoteService {
 
   @Autowired
   private lateinit var pollRepository: PollRepository
-
-  @Autowired
-  private lateinit var accountRepository: AccountRepository
-
-  @Autowired
-  private lateinit var accountService: AccountService
 
   @Autowired
   private lateinit var pollService: PollService

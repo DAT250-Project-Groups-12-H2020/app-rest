@@ -45,7 +45,7 @@ class AccountServiceImpl : AccountService {
 
   @Bean
   fun createAdmin() {
-    val adminAccount = getAccountByUid("hMvbhc7tUNPtYWw07R6KDAxZVXt2")
+    val adminAccount = getAccountByUid("aPUGQjz0OLdyCObODLJ4gtZzXd12")
     adminAccount.role = ADMIN
     adminAccount.disabled = false
     accountRepository.saveAndFlush(adminAccount)

@@ -17,9 +17,9 @@ To use postman you need to find the `refresh token` and give it to postman.
 
 1. Go to <https://dat250-gr-2-h2020-app.web.app/>
 2. Select a login method (it does not really matter which)
-3. Sign in using the selected method  
+3. Sign in using the selected method
 4. Scroll down til you see something like `refreshToken: "AE0u-...mEw"`
-5. Copy the value of `refreshToken` 
+5. Copy the value of `refreshToken`
 6. Open postman and place `refreshToken` in the `current value` column of the global variable `refresh_token` and save
     * Make sure you have selected `Local` environment
     * You can find global environment by clicking on `Manage Environment` (top right of postman) then clicking on `Globals` at the bottom of the popup window

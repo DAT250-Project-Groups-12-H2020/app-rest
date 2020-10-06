@@ -29,7 +29,6 @@ interface PollService {
   /**
    * save and flush changes to a poll
    */
-
   fun updatePoll(id: Long, request: PollRequest): Poll
 
   /**
