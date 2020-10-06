@@ -15,9 +15,9 @@ class Poll {
   @field:GeneratedValue(strategy = GenerationType.IDENTITY)
   var id: Long = -1
 
-  var startDate: OffsetDateTime? = null
+  var startDateTime: OffsetDateTime? = null
 
-  var endDate: OffsetDateTime? = null
+  var endDateTime: OffsetDateTime? = null
 
   var private: Boolean = false
 
@@ -27,14 +27,15 @@ class Poll {
 
   @field:OneToMany(cascade = [CascadeType.ALL])
   var votes: MutableSet<Vote> = HashSet()
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
-    if (other !is Poll) return false
+    if (javaClass != other?.javaClass) return false
+
+    other as Poll
 
     if (id != other.id) return false
-    if (startDate != other.startDate) return false
-    if (endDate != other.endDate) return false
+    if (startDateTime != other.startDateTime) return false
+    if (endDateTime != other.endDateTime) return false
     if (private != other.private) return false
     if (question != other.question) return false
     if (firstAnswer != other.firstAnswer) return false
@@ -46,17 +47,13 @@ class Poll {
 
   override fun hashCode(): Int {
     var result = id.hashCode()
-    result = 31 * result + (startDate?.hashCode() ?: 0)
-    result = 31 * result + (endDate?.hashCode() ?: 0)
+    result = 31 * result + (startDateTime?.hashCode() ?: 0)
+    result = 31 * result + (endDateTime?.hashCode() ?: 0)
     result = 31 * result + private.hashCode()
     result = 31 * result + question.hashCode()
     result = 31 * result + firstAnswer.hashCode()
     result = 31 * result + secondAnswer.hashCode()
     result = 31 * result + votes.hashCode()
     return result
-  }
-
-  override fun toString(): String {
-    return "Poll(id=$id, startDate=$startDate, endDate=$endDate, private=$private, question='$question')"
   }
 }

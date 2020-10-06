@@ -14,7 +14,7 @@ class Vote {
 
   @field:Id
   @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-  var id: Long? = null
+  var id: Long = -1
 
   var firstVotes: Int = 0
   var secondVotes: Int = 0
@@ -23,10 +23,11 @@ class Vote {
    * When the vote was cast
    */
   lateinit var castTime: OffsetDateTime
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
-    if (other !is Vote) return false
+    if (javaClass != other?.javaClass) return false
+
+    other as Vote
 
     if (id != other.id) return false
     if (firstVotes != other.firstVotes) return false
@@ -42,9 +43,5 @@ class Vote {
     result = 31 * result + secondVotes
     result = 31 * result + castTime.hashCode()
     return result
-  }
-
-  override fun toString(): String {
-    return "Vote(id=$id, yesVotes=$firstVotes, noVotes=$secondVotes, castTime=$castTime)"
   }
 }

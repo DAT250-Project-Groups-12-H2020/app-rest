@@ -48,6 +48,7 @@ security:
     - /favicon.ico
     - /api/v1/session/login
     - /api/v1/polls
+    - /api/v1/polls/*/vote
     - /api/v1/accounts
   exposed-headers:
     - X-Xsrf-Token

@@ -30,7 +30,6 @@ data class AccountResponse(
   val photoUrl: String?,
   val isEmailVerified: Boolean,
   val polls: List<PollResponse>,
-  val votes: Map<PollResponse, VoteResponse>
 )
 
 data class PublicAccountResponse(
@@ -51,7 +50,6 @@ fun Account.toResponse(): AccountResponse {
     photoUrl,
     isEmailVerified,
     polls.map { it.toResponse() },
-    votes.mapKeys { it.key.toResponse() }.mapValues { it.value.toResponse() }
   )
 }
 
