@@ -4,9 +4,9 @@
 
 ### Spring boot
 
-* Download `dat250-gr-2-h2020-app-firebase-adminsdk.json` and place it in the `src/main/secrets` folder (where see `place-secrets-here`)
+* Download `dat250-gr-2-h2020-app-firebase-adminsdk.json` and place it in the `src/main/resources/secrets` folder (where see `place-secrets-here`)
 * To start the server
-    * Using intellij; run the pre-made run configuration `Run`
+    * Using intellij; run the pre-made run configuration `Application`
     * Otherwise run `gradlew bootRun` with the environment variables `GOOGLE_APPLICATION_CREDENTIALS=./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json;FIREBASE_DATABASE=https://dat250-gr-2-h2020-app.firebaseio.com/;CORS_DOMAIN=localhost`. (Note that this assumes the working directory is `$PROJECT_DIR$/src/main/resources`)
 
 ### Postman
@@ -16,13 +16,17 @@
 To use postman you need to find the `refresh token` and give it to postman.
 
 1. Go to <https://dat250-gr-2-h2020-app.web.app/>
-2. Open browser console (usually F12)
-3. You should see an object `user`, open it
+2. Select a login method (it does not really matter which)
+3. Sign in using the selected method  
 4. Scroll down til you see something like `refreshToken: "AE0u-...mEw"`
-5. Copy the value of `refreshToken` and place it in the `current value` column of the global variable `refresh_token` and save
-6. Start this spring boot application
-7. Run the `session/Login` request, you should get a `200 OK`
-8. Run the `account/me` request to make sure you are logged in
+5. Copy the value of `refreshToken` 
+6. Open postman and place `refreshToken` in the `current value` column of the global variable `refresh_token` and save
+    * Make sure you have selected `Local` environment
+    * You can find global environment by clicking on `Manage Environment` (top right of postman) then clicking on `Globals` at the bottom of the popup window
+7. Start this spring boot application (f.eks with run config `Application` in IntelliJ)
+8. Run the `session/Login` request, you should get a `200 OK`
+    * Make sure you are logged in and have selected the `Team Workspace`
+9. Run the `account/Me` request to make sure you are logged in
 
 Expected response for `account/me` is
 
