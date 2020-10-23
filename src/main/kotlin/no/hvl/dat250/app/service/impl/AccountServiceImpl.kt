@@ -100,14 +100,14 @@ class AccountServiceImpl : AccountService {
         updateRequest.setDisabled(request.disabled)
       }
 
-      val claims: MutableMap<String, Any> = HashMap()
       if (request.role != null && request.role != target.role) {
         if (account.isNotAdmin()) {
           throw InsufficientAccessException("change role when not logged in as admin")
         }
+        val claims: MutableMap<String, Any> = HashMap()
         claims[ROLE_CUSTOM_CLAIM] = request.role.name
+        updateRequest.setCustomClaims(claims)
       }
-      updateRequest.setCustomClaims(claims)
 
       FirebaseAuth.getInstance().updateUser(updateRequest)
     } catch (e: Exception) {
