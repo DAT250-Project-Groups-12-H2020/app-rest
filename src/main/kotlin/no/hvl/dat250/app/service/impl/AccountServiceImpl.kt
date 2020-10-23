@@ -93,7 +93,7 @@ class AccountServiceImpl : AccountService {
         updateRequest.setEmail(request.email)
         updateRequest.setEmailVerified(false)
       }
-      if (request.photoUrl != target.photoUrl) {
+      if (request.photoUrl != null && request.photoUrl != target.photoUrl) {
         updateRequest.setPhotoUrl(request.photoUrl)
       }
       if (request.disabled != null && request.disabled != target.disabled) {
