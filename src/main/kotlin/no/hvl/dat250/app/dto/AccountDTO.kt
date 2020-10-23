@@ -11,6 +11,7 @@ data class AccountRequest(
   val email: String? = null,
   val photoUrl: String? = null,
   val disabled: Boolean? = null,
+  val role: Role? = null,
 )
 
 data class AccountCreationRequest(

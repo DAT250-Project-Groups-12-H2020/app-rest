@@ -14,9 +14,6 @@ class Account {
   @field:Id
   lateinit var id: String
 
-  @field:Enumerated(EnumType.STRING)
-  var role: Role = Role.USER
-
   @field:OneToMany(cascade = [CascadeType.ALL])
   @field:JoinColumn
   var polls: MutableSet<Poll> = mutableSetOf()
@@ -24,6 +21,9 @@ class Account {
   // ////////////
   // Firebase  //
   // ////////////
+
+  @field:Enumerated(EnumType.STRING)
+  var role: Role = Role.USER
 
   var name: String? = null
 
