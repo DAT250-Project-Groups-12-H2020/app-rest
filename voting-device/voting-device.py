@@ -1,6 +1,8 @@
 '''
-script to simulate a physical voting device, with buttons
-[green, red, send, rest] that all interact with the rest API
+script to simulate a physical voting device, with buttons [green, red, send, rest] 
+that interact with the rest API
+reads config from device_config.ini file
+TODO: create a new user with a api call??
 '''
 import requests
 import configparser
@@ -12,6 +14,26 @@ refresh_token = config['TOKENS']['refresh_token']
 
 first_votes, second_votes = 0,0
 
+def main():
+    global first_votes, second_votes
+    login()
+    me()
+    while True:
+        char = input('insert 1 to vote first, 2 for vote second, s for send and r for reset:\n')
+        if char not in ['1','2','s','r']:
+            print('illegal input')
+            continue
+        if char == '1':
+            first_votes +=1
+        if char == '2':
+            second_votes +=1
+        if char == 'r':
+            first_votes, second_votes = 0,0
+        if char == 's':
+            send_votes()
+        else:
+            print(f'current votes: first { first_votes }, second {second_votes}')
+            
 def login():
     print('logging in...')
     url = 'http://localhost:8080/api/v1/session/login'
@@ -36,6 +58,8 @@ def me():
         print(response.status_code, response.reason)
 
 def send_votes():
+    '''send votes to selected voteid and reset'''
+    global first_votes, second_votes
     print('sending votes...')
     pollid = config['POLL']['pollid']
     url = f"http://localhost:8080/api/v1/polls/{pollid}/vote"
@@ -44,27 +68,8 @@ def send_votes():
     'Content-Type': 'application/json',
     'Cookie': 'authenticated=true; session=eyJhbGciOiJSUzI1NiIsImtpZCI6InRCME0yQSJ9.eyJpc3MiOiJodHRwczovL3Nlc3Npb24uZmlyZWJhc2UuZ29vZ2xlLmNvbS9kYXQyNTAtZ3ItMi1oMjAyMC1hcHAiLCJwcm92aWRlcl9pZCI6ImFub255bW91cyIsImF1ZCI6ImRhdDI1MC1nci0yLWgyMDIwLWFwcCIsImF1dGhfdGltZSI6MTYwMzQ0Mzk0NCwidXNlcl9pZCI6Inp0Yzk5QXZnR3hmQXExZTRRbFJvUUI1ekkxczIiLCJzdWIiOiJ6dGM5OUF2Z0d4ZkFxMWU0UWxSb1FCNXpJMXMyIiwiaWF0IjoxNjAzNDQ2MTY5LCJleHAiOjE2MDM4NzgxNjksImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnt9LCJzaWduX2luX3Byb3ZpZGVyIjoiYW5vbnltb3VzIn19.M_MIYOV65hBHA2hu6bO0k4z3pDS10ZFwBkRhs_Qd-7Ae-8QftI53vIcGmxY-nkrl8_3e14wlRQc0_i0CUDuZvhuth3r72UdBpvLmnjO52c4RZ2zuWXZDLX-9WyXDd_tC2qXOYfk3uHJfu-1IOj2iaWtkwdnbfdh6ZoFJh6blhyezGODSO3DI2PFsYySp5PFJJHRMrdlsP_0GzAqoJtem9SOjGuyGLoDzoijjealb43if6iuwWpZZ-0ftvcaxQl_FtBg9rxMy9ErBP8moPh_vofH9IcYk7LlE2UGP3TlOzxJwcQKVFnluWz3GNHfzj0UBY5HzrFKL3JbBAz1f2QvRCA'
     }
-
     response = requests.request("POST", url, headers=headers, data = payload)
-
     print(response.text.encode('utf8'))
+    first_votes, second_votes = 0, 0
 
-
-login()
-me()
-while True:
-    char = input('insert 1 to vote first, 2 for vote second, s for send and r for reset\n')
-    if char not in ['1','2','s','r']:
-        print('illegal input')
-        continue
-    if char == '1':
-        first_votes +=1
-    if char == '2':
-        second_votes +=1
-    if char == 'r':
-        first_votes, second_votes = 0,0
-    if char == 's':
-        send_votes()
-    else:
-        print(f'current votes: first { first_votes }, second {second_votes}')
-    
+main()
