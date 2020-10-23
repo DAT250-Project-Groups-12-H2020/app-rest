@@ -10,7 +10,6 @@ import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.model.Account
 import no.hvl.dat250.app.model.Poll
-import no.hvl.dat250.app.model.Role
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 interface AccountService {
@@ -36,9 +35,6 @@ interface AccountService {
 
   @ExceptionHandler(NotLoggedInException::class, AccountNotFoundException::class, InsufficientAccessException::class)
   fun deleteAccount(uid: String)
-
-  @ExceptionHandler(NotLoggedInException::class, AccountNotFoundException::class, InsufficientAccessException::class)
-  fun changeRole(uid: String, role: Role): Account
 
   @ExceptionHandler(AccountNotFoundException::class)
   fun refreshAccount(uid: String): Account

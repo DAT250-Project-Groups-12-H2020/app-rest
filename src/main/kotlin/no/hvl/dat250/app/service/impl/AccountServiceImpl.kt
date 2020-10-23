@@ -45,9 +45,9 @@ class AccountServiceImpl : AccountService {
 
   @Bean
   fun createAdmin() {
-    val adminAccount = getAccountByUid("aPUGQjz0OLdyCObODLJ4gtZzXd12")
-    adminAccount.role = ADMIN
-    adminAccount.disabled = false
+    val uid = "aPUGQjz0OLdyCObODLJ4gtZzXd12"
+    val adminAccount = getAccountByUid(uid)
+    FirebaseAuth.getInstance().setCustomUserClaims(uid, mapOf(ROLE_CUSTOM_CLAIM to ADMIN.name))
     accountRepository.saveAndFlush(adminAccount)
   }
 
@@ -73,12 +73,7 @@ class AccountServiceImpl : AccountService {
       throw AccountCreationFailedException(e.message)
     }
 
-    val account = refreshAccount(userRecord.uid)
-    return if (request.role != null && request.role != USER) {
-      changeRole(userRecord.uid, request.role)
-    } else {
-      account
-    }
+    return refreshAccount(userRecord.uid)
   }
 
   override fun updateAccount(uid: String, request: AccountRequest): Account {
@@ -98,11 +93,20 @@ class AccountServiceImpl : AccountService {
         updateRequest.setEmail(request.email)
         updateRequest.setEmailVerified(false)
       }
-      if (request.photoUrl != target.photoUrl) {
+      if (request.photoUrl != null && request.photoUrl != target.photoUrl) {
         updateRequest.setPhotoUrl(request.photoUrl)
       }
       if (request.disabled != null && request.disabled != target.disabled) {
         updateRequest.setDisabled(request.disabled)
+      }
+
+      if (request.role != null && request.role != target.role) {
+        if (account.isNotAdmin()) {
+          throw InsufficientAccessException("change role when not logged in as admin")
+        }
+        val claims: MutableMap<String, Any> = HashMap()
+        claims[ROLE_CUSTOM_CLAIM] = request.role.name
+        updateRequest.setCustomClaims(claims)
       }
 
       FirebaseAuth.getInstance().updateUser(updateRequest)
@@ -118,15 +122,6 @@ class AccountServiceImpl : AccountService {
     }
     accountRepository.deleteById(uid)
     FirebaseAuth.getInstance().deleteUserAsync(uid)
-  }
-
-  override fun changeRole(uid: String, role: Role): Account {
-    if (getCurrentAccount().isNotAdmin()) {
-      throw InsufficientAccessException("change role of account")
-    }
-    val target = getAccountByUid(uid)
-    target.role = role
-    return accountRepository.saveAndFlush(target)
   }
 
   override fun refreshAccount(uid: String): Account {
@@ -150,6 +145,11 @@ class AccountServiceImpl : AccountService {
     account.isEmailVerified = userRecord.isEmailVerified
     account.photoUrl = userRecord.photoUrl
     account.disabled = userRecord.isDisabled
+    try {
+      account.role = Role.valueOf(userRecord.customClaims[ROLE_CUSTOM_CLAIM] as String)
+    } catch (e: Exception) {
+      account.role = USER
+    }
     return accountRepository.saveAndFlush(account)
   }
 
@@ -197,5 +197,9 @@ class AccountServiceImpl : AccountService {
 
   override fun isOwnerOf(poll: Poll, account: Account): Boolean {
     return poll in account.polls
+  }
+
+  companion object {
+    const val ROLE_CUSTOM_CLAIM = "role"
   }
 }
