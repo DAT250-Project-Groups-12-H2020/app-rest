@@ -45,6 +45,10 @@ Expected response for `account/me` is
 
 Based on <https://github.com/gladius/firebase-spring-boot-rest-api-authentication>, and <https://firebase.google.com/docs/admin/setup#java>
 
+## Rabbit MQ
+
+You have to run either run `docker-compose up` in terminal when standing in this folder, or run the `RabbitMQ` run configuration in intellij.
+
 ## Spotless
 
 This project is using spotless to make sure the code format does not deviate between each user.

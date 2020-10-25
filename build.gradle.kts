@@ -31,12 +31,14 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("com.google.firebase:firebase-admin:7.0.0")
   implementation("org.projectlombok:lombok")
+  implementation("org.springframework.boot:spring-boot-starter-amqp")
 
   runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test") {
     exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
   }
   testImplementation("org.springframework.security:spring-security-test")
+  testImplementation("org.springframework.amqp:spring-rabbit-test")
 
   annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
