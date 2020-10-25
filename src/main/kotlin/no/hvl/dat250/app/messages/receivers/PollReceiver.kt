@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component
 @Component
 class PollReceiver {
 
-  fun handleOpened(pollId: String) {
+  fun handleOpened(pollId: Long) {
     println("Poll opened: $pollId")
   }
 
-  fun handleClosed(pollId: String) {
+  fun handleClosed(pollId: Long) {
     println("Poll closed: $pollId")
   }
 }
