@@ -45,14 +45,15 @@ window.onload = function() {
     initApp();
 };
 
-function first(){
+function send_votes() {
+    location.href = "pollvotedone-em.html";
+}
+function index() {
+    location.href = "../index-em.html";
 
 }
 
-function second(){
+function more_polls() {
+    location.href = "pollcode-em.html";
 
-}
-
-function sendvotes(){
-    location.href = "poll/pollvotedone-em.html";
 }
