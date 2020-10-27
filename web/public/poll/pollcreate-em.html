@@ -10,15 +10,25 @@
 
     <div id="login_div" class="guest-div">
         <h1>Create Poll</h1>
-        <input type="poll code" placeholder="Poll Question" id="poll_question_field"/>
-        <input type="poll code" placeholder="First Answer" id="first_ans_field"/>
-        <input type="poll code" placeholder="Second Answer" id="second_ans_field"/>
-        <input type="poll code" placeholder="Start Time" id="start_time_field"/>
-        <input type="poll code" placeholder="End Time" id="end_time_field"/>
+        <input type="poll code" placeholder="Poll Question" id="poll_question_field"/><br>
+        <input type="poll code" placeholder="First Answer" id="first_ans_field"/><br>
+        <input type="poll code" placeholder="Second Answer" id="second_ans_field"/><br>
 
+        <form action="/action_page.php">
+            <label for="start">Select Start time:</label>
+            <input type="date" id="start" name="day">
+        </form>
+        <form action="/action_page.php">
+            <label for="end">Select End time:</label>
+            <input type="date" id="end" name="day">
+        </form>
+        <!--
+        <input type="poll code" placeholder="Start Time" id="start_time_field"/><br>
+        <input type="poll code" placeholder="End Time" id="end_time_field"/><br>
+        -->
         <input type="checkbox" id="private" name="private" value="private">
         <label for="private">Private</label><br>
-
+        <!--<input type="submit">-->
         <button>Create Poll</button>
     </div>
 

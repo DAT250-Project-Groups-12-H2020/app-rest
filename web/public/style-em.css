@@ -16,10 +16,10 @@ input, button {
 }
 
 .main-div, .loggedin-div, .guest-div {
-    width: 50%; /*THIS ONE */
+    width: 25%; /*THIS ONE */
     margin: 0px auto;
     margin-top: 150px;
-    padding: 20px;
+    padding: 0px; /*25*/
     display: none;
 }
 
