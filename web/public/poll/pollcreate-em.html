@@ -62,27 +62,25 @@
                 }).catch(e => {
                     console.log(e);
                 });
-
             }
 
             async function pollGET() {
                 const response = await fetch(url + '/api/v1/polls/');
-                const myJson = await response.json(); //extract JSON from the http response
+                const json = await response.json();
             }
 
             async function pollPOST() {
                 const response = await fetch(url + '/api/v1/polls/create/', {
                     method: 'POST',
                     mode: 'cors',
-                    body: pollBody, // string or object
+                    body: pollBody,
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-                const myJson = await response.json(); //extract JSON from the http response
-                // do something with myJson
-                console.log(myJson);
-                return myJson;
+                const json = await response.json();
+                console.log(json);
+                return json;
             }
         }
     </script>
