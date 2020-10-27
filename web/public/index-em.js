@@ -43,11 +43,11 @@ function login(){
 }
  **/
 
-function login(){
+function email_password(){
     location.href = "email-password.html";
 }
 
-function signin(){
+function email_link(){
     location.href = "email-link.html";
 }
 
