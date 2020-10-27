@@ -22,6 +22,7 @@ security:
   allowed-origins:
     - https://${CORS_DOMAIN}
     - http://localhost:3000
+    - http://localhost:5000
   allowed-methods:
     - GET
     - POST
@@ -50,6 +51,7 @@ security:
     - /api/v1/polls
     - /api/v1/polls/*/vote
     - /api/v1/accounts
+    - /api/v1/polls/create
   exposed-headers:
     - X-Xsrf-Token
 
