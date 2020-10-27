@@ -2,35 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp login</title>
+    <title>Total votes</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="style-em.css" />
+    <link rel="stylesheet" href="../style-em.css" />
 </head>
 <body>
 
-    <div id="login_div" class="main-div">
-        <h1>FeedApp Login</h1>
+    <div id="login_div" class="guest-div">
+        <h2>Poll name</h2>
+
+        <h3>Total votes:</h3>
+        <textarea id="total_votes_textarea" cols="40" rows="6" readonly="true" style="resize: none">
 
 
-        <!--<input type="email" placeholder="Email" id="email_field" />
-        <input type="password" placeholder="Password" id="password_field" />
-        -->
+            First answer: 2
+            Second answer: 5
+        </textarea>
+    <script>
+        var toInsert = document.createElement("div");
+        toInsert.innerHTML = "Time remaining: 23 hours, 5 min";
+        toInsert.style.position = "absolute";
+        toInsert.style.bottom = "0px";
+        toInsert.style.textAlign = "center";
+        toInsert.style.width = "100%";
+        document.body.appendChild(toInsert);
+    </script>
 
-        <button onclick="email_password()">Email & Password</button>
-        <button onclick="email_link()">Email & Link</button>
-        <button onclick="guest()">Guest</button>
-        <button onclick="google()">Google Sign-in</button>
+
 
     </div>
-    <!--
-    <div id="user_div" class="loggedin-div">
-        <h3>Welcome User</h3>
-        <p id="user_para">Welcome to Firebase web login Example. You're currently logged in.</p>
-        <button onclick="logout()">Logout</button>
-    </div>
-    -->
-
-
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
@@ -58,6 +58,7 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="index-em.js"></script>
+    <script src="../index-em.js"></script>
+
 </body>
 </html>

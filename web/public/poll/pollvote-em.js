@@ -52,8 +52,6 @@ function index() {
     location.href = "../index-em.html";
 
 }
-
 function more_polls() {
     location.href = "pollcode-em.html";
-
 }

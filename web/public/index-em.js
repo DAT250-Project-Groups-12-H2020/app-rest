@@ -56,10 +56,6 @@ function guest(){
 
 }
 
-function index(){
-    location.href = "../index-em.html"; // kommer fra poll/pollcode-em.html
-
-}
 function pollvote(){
     location.href = "pollvote-em.html";
 }
@@ -68,8 +64,6 @@ function google(){
     location.href = "google-redirect.html"
 
 }
-
-
 
 function logout(){
     firebase.auth().signOut();
