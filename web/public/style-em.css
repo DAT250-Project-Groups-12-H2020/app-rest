@@ -16,7 +16,7 @@ input, button {
 }
 
 .main-div, .loggedin-div, .guest-div {
-    width: 20%;
+    width: 50%; /*THIS ONE */
     margin: 0px auto;
     margin-top: 150px;
     padding: 20px;
@@ -39,6 +39,10 @@ input, button {
 
 .main-div input:focus, .guest-div input:focus {
     border: 1px solid #777;
+}
+
+.guest-div label {
+
 }
 
 .main-div button, .loggedin-div button, .guest-div button {
