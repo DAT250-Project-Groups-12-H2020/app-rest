@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Total votes</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="../style-em.css" />
+</head>
+<body>
+
+    <div id="login_div" class="guest-div">
+        <h2>Poll name</h2>
+
+        <h3>Total votes:</h3>
+        <textarea id="total_votes_textarea" cols="40" rows="6" readonly="true" style="resize: none">
+
+
+            First answer: 2
+            Second answer: 5
+        </textarea>
+    <script>
+        var toInsert = document.createElement("div");
+        toInsert.innerHTML = "Time remaining: 23 hours, 5 min";
+        toInsert.style.position = "absolute";
+        toInsert.style.bottom = "0px";
+        toInsert.style.textAlign = "center";
+        toInsert.style.width = "100%";
+        document.body.appendChild(toInsert);
+    </script>
+
+
+
+    </div>
+
+    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+    <script>
+        //Yourwebapp'sFirebaseconfiguration
+        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+        var firebaseConfig = {
+            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+            projectId: "dat250-gr-2-h2020-app",
+            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+            messagingSenderId: "851900401969",
+            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+            measurementId: "G-03WHQEL0R0"
+        };
+        //InitializeFirebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="../index-em.js"></script>
+
+</body>
+</html>

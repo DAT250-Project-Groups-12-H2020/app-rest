@@ -54,5 +54,5 @@ function second(){
 }
 
 function sendvotes(){
-    location.href = "poll/pollvotedone-em.html";
+    location.href = "pollvotedone-em.html";
 }
