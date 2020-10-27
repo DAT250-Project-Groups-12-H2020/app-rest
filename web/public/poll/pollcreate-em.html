@@ -9,10 +9,17 @@
 <body>
 
     <div id="login_div" class="guest-div">
-        <h1>FeedApp</h1>
-        <input type="poll code" placeholder="Poll Code" id="poll_field"/>
+        <h1>Create Poll</h1>
+        <input type="poll code" placeholder="Poll Question" id="poll_question_field"/>
+        <input type="poll code" placeholder="First Answer" id="first_ans_field"/>
+        <input type="poll code" placeholder="Second Answer" id="second_ans_field"/>
+        <input type="poll code" placeholder="Start Time" id="start_time_field"/>
+        <input type="poll code" placeholder="End Time" id="end_time_field"/>
 
-        <button onclick="pollvote()">Enter</button>
+        <input type="checkbox" id="private" name="private" value="private">
+        <label for="private">Private</label><br>
+
+        <button>Create Poll</button>
     </div>
 
 
@@ -42,7 +49,7 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="../index-em.js"></script>
+    <script src="pollvote-em.js"></script>
 
 </body>
 </html>

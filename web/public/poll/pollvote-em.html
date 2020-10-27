@@ -8,11 +8,30 @@
 </head>
 <body>
 
+    <!--
     <div id="login_div" class="guest-div">
-        <h1>FeedApp</h1>
-        <input type="poll code" placeholder="Poll Code" id="poll_field"/>
+        <h1>Vote</h1>
+        <h2>Poll Title here</h2>
 
-        <button onclick="pollvote()">Enter</button>
+        <button disabled id= "idtest" name="navn" onclick= "x()">Answer</button>
+        <button onclick="first()">First Answer</button>
+        <button onclick="second()">Second Answer</button>
+        <button onclick="sendvotes()">Send Votes</button>
+
+    </div>
+    -->
+    <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_radio
+    -->
+    <div>
+        <h1>Vote</h1>
+        <h2>Poll Title here</h2>
+        <input type="radio" id="first" name="choice" value="first">
+        <label for="first">First Answer</label>
+
+        <input type="radio" id="second" name="choice" value="second">
+        <label for="second">Second Answer</label><br>
+
+        <input type="submit" value="Submit">
     </div>
 
 
@@ -42,7 +61,7 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="../index-em.js"></script>
+    <script src="pollvote-em.js"></script>
 
 </body>
 </html>
