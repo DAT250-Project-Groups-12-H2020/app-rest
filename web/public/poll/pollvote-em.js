@@ -1,6 +1,7 @@
 /**
  * Handles the sign in button press.
  */
+
 function toggleSignIn() {
 
     document.getElementById('idtest').disabled = true;
@@ -16,7 +17,7 @@ function initApp() {
 
             var user = firebase.auth().currentUser;
 
-            document.getElementById('idtest').textContent = 'Signed';
+            //document.getElementById('idtest').textContent = 'Signed';
 
             if (user != null) {
 
@@ -30,20 +31,21 @@ function initApp() {
 
             //document.getElementById("user_div").style.display = "none";
             document.getElementById("login_div").style.display = "block";
-            document.getElementById('idtest').textContent = 'not';
+            //document.getElementById('idtest').textContent = 'not';
 
         }
         // [START_EXCLUDE]
-        document.getElementById('idtest').disabled = false;
+        //document.getElementById('idtest').disabled = false;
 
     }); //  funker ikke uten denne tydeligvis
-    document.getElementById('idtest').addEventListener('click', toggleSignIn, false);
+    //document.getElementById('idtest').addEventListener('click', toggleSignIn, false);
 
 }
 
 window.onload = function() {
     initApp();
 };
+
 
 function send_votes() {
     location.href = "pollvotedone-em.html";
