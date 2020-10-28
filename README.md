@@ -4,7 +4,7 @@
 
 ### Spring boot
 
-* Download `dat250-gr-2-h2020-app-firebase-adminsdk.json` and place it in the `src/main/resources/secrets` folder (where see `place-secrets-here`)
+* Download `dat250-gr-2-h2020-app-firebase-adminsdk.json` and place it in the `src/main/resources/secrets` folder (where you see `place-secrets-here`)
 * To start the server
     * Using intellij; run the pre-made run configuration `Application`
     * Otherwise run `gradlew bootRun` with the environment variables `GOOGLE_APPLICATION_CREDENTIALS=./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json;FIREBASE_DATABASE=https://dat250-gr-2-h2020-app.firebaseio.com/;CORS_DOMAIN=localhost`. (Note that this assumes the working directory is `$PROJECT_DIR$/src/main/resources`)
@@ -44,6 +44,10 @@ Expected response for `account/me` is
 ## Authentication with firebase
 
 Based on <https://github.com/gladius/firebase-spring-boot-rest-api-authentication>, and <https://firebase.google.com/docs/admin/setup#java>
+
+## Rabbit MQ
+
+You have to run either run `docker-compose up` in terminal when standing in this folder, or run the `RabbitMQ` run configuration in intellij.
 
 ## Spotless
 
