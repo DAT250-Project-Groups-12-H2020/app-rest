@@ -47,11 +47,11 @@ function login(){
  **/
 
 function email_password(){
-    location.href = "email-password.html";
+    location.href = "login/email-password-em.html";
 }
 
 function email_link(){
-    location.href = "email-link.html";
+    location.href = "login/email-link-em.html";
 }
 
 function guest(){
@@ -60,7 +60,7 @@ function guest(){
 }
 
 function google() {
-    location.href = "google-redirect.html"
+    location.href = "login/google-redirect-em.html"
 }
 
 function pollvote(){

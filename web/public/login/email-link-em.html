@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FeedApp login</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="../style-em.css" />
+</head>
+<body>
+
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+
+            <!-- Container for the demo -->
+            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+                <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+                    <h2 class="mdl-card__title-text">Firebase Email Link Authentication</h2>
+                </div>
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                    <p>Enter your email below and sign in to your account through a link sent to you via email</p>
+                    <p>This will automatically create an account if you do not have one already.</p>
+                    <form onsubmit="return false">
+                        <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email"/>
+                        &nbsp;&nbsp;&nbsp;
+                        <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-in" name="signin">Sign In without password</button>
+                    </form>
+
+                    <!-- Container where we'll display the user details -->
+                    <div class="quickstart-user-details-container">
+                        Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+                        <!--<div>Firebase auth <code>currentUser</code> object value:</div>-->
+                        <pre><code id="quickstart-account-details"></code></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+<!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+<script>
+    //Yourwebapp'sFirebaseconfiguration
+    //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+        projectId: "dat250-gr-2-h2020-app",
+        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+        messagingSenderId: "851900401969",
+        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+        measurementId: "G-03WHQEL0R0"
+    };
+    //InitializeFirebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="email-link-em.js"></script>
+
+</body>
+
+</html>
