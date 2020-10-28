@@ -2,22 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp Poll Code</title>
+    <title>FeedApp login</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="../style-em.css" />
 </head>
 <body>
 
-    <div id="login_div" class="guest-div">
-        <h1>FeedApp Poll Code</h1>
-        <input type="poll code" placeholder="Poll Code" id="poll_field"/>
-        <br><br>
-        <button onclick="pollvote()">Enter</button>
+    <div id="login_div" class="main-div">
+        <h1>Welcome to FeedApp</h1>
+        <p>Choose what you want to do:</p>
+
+        <button onclick="poll_overview()">Poll Overview</button>
+        <button onclick="poll_code()">Poll Code</button>
+        <button onclick="admin_overview()">Admin Overview</button>
+        <button onclick="logout()">Log out</button>
+
     </div>
 
-    <div class="footer">
-    <p>Don't have poll code? <a href="../index-em.html">Log in/sign up</a> and get poll overview!</p>
-    </div>
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
@@ -45,7 +46,6 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="../index-em.js"></script>
-
+    <script src="loggedinoverview-em.js"></script>
 </body>
 </html>

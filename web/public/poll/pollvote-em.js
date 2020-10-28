@@ -57,3 +57,8 @@ function index() {
 function more_polls() {
     location.href = "pollcode-em.html";
 }
+
+function pollfeedback(){
+    location.href = "pollfeedback-em.html"
+
+}

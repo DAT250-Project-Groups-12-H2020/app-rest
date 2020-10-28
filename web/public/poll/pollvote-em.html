@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp login</title>
+    <title>FeedApp Vote</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="../style-em.css" />
 </head>
@@ -25,12 +25,12 @@
         <h1>Vote</h1>
         <h2>Poll Title here</h2>
 
-        <label class="container"> First Choice
+        <label class="container"> Here is the first choice
             <input type="radio" name="radio">
             <span class="checkmark"></span>
         </label>
 
-        <label class="container"> Second Choice
+        <label class="container"> Here is the second choice
             <input type="radio" name="radio">
             <span class="checkmark"></span>
         </label>
@@ -41,6 +41,11 @@
         <label for="second">Second Answer</label><br>
         -->
         <button onclick="send_votes()">Send Vote</button>
+    </div>
+
+    <div class="footer">
+        <p style="margin: 0; display: inline;">Time remaining: </p>
+        <p style="color:red;margin: 0; display: inline;" align="right">3 min</p>
     </div>
 
 

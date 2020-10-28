@@ -15,6 +15,37 @@ input, button {
     text-align:center;
 }
 
+.footer {
+    position: fixed;
+    text-align: center;
+    bottom: 0px;
+    width: 100%;
+}
+
+
+.poll-overview-div {
+    width: 25%;
+    margin: 0px auto;
+    margin-top: 10px;
+    padding: 0px;
+    display: none;
+}
+
+.poll-overview-div button{
+    display: block;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: lightsteelblue;
+    padding: 15px;
+    color: black;
+    width: 100%;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+
+}
+
+
 .main-div, .loggedin-div, .guest-div {
     width: 25%; /*THIS ONE */
     margin: 0px auto;
@@ -23,7 +54,7 @@ input, button {
     display: none;
 }
 
-.main-div input, guest-div input {
+.main-div input, guest-div input, .poll-overview-div input {
     display: block;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -37,12 +68,8 @@ input, button {
     -moz-transition: 0.3s;
 }
 
-.main-div input:focus, .guest-div input:focus {
+.main-div input:focus, .guest-div input:focus, .poll-overview-div input:focus {
     border: 1px solid #777;
-}
-
-.guest-div label {
-
 }
 
 .main-div button, .loggedin-div button, .guest-div button {
@@ -58,7 +85,7 @@ input, button {
     -moz-transition: 0.3s;
 }
 
-.main-div button:hover, .loggedin-div button:hover, .guest-div button:hover {
+.main-div button:hover, .loggedin-div button:hover, .guest-div button:hover, .poll-overview-div button:hover {
     background: #fff;
     color: dimgrey;
     border: 1px solid black;
@@ -130,4 +157,14 @@ input, button {
     height: 8px;
     border-radius: 50%;
     background: white;
+}
+
+/* til polloverview-em.html tabellen */
+table, th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+table {
+    border: 1px solid transparent;
+    border-spacing: 15px;
 }

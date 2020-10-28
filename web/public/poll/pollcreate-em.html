@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp login</title>
+    <title>FeedApp Create Poll</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="../style-em.css" />
 </head>
@@ -14,11 +14,11 @@
         <input type="poll code" placeholder="First Answer" id="first_ans_field"/><br>
         <input type="poll code" placeholder="Second Answer" id="second_ans_field"/><br>
 
-        <form action="/action_page.php">
+        <form> <!--<form action="/action_page.php">-->
             <label for="start">Select Start time:</label>
             <input type="date" id="start" name="day">
         </form>
-        <form action="/action_page.php">
+        <form>
             <label for="end">Select End time:</label>
             <input type="date" id="end" name="day">
         </form>
@@ -27,6 +27,10 @@
         <label for="private">Private</label><br>
 
         <button onclick="createPoll()" type="button">Create Poll</button>
+    </div>
+
+    <div class="footer">
+        <p>Back to <a href="polloverview-em.html">poll overview</a>.</p>
     </div>
 
     <script>
@@ -57,8 +61,10 @@
                 alert("Please make sure to fill in all fields");
             }else{
                 await pollPOST().then(response => {
+                    console.log('pollPOST await response here: ');
                     console.log(response);
                 }).catch(e => {
+                    console.log('pollPOST catch e here: ');
                     console.log(e);
                 });
             }
@@ -78,7 +84,6 @@
                     }
                 });
                 const json = await response.json();
-                console.log(json);
                 return json;
             }
         }

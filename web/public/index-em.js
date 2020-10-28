@@ -3,7 +3,8 @@ firebase.auth().onAuthStateChanged(function(user) {
         // User is signed in.
 
         //document.getElementById("user_div").style.display = "block";
-        document.getElementById("login_div").style.display = "none";
+        document.getElementById("login_div").style.display = "block";
+        //document.getElementById("poll_div").style.display = "block";
 
         var user = firebase.auth().currentUser;
 
@@ -17,10 +18,12 @@ firebase.auth().onAuthStateChanged(function(user) {
     } else {
         // No user is signed in.
 
-        //document.getElementById("user_div").style.display = "none";
+        //document.getElementById("user_div").style.display = "block";
         document.getElementById("login_div").style.display = "block";
 
     }
+    document.getElementById("poll_div").style.display = "block";
+
 });
 
  /**
@@ -56,13 +59,35 @@ function guest(){
 
 }
 
+function google() {
+    location.href = "google-redirect.html"
+}
+
 function pollvote(){
     location.href = "pollvote-em.html";
 }
 
-function google(){
-    location.href = "google-redirect.html"
+function pollcreate(){
+    location.href = "pollcreate-em.html"
 
+}
+
+function pollfeedback(){
+    location.href = "pollfeedback-em.html"
+
+}
+
+function userinfo(){
+    location.href = ""
+
+}
+
+function polloverview(){
+    location.href = "../poll/polloverview-em.html"
+
+}
+function admin_overview() {
+    location.href = "adminoverview-em.html"
 }
 
 function logout(){

@@ -45,10 +45,15 @@ function initApp() {
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
 
-            document.getElementById('quickstart-poll-enter').textContent = 'Enter'
+            document.getElementById('quickstart-poll-enter').textContent = 'Poll Code'
 
 
-            document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+            //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, ' ');
+
+            // on console instead
+            let details = document.getElementById('quickstart-account-details').textContent;
+            details = JSON.stringify(user, null, ' ');
+            console.log(details)
             // [END_EXCLUDE]
         } else {
             // User is signed out.
@@ -56,9 +61,9 @@ function initApp() {
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
             document.getElementById('quickstart-sign-in').textContent = 'Sign in';
 
-            document.getElementById('quickstart-poll-enter').textContent = 'null'
+            document.getElementById('quickstart-poll-enter').textContent = '';
 
-            document.getElementById('quickstart-account-details').textContent = 'null';
+            document.getElementById('quickstart-account-details').textContent = '';
             // [END_EXCLUDE]
         }
         // [START_EXCLUDE]
