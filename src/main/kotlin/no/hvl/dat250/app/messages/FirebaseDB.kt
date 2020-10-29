@@ -34,7 +34,7 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
     map["firstVotes"] = firstVotes
     map["secondVotes"] = secondVotes
     val id = poll.id
-    val PUT_URL = "https://DAT250-Gr-2-H2020-APP.firebaseio.com/rest/closed-votes/$id/votes.json"
+    val PUT_URL = "https://DAT250-Gr-2-H2020-APP.firebaseio.com/rest/closed-polls/$id.json"
     val request = HttpRequest
       .newBuilder()
       .uri(URI.create(PUT_URL))
