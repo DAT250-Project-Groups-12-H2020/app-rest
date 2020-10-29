@@ -17,6 +17,10 @@ import java.net.http.HttpResponse.BodyHandlers
 class FirebaseDB(@Autowired val mapper: ObjectMapper) {
 
   private val HTTP_CLIENT = HttpClient.newBuilder().version(HTTP_2).build()
+
+  /**
+   * store a poll as json in the firebase 'realtime database'
+   */
   fun storePoll(poll: Poll) {
     val map = processPoll(poll)
     val firstVotes = poll.votes.sumOf { it.firstVotes }
@@ -37,7 +41,6 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
       .header("Content-Type", "application/json")
       .POST(BodyPublishers.ofString(mapper.writeValueAsString(map)))
       .build()
-
     HTTP_CLIENT.send(request, BodyHandlers.ofString())
   }
   private fun processPoll(poll: Poll): MutableMap<String, Any?> {
