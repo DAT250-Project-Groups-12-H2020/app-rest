@@ -2,36 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp login</title>
+    <title>FeedApp Total Votes</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style-em.css" />
+    <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
 
-    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-        <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
-            <h1 class="mdl-card__title-text">Anonymous Authentication</h1>
-        </div>
+    <div id="login_div" class="guest-div">
+        <h1>Poll Title</h1>
 
-        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-            <h2>Sign in anonymously.</h2>
+        <h3>Total votes:</h3>
+        <textarea id="total_votes_textarea" cols="40" rows="6" readonly="true" style="resize: none">
 
-            <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-in" name="signin">Sign in</button>
 
-            <div class="mdl-card__supporting-text_idk mdl-color-text--grey-600">
+            First answer: 2
+            Second answer: 5
+        </textarea> <br><br>
+        <button onclick="pollvote()">Take this poll</button>
+    </div>
+        <!--
+    <script>
+        var toInsert = document.createElement("div");
+        toInsert.innerHTML = "Time remaining: 23 hours, 5 min";
+        toInsert.style.position = "absolute";
+        toInsert.style.bottom = "0px";
+        toInsert.style.textAlign = "center";
+        toInsert.style.width = "100%";
+        document.body.appendChild(toInsert);
+    </script>
+    -->
 
-                <button disabled class="ok" id="quickstart-poll-enter" name="enter" onclick="pollcode()"></button>
-            </div>
-            <!-- Container where we'll display the user details -->
-
-            <div class="quickstart-user-details-container">
-                Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-                <!--<div>Firebase auth <code>currentUser</code> object value:</div>-->
-                <pre><code id="quickstart-account-details"></code></pre>
-            </div>
-
-        </div>
-
+    <!-- wrong link under here -->
+    <div class="footer">
+        <p>Time remaining: 23 hours, 5 min. Back to <a href="polloverview.html">poll overview</a>.</p>
     </div>
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
@@ -60,7 +63,7 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="anon-em.js"></script>
+    <script src="../index.js"></script>
 
 </body>
 </html>

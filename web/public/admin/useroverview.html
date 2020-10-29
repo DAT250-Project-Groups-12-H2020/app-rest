@@ -2,52 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp Vote</title>
+    <title>FeedApp User Overview</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style-em.css" />
+    <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-    <!--
+
     <div id="login_div" class="guest-div">
-        <h1>Vote</h1>
-        <h2>Poll Title here</h2>
-
-        <button disabled id= "idtest" name="navn" onclick= "x()">Answer</button>
-        <button onclick="first()">First Answer</button>
-        <button onclick="second()">Second Answer</button>
-        <button onclick="sendvotes()">Send Votes</button>
-
+        <h1>User Overview</h1>
     </div>
-    -->
-    <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_radio
-    -->
-    <div id="login_div" class="guest-div">
-        <h1>Vote</h1>
-        <h2>Poll Title here</h2>
+    <table style="width:100%">
+        <tr>
+            <td onclick = "userinfo()" >Ola</td>
+            <td>Normal User</td>
+            <td>Inspect</td>
+            <td>Remove</td>
+        </tr>
+        <tr>
+            <td onclick="userinfo()">Tobias</td>
+            <td>Admin</td>
+            <td>Inspect</td>
+            <td>Remove</td>
+        </tr>
+        <tr>
+            <td onclick="userinfo()">Simen</td>
+            <td>Admin</td>
+            <td>Inspect</td>
+            <td>Remove</td>
+        </tr>
+        <tr>
+            <td onclick="userinfo()">Elg</td>
+            <td>Admin</td>
+            <td>Inspect</td>
+            <td>Remove</td>
+        </tr>
+        <tr>
+            <td onclick="userinfo()">Emily</td>
+            <td>Admin</td>
+            <td>Inspect</td>
+            <td>Remove</td>
+        </tr>
+    </table>
 
-        <label class="container"> Here is the first choice
-            <input type="radio" name="radio">
-            <span class="checkmark"></span>
-        </label>
-
-        <label class="container"> Here is the second choice
-            <input type="radio" name="radio">
-            <span class="checkmark"></span>
-        </label>
-        <!--
-        <input type="radio" id="first" name="choice" value="first">
-        <label for="first">First Answer</label>
-        <input type="radio" id="second" name="choice" value="second">
-        <label for="second">Second Answer</label><br>
-        -->
-        <button onclick="send_votes()">Send Vote</button>
+    <div id="poll_div" class="poll-overview-div">
+        <!-- knappen funker ikke-->
+        <button onclick="">Create new user</button>
     </div>
 
     <div class="footer">
-        <p style="margin: 0; display: inline;">Time remaining: </p>
-        <p style="color:red;margin: 0; display: inline;" align="right">3 min</p>
+        <p>Back to <a href="adminoverview.html">admin overview</a>.</p>
     </div>
-
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
@@ -75,7 +79,7 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="pollvote-em.js"></script>
+    <script src="../index.js"></script>
 
 </body>
 </html>

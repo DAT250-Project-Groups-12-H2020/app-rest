@@ -2,20 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp Vote</title>
+    <title>FeedApp login</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style-em.css" />
+    <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
 
-    <div id="login_div" class="guest-div">
-        <h1>Thank you for voting!</h1>
-        <h3> For more, click here: </h3>
-        <button onclick="more_polls()">Other Polls</button>
-        <h3> To log in, click here: </h3>
-        <button onclick="index()">Start Menu</button>
-        <h3> To look at poll results, click here: </h3>
-        <button onclick="pollfeedback()">Results</button>
+    <div id="login_div" class="main-div">
+        <h1>Welcome as Admin</h1>
+        <p>Choose what you want to do:</p>
+
+        <button onclick="poll_overview()">Poll Overview as Admin</button>
+        <button onclick="user_overview()">User Overview</button>
+
+    </div>
+
+    <div class="footer">
+        <p>Back to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
     </div>
 
 
@@ -45,7 +48,6 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="pollvote-em.js"></script>
-
+    <script src="adminoverview.js"></script>
 </body>
 </html>

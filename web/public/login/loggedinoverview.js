@@ -27,15 +27,15 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 function poll_overview(){
-    location.href = "../poll/polloverview-em.html";
+    location.href = "../poll/polloverview.html";
 }
 
 function poll_code(){
-    location.href = "../poll/pollcode-em.html";
+    location.href = "../poll/pollcode.html";
 }
 
 function admin_overview(){
-    location.href = "../admin/adminoverview-em.html";
+    location.href = "../admin/adminoverview.html";
 
 }
 

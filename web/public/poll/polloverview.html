@@ -2,22 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp Poll Code</title>
+    <title>FeedApp Poll Overview</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style-em.css" />
+    <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
 
     <div id="login_div" class="guest-div">
-        <h1>FeedApp Poll Code</h1>
-        <input type="poll code" placeholder="Poll Code" id="poll_field"/>
-        <br><br>
-        <button onclick="pollvote()">Enter</button>
+        <h1>Poll Overview</h1>
+    </div>
+
+    <input type="checkbox" id="private" name="private" value="private">
+    <label for="private">View your own polls only</label><br>
+        <table style="width:100%">
+            <tr>
+                <th>Poll Title</th>
+                <th>Owner</th>
+            </tr>
+            <tr>
+                <td onclick="pollfeedback()">Example Poll One</td>
+                <td>Huey</td>
+            </tr>
+            <tr>
+                <td onclick="pollfeedback()">Example Poll Two</td>
+                <td>Dewey</td>
+            </tr>
+            <tr>
+                <td onclick="pollfeedback()">Example Poll Three</td>
+                <td>Louie</td>
+            </tr>
+            <tr>
+                <td onclick="pollfeedback()">Example Poll Four</td>
+                <td>Huey</td>
+            </tr>
+        </table>
+
+    <div id="poll_div" class="poll-overview-div">
+        <button onclick="pollcreate()">Create Poll</button>
     </div>
 
     <div class="footer">
-    <p>Don't have poll code? <a href="../index-em.html">Log in/sign up</a> and get poll overview!</p>
+        <p>Back to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
     </div>
+
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
@@ -45,7 +72,7 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="../index-em.js"></script>
+    <script src="../index.js"></script>
 
 </body>
 </html>

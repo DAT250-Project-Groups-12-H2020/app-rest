@@ -48,17 +48,17 @@ window.onload = function() {
 
 
 function send_votes() {
-    location.href = "pollvotedone-em.html";
+    location.href = "pollvotedone.html";
 }
 function index() {
-    location.href = "../index-em.html";
+    location.href = "../index.html";
 
 }
 function more_polls() {
-    location.href = "pollcode-em.html";
+    location.href = "pollcode.html";
 }
 
 function pollfeedback(){
-    location.href = "pollfeedback-em.html"
+    location.href = "pollfeedback.html"
 
 }

@@ -82,5 +82,5 @@ window.onload = function() {
 };
 
 function pollcode(){
-    location.href = "../poll/pollcode-em.html";
+    location.href = "../poll/pollcode.html";
 }
