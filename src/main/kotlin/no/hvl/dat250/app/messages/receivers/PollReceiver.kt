@@ -25,6 +25,9 @@ class PollReceiver(
   }
 
   fun handleOpened(pollId: Long) {
+    /*
+    responds to opened poll message
+     */
     val poll = processPoll(pollId) ?: return
     dweet.sendOpenedDweet(poll)
     println("Poll opened: $pollId")

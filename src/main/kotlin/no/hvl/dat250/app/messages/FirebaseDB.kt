@@ -1,5 +1,4 @@
 package no.hvl.dat250.app.messages
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import no.hvl.dat250.app.dto.toResponse
 import no.hvl.dat250.app.model.Poll
@@ -19,7 +18,8 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
   private val HTTP_CLIENT = HttpClient.newBuilder().version(HTTP_2).build()
 
   /**
-   * store a poll as json in the firebase 'realtime database'
+   * store a poll as json in the firebase 'realtime database' using a PUT REST api request
+   * called when the poll is finished/end date expires
    */
   fun storePoll(poll: Poll) {
     val map = processPoll(poll)
@@ -43,6 +43,7 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
       .build()
     HTTP_CLIENT.send(request, BodyHandlers.ofString())
   }
+
   private fun processPoll(poll: Poll): MutableMap<String, Any?> {
     return mapper.convertValue(poll.toResponse(), Dweet.typeRef)
   }
