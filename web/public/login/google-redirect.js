@@ -34,14 +34,18 @@ function toggleSignIn() {
  *    the auth redirect flow. It is where you can get the OAuth access token from the IDP.
  */
 function initApp() {
+
     // Result from Redirect auth flow.
     // [START getidptoken]
     firebase.auth().getRedirectResult().then(function(result) {
         if (result.credential) {
+
             // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
+            let details = document.getElementById('quickstart-account-details').textContent;
+
+
             // [START_EXCLUDE]
-            document.getElementById('quickstart-oauthtoken').textContent = token;
+            document.getElementById('quickstart-oauthtoken').textContent = details;
         } else {
             document.getElementById('quickstart-oauthtoken').textContent = 'null';
             // [END_EXCLUDE]
@@ -85,9 +89,12 @@ function initApp() {
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
             // on console instead
-            let details = document.getElementById('quickstart-account-details').textContent;
-            details = JSON.stringify(user, null, ' ');
-            console.log(details)
+
+            let result = user.refreshToken;
+            console.log("Refresh token: " + result);
+
+            RESTLogin(user.refreshToken);
+
             // [END_EXCLUDE]
         } else {
             // User is signed out.

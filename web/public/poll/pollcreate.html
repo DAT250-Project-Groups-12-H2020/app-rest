@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <div id="login_div" class="guest-div">
+    <div>
         <h1>Create Poll</h1>
         <input type="poll code" placeholder="Poll Question" id="poll_question_field"/><br>
         <input type="poll code" placeholder="First Answer" id="first_ans_field"/><br>
@@ -23,7 +23,7 @@
             <input type="date" id="end" name="day">
         </form>
 
-        <input type="checkbox" id="private" name="private" value="private">
+        <input type="checkbox" id="private" name="private" value="false">
         <label for="private">Private</label><br>
 
         <button onclick="createPoll()" type="button">Create Poll</button>
@@ -34,7 +34,7 @@
     </div>
 
     <script>
-        let url = 'http://localhost:8080';
+        let url = 'http://localhost:8090';
 
         async function createPoll() {
             let pollQuestion = document.getElementById("poll_question_field");
@@ -48,9 +48,9 @@
                 "question":pollQuestion.value,
                 "firstAnswer":firstAnswer.value,
                 "secondAnswer":secondAnswer.value,
-                "private":private.value,
-                "startTime":startTime.value,
-                "endTime":endTime.value
+                "startDateTime":new Date(startTime.value).toISOString(),
+                "endDateTime":new Date(endTime.value).toISOString(),
+                "private":private.checked
             }
 
             if(pollQuestion.value === ""
@@ -60,35 +60,36 @@
                 || endTime.value === "") {
                 alert("Please make sure to fill in all fields");
             }else{
-                await pollPOST().then(response => {
-                    console.log('pollPOST await response here: ');
-                    console.log(response);
-                }).catch(e => {
-                    console.log('pollPOST catch e here: ');
-                    console.log(e);
-                });
+                pollPOST();
             }
+
+            function pollPOST(){
+                console.log(JSON.stringify(pollBody));
+                var requestOptions = {
+                    method: 'POST',
+                    redirect: 'follow',
+                    credentials: 'include',
+                    body: JSON.stringify(pollBody),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                fetch(url + '/api/v1/polls/create/', requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+
+            }
+
 
             async function pollGET() {
                 const response = await fetch(url + '/api/v1/polls/');
                 const json = await response.json();
             }
 
-            async function pollPOST() {
-                const response = await fetch(url + '/api/v1/polls/create/', {
-                    method: 'POST',
-                    mode: 'cors',
-                    body: pollBody,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                const json = await response.json();
-                return json;
-            }
         }
     </script>
-
 
 
     <!--The core Firebase JS SDK is always required and must be listed first-->
