@@ -20,6 +20,7 @@
         <button onclick="email_link()">Email & Link</button>
         <button onclick="guest()">Guest</button>
         <button onclick="google()">Google Sign-in</button>
+        <button onclick="REST_accounts_me()">REST accounts/me</button>
 
     </div>
     <!--
@@ -30,6 +31,26 @@
     </div>
     -->
 
+    <script>
+
+        //Copied from Postman: accounts/me
+        function REST_accounts_me(){
+            var myHeaders = new Headers();
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch("http://localhost:8090/api/v1/accounts/me", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        }
+
+    </script>
 
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
