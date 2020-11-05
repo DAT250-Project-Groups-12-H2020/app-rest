@@ -21,17 +21,17 @@
     -->
     <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_radio
     -->
-    <div id="login_div" class="guest-div">
-        <h1>Vote</h1>
-        <h2>Poll Title here</h2>
+    <div id="login_div"> <!-- class="guest-div" -->
+        <!-- <h1>Vote</h1> -->
+        <h2 id="poll_question">Poll Title here</h2>
 
-        <label class="container"> Here is the first choice
-            <input type="radio" name="radio">
-            <span class="checkmark"></span>
+        <label id = "first_choice" class="container"> Here is the first choice
+            <input id="first_checkbox" type="radio" name="radio">
+            <span class="checkmark"></span> <!-- checkbox? -->
         </label>
 
-        <label class="container"> Here is the second choice
-            <input type="radio" name="radio">
+        <label id = "second_choice" class="container"> Here is the second choice
+            <input id="second_checkbox" type="radio" name="radio">
             <span class="checkmark"></span>
         </label>
         <!--
@@ -48,6 +48,50 @@
         <p style="color:red;margin: 0; display: inline;" align="right">3 min</p>
     </div>
 
+    <script>
+        var url = "http://localhost:8090/";
+
+        let question = document.getElementById('poll_question');
+        let first_answer = document.getElementById('first_choice');
+        let second_answer = document.getElementById('second_choice');
+
+        let first_checkbox = document.getElementById('first_checkbox');
+        let second_checkbox = document.getElementById('second_checkbox');
+
+
+        // id of poll the user is voting on
+        let id = localStorage.getItem('id');
+        getPoll(id);
+
+
+        function getPoll(id) {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "api/v1/polls?id=" + id, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    let poll = JSON.parse(result);
+                    console.log(poll);
+
+                    question.innerText = poll.question;
+                    first_answer.innerText = poll.firstAnswer;
+                    second_answer.innerText = poll.secondAnswer;
+
+                    console.log("First value:");
+                    console.log(first_checkbox.checked);
+
+                    //Todo: Make checkbox work
+                })
+                .catch(error => console.log('error', error));
+
+
+        }
+
+    </script>
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>

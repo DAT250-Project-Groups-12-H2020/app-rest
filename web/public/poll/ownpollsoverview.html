@@ -13,9 +13,11 @@
 </div>
 
 
-<table id="testTable" style="width:100%">
+<table id="table" style="width:100%">
     <tr>
         <th>Poll Title</th>
+
+    <!--
     </tr>
     <tr>
         <td onclick="pollfeedback()">Example Poll One</td>
@@ -29,6 +31,7 @@
     <tr>
         <td onclick="pollfeedback()">Example Poll Four</td>
     </tr>
+    -->
 </table>
 
 <div id="poll_div" class="poll-overview-div">
@@ -89,22 +92,18 @@
         fetch(url + "api/v1/accounts/me", requestOptions)
             .then(response => response.text())
             .then(result => {
-            console.log(result);
             polls = JSON.parse(result).polls;
 
             // Find all polls that belong to the current user
             for(let i=0; i < polls.length; i++){
                 getPoll(polls[i].id);
             }
-            console.log("ownPolls:");
-            console.log(ownPolls);
-
             })
             .catch(error => console.log('error', error));
     }
 
     function getPoll(id){
-        let table = document.createElement('table');
+        let table = document.getElementById('table');
 
         var requestOptions = {
             method: 'GET',
@@ -116,16 +115,18 @@
             .then(response => response.text())
             .then(result => {
                 ownPolls.push(result);
-                console.log(ownPolls);
 
                 result = JSON.parse(result);
 
                 // Make tables - should ideally be done in its own method
 
-                table.insertRow();
-
                 // Todo: Use result.id to go to the poll when clicked
-                table.addEventListener('click', () => (console.log(result.id)));
+                table.insertRow().addEventListener('click', () => {
+                    // Store the id in localStorage so that it can be accessed from another page
+                    window.localStorage.setItem('id', result.id);
+                    //console.log(localStorage.getItem('id'));
+                    location.href = "pollvote.html";
+                });
 
                 let newCell = table.rows[table.rows.length - 1].insertCell();
 
@@ -145,8 +146,6 @@
             })
             .catch(error => console.log('error', error));
 
-        console.log("Ferdig table:");
-        console.log(table);
         document.body.appendChild(table);
     }
 
