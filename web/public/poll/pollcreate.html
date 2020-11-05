@@ -44,13 +44,24 @@
             let startTime = document.getElementById("start");
             let endTime = document.getElementById("end");
 
-            let pollBody = {
-                "question":pollQuestion.value,
-                "firstAnswer":firstAnswer.value,
-                "secondAnswer":secondAnswer.value,
-                "startDateTime":new Date(startTime.value).toISOString(),
-                "endDateTime":new Date(endTime.value).toISOString(),
-                "private":private.checked
+            let pollBody = {};
+
+            if(endTime.value === "" || startTime.value === "") {
+                pollBody = {
+                    "question": pollQuestion.value,
+                    "firstAnswer": firstAnswer.value,
+                    "secondAnswer": secondAnswer.value,
+                    "private": private.checked
+                }
+            }else{
+                    pollBody = {
+                        "question":pollQuestion.value,
+                        "firstAnswer":firstAnswer.value,
+                        "secondAnswer":secondAnswer.value,
+                        "startDateTime":new Date(startTime.value).toISOString(),
+                        "endDateTime":new Date(endTime.value).toISOString(),
+                        "private":private.checked
+                }
             }
 
             if(pollQuestion.value === ""
