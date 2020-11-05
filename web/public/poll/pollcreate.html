@@ -56,9 +56,8 @@
             if(pollQuestion.value === ""
                 || firstAnswer.value === ""
                 || secondAnswer.value === ""
-                || startTime.value === ""
-                || endTime.value === "") {
-                alert("Please make sure to fill in all fields");
+            ) {
+                alert("Please make sure to choose give a question and answers");
             }else{
                 pollPOST();
             }
@@ -79,15 +78,7 @@
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));
-
             }
-
-
-            async function pollGET() {
-                const response = await fetch(url + '/api/v1/polls/');
-                const json = await response.json();
-            }
-
         }
     </script>
 

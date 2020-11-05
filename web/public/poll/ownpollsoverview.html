@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FeedApp Poll Overview</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div id="login_div" class="guest-div">
+    <h1>Own polls</h1>
+</div>
+
+
+<table id="testTable" style="width:100%">
+    <tr>
+        <th>Poll Title</th>
+    </tr>
+    <tr>
+        <td onclick="pollfeedback()">Example Poll One</td>
+    </tr>
+    <tr>
+        <td onclick="pollfeedback()">Example Poll Two</td>
+    </tr>
+    <tr>
+        <td onclick="pollfeedback()">Example Poll Three</td>
+    </tr>
+    <tr>
+        <td onclick="pollfeedback()">Example Poll Four</td>
+    </tr>
+</table>
+
+<div id="poll_div" class="poll-overview-div">
+    <button onclick="pollcreate()">Create Poll</button>
+</div>
+
+<div class="footer">
+    <p>Back to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
+</div>
+
+
+<!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+<script>
+    //Yourwebapp'sFirebaseconfiguration
+    //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+        projectId: "dat250-gr-2-h2020-app",
+        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+        messagingSenderId: "851900401969",
+        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+        measurementId: "G-03WHQEL0R0"
+    };
+    //InitializeFirebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="../index.js"></script>
+<script>
+    var url = "http://localhost:8090/";
+
+    // Contains all polls belonging to the current user
+    var ownPolls = [];
+
+    window.onload = (event) => {
+        getOwnPolls();
+    };
+
+    function getOwnPolls(){
+        ownPolls = [];
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            credentials: 'include'
+        };
+
+        fetch(url + "api/v1/accounts/me", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+            console.log(result);
+            polls = JSON.parse(result).polls;
+
+            // Find all polls that belong to the current user
+            for(let i=0; i < polls.length; i++){
+                getPoll(polls[i].id);
+            }
+            console.log("ownPolls:");
+            console.log(ownPolls);
+
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function getPoll(id){
+        let table = document.createElement('table');
+
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            credentials: 'include'
+        };
+
+        fetch(url + "api/v1/polls?id=" + id, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                ownPolls.push(result);
+                console.log(ownPolls);
+
+                result = JSON.parse(result);
+
+                // Make tables - should ideally be done in its own method
+
+                table.insertRow();
+
+                // Todo: Use result.id to go to the poll when clicked
+                table.addEventListener('click', () => (console.log(result.id)));
+
+                let newCell = table.rows[table.rows.length - 1].insertCell();
+
+                // Get question from poll
+                let question = result.question;
+
+                // Set row to display question
+                newCell.textContent = question;
+
+                /*
+                // New column/cell to the right
+                let nC = table.rows[table.rows.length - 1].insertCell();
+                nC.textContent = "Til høgre for row";
+                 */
+
+
+            })
+            .catch(error => console.log('error', error));
+
+        console.log("Ferdig table:");
+        console.log(table);
+        document.body.appendChild(table);
+    }
+
+</script>
+
+</body>
+</html>
