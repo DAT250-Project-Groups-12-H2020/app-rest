@@ -16,7 +16,7 @@ class PollStatusScheduler(
 
   private var lastRan = OffsetDateTime.now()
 
-  @Scheduled(initialDelay = 1000, fixedRate = 10_000L)
+  @Scheduled(initialDelay = 1000, fixedRate = 300_000L)
   fun run() {
 
     val now = OffsetDateTime.now()
