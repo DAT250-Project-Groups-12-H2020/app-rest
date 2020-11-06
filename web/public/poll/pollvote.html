@@ -25,15 +25,30 @@
         <!-- <h1>Vote</h1> -->
         <h2 id="poll_question">Poll Title here</h2>
 
+        <!--
         <label id = "first_choice" class="container"> Here is the first choice
             <input id="first_checkbox" type="radio" name="radio">
-            <span class="checkmark"></span> <!-- checkbox? -->
+            <span class="checkmark"></span>
         </label>
 
         <label id = "second_choice" class="container"> Here is the second choice
             <input id="second_checkbox" type="radio" name="radio">
             <span class="checkmark"></span>
         </label>
+        -->
+
+        <form id="ans" action="/action_page.php">
+            <p>Please select your gender:</p>
+            <input type="radio" id="radio_first" name="answer">
+            <label id="first_answer">Option 1</label>
+            <br>
+            <!-- <label for="first_answer">First</label><br> -->
+            <input type="radio" id="radio_second" name="answer">
+            <label id="second_answer">Option 1</label>
+            <!-- <label for="second_answer">Second</label><br> -->
+        </form>
+
+
         <!--
         <input type="radio" id="first" name="choice" value="first">
         <label for="first">First Answer</label>
@@ -45,19 +60,18 @@
 
     <div class="footer">
         <p style="margin: 0; display: inline;">Time remaining: </p>
-        <p style="color:red;margin: 0; display: inline;" align="right">3 min</p>
+        <p id="time_remaining" style="color:red;margin: 0; display: inline;" align="right">3 min</p>
     </div>
 
     <script>
         var url = "http://localhost:8090/";
 
         let question = document.getElementById('poll_question');
-        let first_answer = document.getElementById('first_choice');
-        let second_answer = document.getElementById('second_choice');
 
-        let first_checkbox = document.getElementById('first_checkbox');
-        let second_checkbox = document.getElementById('second_checkbox');
+        //let first_checkbox = document.getElementById('first_checkbox');
+        //let second_checkbox = document.getElementById('second_checkbox');
 
+        let time_remaining = document.getElementById('time_remaining');
 
         // id of poll the user is voting on
         let id = localStorage.getItem('id');
@@ -78,13 +92,31 @@
                     console.log(poll);
 
                     question.innerText = poll.question;
-                    first_answer.innerText = poll.firstAnswer;
-                    second_answer.innerText = poll.secondAnswer;
 
-                    console.log("First value:");
-                    console.log(first_checkbox.checked);
+                    document.getElementById('first_answer').innerText = poll.firstAnswer;
+                    document.getElementById('second_answer').innerText = poll.secondAnswer;
 
-                    //Todo: Make checkbox work
+                    if(poll.startDateTime == null && poll.endDateTime == null){
+                        time_remaining.innerText = "Always open";
+                        time_remaining.style.color = 'green';
+                    }else{
+                        // Todo: show time remaining, not just end date
+                        time_remaining.innerText = poll.endDateTime;
+                    }
+
+                    // Radio buttons
+                    let first_radio = document.getElementById('radio_first');
+                    let second_radio = document.getElementById('radio_second');
+
+                    first_radio.addEventListener('click', () => {
+                        console.log(poll.firstAnswer);
+                    });
+                    second_radio.addEventListener('click', () => {
+                        console.log(poll.secondAnswer);
+                    });
+
+                    // Todo: Send post request to update poll vote when pressing Send Vote button
+
                 })
                 .catch(error => console.log('error', error));
 

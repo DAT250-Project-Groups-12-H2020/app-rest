@@ -10,9 +10,9 @@
 
     <div id="login_div" class="guest-div">
         <h1>FeedApp Poll Code</h1>
-        <input type="poll code" placeholder="Poll Code" id="poll_field"/>
+        <input type="poll code" placeholder="Poll Code" id="poll_field" value=""/>
         <br><br>
-        <button onclick="pollvote()">Enter</button>
+        <button onclick="goToPoll()">Enter</button>
     </div>
 
     <div class="footer">
@@ -27,6 +27,44 @@
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+    <script>
+        var url = "http://localhost:8090/";
+
+        function goToPoll(){
+            let id = document.getElementById('poll_field').value;
+
+            // Bruker id som pollcode
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+            console.log(id);
+
+            fetch(url + "api/v1/polls?id=" + id, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+
+                    result = JSON.parse(result);
+                    console.log("status:");
+                    console.log(result.status);
+
+                    if(result.status == 404){
+                        // can't access poll with the id given
+                        alert("You can't access this poll");
+                    }else{
+                        // go to poll
+                        window.localStorage.setItem('id', result.id);
+                        location.href = "pollvote.html";
+                    }
+
+
+                })
+                .catch(error => console.log('error', error));
+        }
+
+    </script>
 
     <script>
         //Yourwebapp'sFirebaseconfiguration

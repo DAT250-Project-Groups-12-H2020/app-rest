@@ -120,15 +120,16 @@
 
                 // Make tables - should ideally be done in its own method
 
-                // Todo: Use result.id to go to the poll when clicked
-                table.insertRow().addEventListener('click', () => {
+                table.insertRow();
+
+                // Go to poll by clicking on the poll question
+                let newCell = table.rows[table.rows.length - 1].insertCell();
+                newCell.addEventListener('click', () => {
                     // Store the id in localStorage so that it can be accessed from another page
                     window.localStorage.setItem('id', result.id);
                     //console.log(localStorage.getItem('id'));
                     location.href = "pollvote.html";
                 });
-
-                let newCell = table.rows[table.rows.length - 1].insertCell();
 
                 // Get question from poll
                 let question = result.question;
@@ -136,11 +137,15 @@
                 // Set row to display question
                 newCell.textContent = question;
 
-                /*
+
                 // New column/cell to the right
                 let nC = table.rows[table.rows.length - 1].insertCell();
-                nC.textContent = "Til høgre for row";
-                 */
+                nC.textContent = "Edit";
+                nC.addEventListener('click', () => {
+                    //Todo: Go to page where you can edit poll
+                    console.log("Edit");
+                })
+
 
 
             })
