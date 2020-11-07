@@ -24,7 +24,7 @@
 
     <div class="footer">
         <p style="margin: 0; display: inline;">Time remaining: </p>
-        <p id="time_remaining" style="color:red;margin: 0; display: inline;" align="right">3 min</p>
+        <p id="time_remaining" style="color:black;margin: 0; display: inline;" align="right">3 min</p>
     </div>
 
     <script>
@@ -117,7 +117,6 @@
                         secondVotes = pollVotes[indexOfNewestId].secondVotes;
                     }
                     sendPollUpdate(firstVotes, secondVotes);
-                    location.href = "pollvotedone.html";
                 })
                 .catch(error => console.log('error', error));
         }
@@ -153,7 +152,10 @@
 
             fetch(url + "api/v1/polls/" + id + "/vote", requestOptions)
                 .then(response => response.text())
-                .then(result => console.log(result))
+                .then(result => {
+                    console.log(result)
+                    location.href = "pollvotedone.html";
+                })
                 .catch(error => console.log('error', error));
         }
 

@@ -33,6 +33,7 @@
                 credentials: 'include'
             };
 
+            console.log("id:" + id);
             fetch(url + "api/v1/polls?id=" + id, requestOptions)
                 .then(response => response.text())
                 .then(result => {
@@ -47,8 +48,15 @@
                     let indexOfNewestId = findIndexOfNewestId(pollVotes);
 
                     let totalVotesText = document.getElementById('total_votes_textarea');
-                    totalVotesText.innerText = poll.firstAnswer + ":" + pollVotes[indexOfNewestId].firstVotes;
-                    totalVotesText.value += '\r\n' + poll.secondAnswer + ":" + pollVotes[indexOfNewestId].secondVotes;
+
+                    console.log(pollVotes);
+                    if(pollVotes.length != 0){
+                        totalVotesText.innerText = poll.firstAnswer + ": " + pollVotes[indexOfNewestId].firstVotes;
+                        totalVotesText.value += '\r\n' + poll.secondAnswer + ": " + pollVotes[indexOfNewestId].secondVotes;
+                    }else{
+                        totalVotesText.innerText = poll.firstAnswer + ": " + 0;
+                        totalVotesText.value += '\r\n' + poll.secondAnswer + ": " + 0;
+                    }
 
                     let time_remaining = document.getElementById('time_remaining');
                     time_remaining.innerText = "Time remaining: " + poll.endDateTime;
