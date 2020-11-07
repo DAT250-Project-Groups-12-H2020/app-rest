@@ -7,39 +7,12 @@
     <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-    <!--
-    <div id="login_div" class="guest-div">
-        <h1>Vote</h1>
-        <h2>Poll Title here</h2>
-
-        <button disabled id= "idtest" name="navn" onclick= "x()">Answer</button>
-        <button onclick="first()">First Answer</button>
-        <button onclick="second()">Second Answer</button>
-        <button onclick="sendvotes()">Send Votes</button>
-
-    </div>
-    -->
-    <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_radio
-    -->
     <div id="login_div"> <!-- class="guest-div" -->
         <!-- <h1>Vote</h1> -->
         <h2 id="poll_question">Poll Title here</h2>
 
-        <!--
-        <label id = "first_choice" class="container"> Here is the first choice
-            <input id="first_checkbox" type="radio" name="radio">
-            <span class="checkmark"></span>
-        </label>
-
-        <label id = "second_choice" class="container"> Here is the second choice
-            <input id="second_checkbox" type="radio" name="radio">
-            <span class="checkmark"></span>
-        </label>
-        -->
-
         <form id="ans" action="/action_page.php">
-            <p>Please select your gender:</p>
-            <input type="radio" id="radio_first" name="answer">
+            <input type="radio" id="radio_first" name="answer" checked="true">
             <label id="first_answer">Option 1</label>
             <br>
             <!-- <label for="first_answer">First</label><br> -->
@@ -48,14 +21,7 @@
             <!-- <label for="second_answer">Second</label><br> -->
         </form>
 
-
-        <!--
-        <input type="radio" id="first" name="choice" value="first">
-        <label for="first">First Answer</label>
-        <input type="radio" id="second" name="choice" value="second">
-        <label for="second">Second Answer</label><br>
-        -->
-        <button onclick="send_votes()">Send Vote</button>
+        <button onclick="sendVote(localStorage.getItem('id'))">Send Vote</button>
     </div>
 
     <div class="footer">
@@ -65,20 +31,17 @@
 
     <script>
         var url = "http://localhost:8090/";
+        let vote = "first";
 
         let question = document.getElementById('poll_question');
-
-        //let first_checkbox = document.getElementById('first_checkbox');
-        //let second_checkbox = document.getElementById('second_checkbox');
-
         let time_remaining = document.getElementById('time_remaining');
 
         // id of poll the user is voting on
         let id = localStorage.getItem('id');
-        getPoll(id);
+        getPollAndShowIt(id);
 
 
-        function getPoll(id) {
+        function getPollAndShowIt(id) {
             var requestOptions = {
                 method: 'GET',
                 redirect: 'follow',
@@ -109,18 +72,85 @@
                     let second_radio = document.getElementById('radio_second');
 
                     first_radio.addEventListener('click', () => {
-                        console.log(poll.firstAnswer);
+                        vote = "first";
                     });
                     second_radio.addEventListener('click', () => {
-                        console.log(poll.secondAnswer);
+                        vote = "second";
                     });
-
-                    // Todo: Send post request to update poll vote when pressing Send Vote button
-
                 })
                 .catch(error => console.log('error', error));
+        }
 
+        function sendVote(id) {
+            let firstVotes = 0;
+            let secondVotes = 0;
 
+            // Get votes from poll
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "api/v1/polls?id=" + id, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    let poll = JSON.parse(result);
+                    pollVotes = poll.votes;
+
+                    let indexOfNewestId = 0;
+                    let newestId = 0;
+
+                    // Find newest vote id and its index
+                    for(let i = 0; i < pollVotes.length; i++){
+                        if(pollVotes[i].id > newestId){
+                            indexOfNewestId = i;
+                            newestId = pollVotes[i].id;
+                        }
+                    }
+
+                    if (pollVotes.length != 0) {
+                        // Poll has been voted on before
+                        firstVotes = pollVotes[indexOfNewestId].firstVotes;
+                        secondVotes = pollVotes[indexOfNewestId].secondVotes;
+                    }
+                    sendPollUpdate(firstVotes, secondVotes);
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        function sendPollUpdate(firstVotes, secondVotes){
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            console.log("Before:");
+            console.log(firstVotes);
+            console.log(secondVotes);
+
+            if(vote == "first"){
+                firstVotes = firstVotes + 1;
+            }else if(vote == "second"){
+                secondVotes = secondVotes + 1;
+            }
+
+            console.log("After:");
+            console.log(firstVotes);
+            console.log(secondVotes);
+
+            var raw = JSON.stringify({"firstVotes":firstVotes,"secondVotes":secondVotes});
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "api/v1/polls/" + id + "/vote", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
         }
 
     </script>
