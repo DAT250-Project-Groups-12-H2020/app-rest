@@ -13,6 +13,8 @@ import no.hvl.dat250.app.service.AccountService
 import no.hvl.dat250.app.service.PollService
 import no.hvl.dat250.app.service.VoteService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -73,5 +75,25 @@ class PollController {
     accountService.removePoll(poll)
     pollService.delete(id)
     return poll.toResponse()
+  }
+
+  @GetMapping("/public/active")
+  fun getActivePublicPolls(page: Pageable): Page<PollResponse> {
+    return pollService.getActivePublicPolls(page).map { it.toResponse() }
+  }
+
+  @GetMapping("/public")
+  fun getAllPublicPolls(page: Pageable): Page<PollResponse> {
+    return pollService.getAllPublicPolls(page).map { it.toResponse() }
+  }
+
+  @GetMapping("/private/active")
+  fun getActivePublicAndPrivatePolls(page: Pageable): Page<PollResponse> {
+    return pollService.getActivePolls(page).map { it.toResponse() }
+  }
+
+  @GetMapping("/private")
+  fun getAllPublicAndPrivatePolls(page: Pageable): Page<PollResponse> {
+    return pollService.getAllPolls(page).map { it.toResponse() }
   }
 }

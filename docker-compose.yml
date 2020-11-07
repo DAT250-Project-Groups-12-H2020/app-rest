@@ -1,5 +1,20 @@
-rabbitmq:
-  image: rabbitmq:management
-  ports:
-    - "5672:5672"
-    - "15672:15672"
+version: "3.7"
+services:
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=87df20a6b2a8440007b601cab55e15dd7b37a6a01add83e7cea97767adc3dea3
+      - POSTGRES_DB=feedapp
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+volumes:
+  db-data:
+    driver: local

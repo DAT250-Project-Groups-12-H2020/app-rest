@@ -32,8 +32,8 @@ dependencies {
   implementation("com.google.firebase:firebase-admin:7.0.0")
   implementation("org.projectlombok:lombok")
   implementation("org.springframework.boot:spring-boot-starter-amqp")
+  implementation("org.postgresql:postgresql:42.2.18")
 
-  runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test") {
     exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
   }
@@ -74,7 +74,7 @@ spotless {
     ktlint("0.39.0").userData(mapOf(
       "indent_size" to "2",
       "continuation_indent_size" to "2",
-      "max_line_length" to "120"
+      "max_line_length" to "160"
     ))
   }
 }

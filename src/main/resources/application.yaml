@@ -3,8 +3,17 @@ server:
   error:
     include-stacktrace: never
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/feedapp
+    password: 87df20a6b2a8440007b601cab55e15dd7b37a6a01add83e7cea97767adc3dea3
+    username: admin
   jpa:
     show-sql: true
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.PostgreSQL9Dialect"
+        hbm2ddl:
+          auto: update
 security:
   firebase-props:
     database-url: ${FIREBASE_DATABASE}
@@ -49,6 +58,8 @@ security:
     - /api/v1/session/login
     - /api/v1/polls
     - /api/v1/polls/*/vote
+    - /api/v1/polls/public
+    - /api/v1/polls/public/*
     - /api/v1/accounts
   exposed-headers:
     - X-Xsrf-Token
