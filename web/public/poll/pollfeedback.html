@@ -59,7 +59,11 @@
                     }
 
                     let time_remaining = document.getElementById('time_remaining');
-                    time_remaining.innerText = "Time remaining: " + poll.endDateTime;
+                    if(poll.endDateTime == null){
+                        time_remaining.innerText = "Time remaining: Unlimited";
+                    } else{
+                        time_remaining.innerText = "Time remaining: " + poll.endDateTime;
+                    }
                 })
                 .catch(error => console.log('error', error));
         }

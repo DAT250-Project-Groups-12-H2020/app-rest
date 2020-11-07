@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FeedApp Edit Poll</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div>
+    <h1>Edit Poll</h1>
+    <input type="poll code" id="poll_question_field"/><br>
+    <input type="poll code" id="first_ans_field"/><br>
+    <input type="poll code" id="second_ans_field"/><br>
+
+    <form> <!--<form action="/action_page.php">-->
+        <label for="start">Select Start time:</label>
+        <input type="date" id="start" name="day">
+    </form>
+    <form>
+        <label for="end">Select End time:</label>
+        <input type="date" id="end" name="day">
+    </form>
+
+    <input type="checkbox" id="private" name="private" value="false">
+    <label for="private">Private</label><br>
+
+    <button onclick="editPoll()" type="button">Edit Poll</button>
+</div>
+
+<div class="footer">
+    <p>Back to <a href="ownpollsoverview.html">poll overview</a>.</p>
+</div>
+
+<script>
+    let url = 'http://localhost:8090';
+    let id = window.localStorage.getItem('id');
+
+    let pollQuestion = document.getElementById("poll_question_field");
+    let firstAnswer = document.getElementById("first_ans_field");
+    let secondAnswer = document.getElementById("second_ans_field");
+    let private = document.getElementById("private");
+    let startTime = document.getElementById("start");
+    let endTime = document.getElementById("end");
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        credentials: 'include'
+    };
+
+    fetch(url + "/api/v1/polls?id=" + id, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            poll = JSON.parse(result);
+
+            pollQuestion.value = poll.question;
+            firstAnswer.value = poll.firstAnswer;
+            secondAnswer.value = poll.secondAnswer;
+            private.checked = poll.private;
+
+            // Todo: Make previously picked date show
+            startTime.innerText = poll.startDateTime;
+            endTime.innerHTML = poll.endDateTime;
+        })
+        .catch(error => console.log('error', error));
+
+
+    function editPoll() {
+        let pollBody = {};
+
+        if (endTime.value === "" || startTime.value === "") {
+            pollBody = {
+                "question": pollQuestion.value,
+                "firstAnswer": firstAnswer.value,
+                "secondAnswer": secondAnswer.value,
+                "private": private.checked,
+                "startDateTime": new Date(Date.now()).toISOString()
+            }
+        } else {
+            pollBody = {
+                "question": pollQuestion.value,
+                "firstAnswer": firstAnswer.value,
+                "secondAnswer": secondAnswer.value,
+                "startDateTime": new Date(startTime.value).toISOString(),
+                "endDateTime": new Date(endTime.value).toISOString(),
+                "private": private.checked
+            }
+        }
+
+        if (pollQuestion.value === ""
+            || firstAnswer.value === ""
+            || secondAnswer.value === ""
+        ) {
+            alert("Please make sure to choose give a question and answers");
+        } else {
+            pollPUT();
+        }
+
+        function pollPUT() {
+            var requestOptions = {
+                method: 'PUT',
+                body: JSON.stringify(pollBody),
+                redirect: 'follow',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            fetch(url + "/api/v1/polls/" + id, requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        }
+    }
+</script>
+
+
+<!--The core Firebase JS SDK is always required and must be listed first-->
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+<script>
+    // Your webapp's Firebase configuration
+    //For Firebase JS SDK v7.20.0 and later, measurement Id is optional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+        projectId: "dat250-gr-2-h2020-app",
+        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+        messagingSenderId: "851900401969",
+        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+        measurementId: "G-03WHQEL0R0"
+    };
+    //Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="pollvote.js"></script>
+
+</body>
+</html>

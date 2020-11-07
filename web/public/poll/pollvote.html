@@ -62,7 +62,11 @@
                         time_remaining.style.color = 'green';
                     }else{
                         // Todo: show time remaining, not just end date
-                        time_remaining.innerText = poll.endDateTime;
+                        if(poll.endDateTime == null){
+                            time_remaining.innerText = "Unlimited";
+                        }else{
+                            time_remaining.innerText = poll.endDateTime;
+                        }
                     }
 
                     // Radio buttons
