@@ -27,6 +27,8 @@
     <label for="private">Private</label><br>
 
     <button onclick="editPoll()" type="button">Edit Poll</button>
+    <br><br>
+    <button onclick="deletePoll()" type="button" style="color: red">Delete Poll</button>
 </div>
 
 <div class="footer">
@@ -95,25 +97,39 @@
         ) {
             alert("Please make sure to choose give a question and answers");
         } else {
-            pollPUT();
+            pollPUT(pollBody);
         }
+    }
+    function pollPUT(pollBody) {
+        var requestOptions = {
+            method: 'PUT',
+            body: JSON.stringify(pollBody),
+            redirect: 'follow',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
 
-        function pollPUT() {
-            var requestOptions = {
-                method: 'PUT',
-                body: JSON.stringify(pollBody),
-                redirect: 'follow',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
+        fetch(url + "/api/v1/polls/" + id, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+</script>
 
-            fetch(url + "/api/v1/polls/" + id, requestOptions)
-                .then(response => response.text())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
-        }
+<script>
+    function deletePoll(){
+        var requestOptions = {
+            method: 'DELETE',
+            redirect: 'follow',
+            credentials: 'include'
+        };
+
+        fetch(url + "/api/v1/polls/" + id, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     }
 </script>
 
