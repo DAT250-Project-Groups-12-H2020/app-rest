@@ -15,10 +15,8 @@
             <input type="radio" id="radio_first" name="answer" checked="true">
             <label id="first_answer">Option 1</label>
             <br>
-            <!-- <label for="first_answer">First</label><br> -->
             <input type="radio" id="radio_second" name="answer">
             <label id="second_answer">Option 1</label>
-            <!-- <label for="second_answer">Second</label><br> -->
         </form>
 
         <button onclick="sendVote(localStorage.getItem('id'))">Send Vote</button>
@@ -81,6 +79,19 @@
                 .catch(error => console.log('error', error));
         }
 
+        function findIndexOfNewestId(pollVotes){
+            let indexOfNewestId = 0;
+            let newestId = 0;
+
+            for(let i = 0; i < pollVotes.length; i++){
+                if(pollVotes[i].id > newestId){
+                    indexOfNewestId = i;
+                    newestId = pollVotes[i].id;
+                }
+            }
+            return indexOfNewestId;
+        }
+
         function sendVote(id) {
             let firstVotes = 0;
             let secondVotes = 0;
@@ -96,18 +107,9 @@
                 .then(response => response.text())
                 .then(result => {
                     let poll = JSON.parse(result);
-                    pollVotes = poll.votes;
+                    let pollVotes = poll.votes;
 
-                    let indexOfNewestId = 0;
-                    let newestId = 0;
-
-                    // Find newest vote id and its index
-                    for(let i = 0; i < pollVotes.length; i++){
-                        if(pollVotes[i].id > newestId){
-                            indexOfNewestId = i;
-                            newestId = pollVotes[i].id;
-                        }
-                    }
+                    let indexOfNewestId = findIndexOfNewestId(pollVotes);
 
                     if (pollVotes.length != 0) {
                         // Poll has been voted on before
@@ -115,9 +117,11 @@
                         secondVotes = pollVotes[indexOfNewestId].secondVotes;
                     }
                     sendPollUpdate(firstVotes, secondVotes);
+                    location.href = "pollvotedone.html";
                 })
                 .catch(error => console.log('error', error));
         }
+
 
         function sendPollUpdate(firstVotes, secondVotes){
             var myHeaders = new Headers();

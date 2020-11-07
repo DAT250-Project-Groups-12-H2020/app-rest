@@ -9,9 +9,9 @@
 <body>
 
     <div id="login_div" class="guest-div">
-        <h1>Poll Title</h1>
+        <h1 id="poll_question">Poll Question here</h1>
 
-        <h3>Total votes:</h3>
+        <h4>Total votes:</h4>
         <textarea id="total_votes_textarea" cols="40" rows="6" readonly="true" style="resize: none">
 
 
@@ -20,6 +20,65 @@
         </textarea> <br><br>
         <button onclick="pollvote()">Take this poll</button>
     </div>
+
+    <script>
+        var url = "http://localhost:8090/";
+        let id = window.localStorage.getItem('id');
+        getPoll(id);
+
+        function getPoll(id){
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "api/v1/polls?id=" + id, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    let poll = JSON.parse(result);
+                    console.log(poll);
+
+                    let question = document.getElementById('poll_question');
+                    question.innerText = poll.question;
+
+                    let pollVotes = poll.votes;
+                    let indexOfNewestId = findIndexOfNewestId(pollVotes);
+
+                    let totalVotesText = document.getElementById('total_votes_textarea');
+                    totalVotesText.innerText = poll.firstAnswer + ":" + pollVotes[indexOfNewestId].firstVotes;
+                    totalVotesText.value += '\r\n' + poll.secondAnswer + ":" + pollVotes[indexOfNewestId].secondVotes;
+
+                    let time_remaining = document.getElementById('time_remaining');
+                    time_remaining.innerText = "Time remaining: " + poll.endDateTime;
+                })
+                .catch(error => console.log('error', error));
+        }
+
+
+        function findIndexOfNewestId(pollVotes){
+            let indexOfNewestId = 0;
+            let newestId = 0;
+
+            for(let i = 0; i < pollVotes.length; i++){
+                if(pollVotes[i].id > newestId){
+                    indexOfNewestId = i;
+                    newestId = pollVotes[i].id;
+                }
+            }
+            return indexOfNewestId;
+        }
+
+    </script>
+
+
+
+
+
+
+
+
         <!--
     <script>
         var toInsert = document.createElement("div");
@@ -32,8 +91,7 @@
     </script>
     -->
 
-    <!-- wrong link under here -->
-    <div class="footer">
+    <div id="time_remaining" class="footer">
         <p>Time remaining: 23 hours, 5 min. Back to <a href="polloverview.html">poll overview</a>.</p>
     </div>
 
