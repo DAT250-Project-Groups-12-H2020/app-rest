@@ -30,7 +30,7 @@
     </div>
 
     <div class="footer">
-        <p>Back to <a href="polloverview.html">poll overview</a>.</p>
+        <p>Back to <a href="ownpollsoverview.html">poll overview</a>.</p>
     </div>
 
     <script>
@@ -51,7 +51,8 @@
                     "question": pollQuestion.value,
                     "firstAnswer": firstAnswer.value,
                     "secondAnswer": secondAnswer.value,
-                    "private": private.checked
+                    "private": private.checked,
+                    "startDateTime":new Date(Date.now()).toISOString()
                 }
             }else{
                     pollBody = {
