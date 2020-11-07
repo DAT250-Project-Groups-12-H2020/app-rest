@@ -32,8 +32,8 @@ dependencies {
   implementation("com.google.firebase:firebase-admin:7.0.0")
   implementation("org.projectlombok:lombok")
   implementation("org.springframework.boot:spring-boot-starter-amqp")
+  implementation("org.postgresql:postgresql:42.2.18")
 
-  runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test") {
     exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
   }
