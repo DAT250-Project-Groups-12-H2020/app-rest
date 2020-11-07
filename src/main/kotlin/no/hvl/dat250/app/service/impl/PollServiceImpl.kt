@@ -2,10 +2,8 @@ package no.hvl.dat250.app.service.impl
 
 import no.hvl.dat250.app.dto.PollCreateRequest
 import no.hvl.dat250.app.dto.PollRequest
-import no.hvl.dat250.app.dto.PollResponse
 import no.hvl.dat250.app.dto.toPoll
-import no.hvl.dat250.app.dto.toResponse
-import no.hvl.dat250.app.exception.InvalidPoll
+import no.hvl.dat250.app.exception.InvalidPollException
 import no.hvl.dat250.app.exception.PollNotFoundException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.exception.PollNotPublicException
@@ -30,23 +28,27 @@ class PollServiceImpl : PollService {
   @Autowired
   private lateinit var accountService: AccountService
 
-  private fun validatePollTime(poll: Poll) {
+  private fun validatePollTime(currStart: OffsetDateTime?, currEnd: OffsetDateTime?, newStart: OffsetDateTime?, newEnd: OffsetDateTime?) {
     // Disallow ending or opening polls too far back, but do give some slack
     val lastValidTime = OffsetDateTime.now().minusMinutes(5)
 
-    val start = poll.startDateTime
-    val end = poll.endDateTime
-    if (start == null && end != null) {
-      throw InvalidPoll("A poll cannot have an end date time without a start date time")
+    if (currStart != null && newStart != null) {
+      throw InvalidPollException("Cannot change the start date time once entered")
+    } else if (currEnd != null && newEnd != null) {
+      throw InvalidPollException("Cannot change the end date time once entered")
     }
-    if (start != null && end != null && end.isBefore(start)) {
-      throw InvalidPoll("A poll cannot end before it starts")
+
+    if (currStart == null && newStart != null && newStart.isBefore(lastValidTime)) {
+      throw InvalidPollException("A polls start date time cannot be set to the past")
     }
-    if (start?.isBefore(lastValidTime) == true) {
-      throw InvalidPoll("A polls start date time cannot be set to the past")
-    }
-    if (end?.isBefore(lastValidTime) == true) {
-      throw InvalidPoll("A polls end date time cannot be set to the past")
+    if (currEnd == null && newEnd != null) {
+      if (newEnd.isBefore(lastValidTime)) {
+        throw InvalidPollException("A polls end date time cannot be set to the past")
+      }
+      val start = newStart ?: currStart ?: throw InvalidPollException("Cannot set an end date without a start date")
+      if (newEnd.isBefore(start)) {
+        throw InvalidPollException("A poll cannot end before it starts")
+      }
     }
   }
 
@@ -60,7 +62,7 @@ class PollServiceImpl : PollService {
 
   override fun createPoll(request: PollCreateRequest): Poll {
     val poll = request.toPoll()
-    validatePollTime(poll)
+    validatePollTime(null, null, poll.startDateTime, poll.endDateTime)
     return pollRepository.saveAndFlush(poll)
   }
 
@@ -74,6 +76,7 @@ class PollServiceImpl : PollService {
 
   override fun updatePoll(id: Long, request: PollRequest): Poll {
     val poll = getOwnedPoll(id)
+    validatePollTime(poll.startDateTime, poll.endDateTime, request.startDateTime, request.endDateTime)
 
     if (request.startDateTime != null) {
       poll.startDateTime = request.startDateTime
@@ -81,8 +84,6 @@ class PollServiceImpl : PollService {
     if (request.endDateTime != null) {
       poll.endDateTime = request.endDateTime
     }
-    validatePollTime(poll)
-
     if (request.question?.isNotBlank() == true) {
       poll.question = request.question
     }
@@ -100,5 +101,23 @@ class PollServiceImpl : PollService {
 
   override fun delete(id: Long) {
     pollRepository.delete(getOwnedPoll(id))
+  }
+
+  override fun getActivePublicPolls(page: Pageable): Page<Poll> {
+    val now = OffsetDateTime.now()
+    return pollRepository.findAllByPrivateFalseAndStartDateTimeBeforeAndEndDateTimeAfterOrEndDateTimeNull(now, now, page)
+  }
+
+  override fun getAllPublicPolls(page: Pageable): Page<Poll> {
+    return pollRepository.findAllByPrivateIsFalse(page)
+  }
+
+  override fun getActivePolls(page: Pageable): Page<Poll> {
+    val now = OffsetDateTime.now()
+    return pollRepository.findAllByStartDateTimeBeforeAndEndDateTimeAfterOrEndDateTimeNull(now, now, page)
+  }
+
+  override fun getAllPolls(page: Pageable): Page<Poll> {
+    return pollRepository.findAll(page)
   }
 }

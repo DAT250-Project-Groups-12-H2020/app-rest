@@ -74,7 +74,7 @@ spotless {
     ktlint("0.39.0").userData(mapOf(
       "indent_size" to "2",
       "continuation_indent_size" to "2",
-      "max_line_length" to "120"
+      "max_line_length" to "160"
     ))
   }
 }
