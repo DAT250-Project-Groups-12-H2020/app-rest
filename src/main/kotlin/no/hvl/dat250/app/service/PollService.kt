@@ -7,6 +7,8 @@ import no.hvl.dat250.app.exception.PollNotFoundException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.exception.PollNotPublicException
 import no.hvl.dat250.app.model.Poll
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 interface PollService {
@@ -35,4 +37,12 @@ interface PollService {
    * deletes a poll
    */
   fun delete(id: Long)
+
+  fun getActivePublicPolls(page: Pageable): Page<Poll>
+
+  fun getAllPublicPolls(page: Pageable): Page<Poll>
+
+  fun getActivePolls(page: Pageable): Page<Poll>
+
+  fun getAllPolls(page: Pageable): Page<Poll>
 }

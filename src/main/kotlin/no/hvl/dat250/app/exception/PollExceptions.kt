@@ -14,3 +14,6 @@ class PollNotPublicException(id: Long) : RuntimeException("The poll $id is not p
 
 @ResponseStatus(HttpStatus.FORBIDDEN)
 class PollNotOwnedByUserException(id: Long) : RuntimeException("You do not own the poll $id")
+
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class InvalidPollException(message: String) : RuntimeException(message)
