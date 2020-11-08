@@ -14,21 +14,26 @@
     <input type="poll code" id="first_ans_field"/><br>
     <input type="poll code" id="second_ans_field"/><br>
 
-    <form> <!--<form action="/action_page.php">-->
+    <!--
+    <form>
         <label for="start">Select Start time:</label>
         <input type="date" id="start" name="day">
     </form>
+
     <form>
         <label for="end">Select End time:</label>
         <input type="date" id="end" name="day">
     </form>
+    -->
+
+    <label id="time_remaining">Time remaining: </label><br>
 
     <input type="checkbox" id="private" name="private" value="false">
     <label for="private">Private</label><br>
 
     <button onclick="editPoll()" type="button">Edit Poll</button>
     <br><br>
-    <button onclick="deletePoll()" type="button" style="color: red">Delete Poll</button>
+    <button onclick="deletePoll()" type="button" style="color: #ff0000">Delete Poll</button>
 </div>
 
 <div class="footer">
@@ -43,8 +48,6 @@
     let firstAnswer = document.getElementById("first_ans_field");
     let secondAnswer = document.getElementById("second_ans_field");
     let private = document.getElementById("private");
-    let startTime = document.getElementById("start");
-    let endTime = document.getElementById("end");
 
     var requestOptions = {
         method: 'GET',
@@ -62,40 +65,28 @@
             secondAnswer.value = poll.secondAnswer;
             private.checked = poll.private;
 
-            // Todo: Make previously picked date show
-            startTime.innerText = poll.startDateTime;
-            endTime.innerHTML = poll.endDateTime;
+            if(poll.endDateTime == null){
+                document.getElementById('time_remaining').innerText = "Time remaining: " + "Unlimited";
+            }else{
+                document.getElementById('time_remaining').innerText = "Time remaining: " + poll.endDateTime;
+            }
         })
         .catch(error => console.log('error', error));
 
 
     function editPoll() {
-        let pollBody = {};
-
-        if (endTime.value === "" || startTime.value === "") {
-            pollBody = {
-                "question": pollQuestion.value,
-                "firstAnswer": firstAnswer.value,
-                "secondAnswer": secondAnswer.value,
-                "private": private.checked,
-                "startDateTime": new Date(Date.now()).toISOString()
-            }
-        } else {
-            pollBody = {
-                "question": pollQuestion.value,
-                "firstAnswer": firstAnswer.value,
-                "secondAnswer": secondAnswer.value,
-                "startDateTime": new Date(startTime.value).toISOString(),
-                "endDateTime": new Date(endTime.value).toISOString(),
-                "private": private.checked
-            }
+        let pollBody = {
+            "question": pollQuestion.value,
+            "firstAnswer": firstAnswer.value,
+            "secondAnswer": secondAnswer.value,
+            "private": private.checked,
         }
 
         if (pollQuestion.value === ""
             || firstAnswer.value === ""
             || secondAnswer.value === ""
         ) {
-            alert("Please make sure to choose give a question and answers");
+            alert("Please make sure to choose a question and answers");
         } else {
             pollPUT(pollBody);
         }
@@ -113,7 +104,10 @@
 
         fetch(url + "/api/v1/polls/" + id, requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result)
+                location.href = "ownpollsoverview.html";
+            })
             .catch(error => console.log('error', error));
     }
 </script>
@@ -128,7 +122,10 @@
 
         fetch(url + "/api/v1/polls/" + id, requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result)
+                location.href = "ownpollsoverview.html";
+            })
             .catch(error => console.log('error', error));
     }
 </script>

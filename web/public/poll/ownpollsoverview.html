@@ -17,6 +17,7 @@
     <tr>
         <th>Poll Title</th>
 
+
     <!--
     </tr>
     <tr>
@@ -73,16 +74,11 @@
 <script>
     var url = "http://localhost:8090/";
 
-    // Contains all polls belonging to the current user
-    var ownPolls = [];
-
     window.onload = (event) => {
         getOwnPolls();
     };
 
     function getOwnPolls(){
-        ownPolls = [];
-
         var requestOptions = {
             method: 'GET',
             redirect: 'follow',
@@ -114,28 +110,38 @@
         fetch(url + "api/v1/polls?id=" + id, requestOptions)
             .then(response => response.text())
             .then(result => {
-                ownPolls.push(result);
-
                 result = JSON.parse(result);
 
                 // Make tables - should ideally be done in its own method
-
                 table.insertRow();
 
                 // Go to poll by clicking on the poll question
                 let newCell = table.rows[table.rows.length - 1].insertCell();
                 newCell.addEventListener('click', () => {
-                    // Store the id in localStorage so that it can be accessed from another page
-                    window.localStorage.setItem('id', result.id);
-                    //console.log(localStorage.getItem('id'));
-                    location.href = "pollvote.html";
+                    if(isOpen(result)){
+                        // Store the id in localStorage so that it can be accessed from another page
+                        window.localStorage.setItem('id', result.id);
+                        //console.log(localStorage.getItem('id'));
+                        location.href = "pollvote.html";
+                    }
                 });
 
                 // Get question from poll
                 let question = result.question;
 
                 // Set row to display question
-                newCell.textContent = question;
+                newCell.textContent = "Question: " + question;
+                if(result.private){
+                    newCell.textContent += " [Private]";
+                }else{
+                    newCell.textContent += " [Public]";
+                }
+
+                if(isOpen(result)){
+                    newCell.style.color = "green";
+                }else{
+                    newCell.style.color = "red";
+                }
 
 
                 // New column/cell to the right
@@ -150,6 +156,12 @@
             .catch(error => console.log('error', error));
 
         document.body.appendChild(table);
+    }
+
+    function isOpen(result){
+        let start = new Date(result.startDateTime);
+        let now = new Date(Date.now());
+        return result.endDateTime == null || start <= now && result.endDateTime >= now;
     }
 
 </script>

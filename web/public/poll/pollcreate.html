@@ -48,8 +48,15 @@
 
             let now = new Date(Date.now());
 
+            let startDateChosen = new Date(startDate.value);
+            let endDateChosen = new Date(endDate.value);
+
+            let start_time = document.getElementById('start_time');
+            let end_time = document.getElementById('end_time');
+
             let pollBody = {};
 
+            let isDateChosen = false;
             if(endDate.value === "" || startDate.value === "") {
                 // Date is not chosen
                 pollBody = {
@@ -57,19 +64,29 @@
                     "firstAnswer": firstAnswer.value,
                     "secondAnswer": secondAnswer.value,
                     "private": private.checked,
-                    "startDateTime":new Date(now).toISOString()
+                    "startDateTime":now.toISOString()
                 }
             }else{
-                // Start date and end date is chosen
-                console.log(new Date(startDate.value).toISOString());
-                console.log(new Date(now).toISOString());
-                let startDateChosen = new Date(startDate.value).toISOString();
-                let endDateChosen = new Date(endDate.value).toISOString();
+                // Date is chosen
+                isDateChosen = true;
 
-                let start_time = document.getElementById('start_time');
-                let end_time = document.getElementById('end_time');
+                //Todo: Make a poll with date picked today at current time be an open poll
 
-                let isValidTimeInput = validateTimeInput(startDateChosen, start_time, endDateChosen, end_time);
+                let startTimeArr = start_time.value.toString().split(':');
+                let startHour = startTimeArr[0];
+                let startMinutes = startTimeArr[1];
+
+                let endTimeArr = end_time.value.toString().split(':');
+                let endHour = endTimeArr[0];
+                let endMinutes = endTimeArr[1];
+
+                startDateChosen.setHours(parseInt(startHour));
+                startDateChosen.setMinutes(parseInt(startMinutes));
+
+                endDateChosen.setHours(parseInt(endHour));
+                endDateChosen.setMinutes(parseInt(endMinutes));
+
+                let isValidTimeInput = validateTimeInput(startDateChosen, endDateChosen);
 
                 if(!isValidTimeInput){
                     alert("Time input is not valid");
@@ -91,7 +108,9 @@
                 || firstAnswer.value === ""
                 || secondAnswer.value === ""
             ) {
-                alert("Please make sure to choose give a question and answers");
+                alert("Please make sure to choose a question and answers");
+            }else if(isDateChosen && (start_time.value === "" || end_time.value === "")){
+                alert("Please choose time intervals");
             }else{
                 pollPOST();
             }
@@ -110,20 +129,21 @@
 
                 fetch(url + '/api/v1/polls/create/', requestOptions)
                     .then(response => response.text())
-                    .then(result => console.log(result))
+                    .then(result => {
+                        console.log(result)
+                        location.href = "ownpollsoverview.html";
+                    })
                     .catch(error => console.log('error', error));
             }
         }
 
 
-        function validateTimeInput(startDateChosen, start_time, endDateChosen, end_time){
-            let startTimeArr = start_time.value.toString().split(':');
-            let startHour = startTimeArr[0];
-            let startMinutes = startTimeArr[1];
+        function validateTimeInput(startDateChosen, endDateChosen){
+            let startHour = startDateChosen.getHours();
+            let startMinutes = startDateChosen.getMinutes();
 
-            let endTimeArr = end_time.value.toString().split(':');
-            let endHour = endTimeArr[0];
-            let endMinutes = endTimeArr[1];
+            let endHour = endDateChosen.getHours();
+            let endMinutes = endDateChosen.getMinutes();
 
             if(startDateChosen == endDateChosen){
                 if(startHour > endHour){
