@@ -15,12 +15,14 @@
         <input type="poll code" placeholder="Second Answer" id="second_ans_field"/><br>
 
         <form> <!--<form action="/action_page.php">-->
-            <label for="start">Select Start time:</label>
-            <input type="date" id="start" name="day">
+            <label for="start_date">Select Start time and date:</label>
+            <input type="date" id="start_date" name="day">
+            <input type="time" id="start_time" name="start_time">
         </form>
         <form>
-            <label for="end">Select End time:</label>
-            <input type="date" id="end" name="day">
+            <label for="end_date">Select End time:</label>
+            <input type="date" id="end_date" name="day">
+            <input type="time" id="end_time" name="end_time">
         </form>
 
         <input type="checkbox" id="private" name="private" value="false">
@@ -41,26 +43,46 @@
             let firstAnswer = document.getElementById("first_ans_field");
             let secondAnswer = document.getElementById("second_ans_field");
             let private = document.getElementById("private");
-            let startTime = document.getElementById("start");
-            let endTime = document.getElementById("end");
+            let startDate = document.getElementById("start_date");
+            let endDate = document.getElementById("end_date");
+
+            let now = new Date(Date.now());
 
             let pollBody = {};
 
-            if(endTime.value === "" || startTime.value === "") {
+            if(endDate.value === "" || startDate.value === "") {
+                // Date is not chosen
                 pollBody = {
                     "question": pollQuestion.value,
                     "firstAnswer": firstAnswer.value,
                     "secondAnswer": secondAnswer.value,
                     "private": private.checked,
-                    "startDateTime":new Date(Date.now()).toISOString()
+                    "startDateTime":new Date(now).toISOString()
                 }
             }else{
+                // Start date and end date is chosen
+                console.log(new Date(startDate.value).toISOString());
+                console.log(new Date(now).toISOString());
+                let startDateChosen = new Date(startDate.value).toISOString();
+                let endDateChosen = new Date(endDate.value).toISOString();
+
+                let start_time = document.getElementById('start_time');
+                let end_time = document.getElementById('end_time');
+
+                let isValidTimeInput = validateTimeInput(startDateChosen, start_time, endDateChosen, end_time);
+
+                if(!isValidTimeInput){
+                    alert("Time input is not valid");
+                    console.log("Returning");
+                    return;
+                }
+
                     pollBody = {
                         "question":pollQuestion.value,
                         "firstAnswer":firstAnswer.value,
                         "secondAnswer":secondAnswer.value,
-                        "startDateTime":new Date(startTime.value).toISOString(),
-                        "endDateTime":new Date(endTime.value).toISOString(),
+                        "startDateTime":startDateChosen,
+                        "endDateTime":endDateChosen,
                         "private":private.checked
                 }
             }
@@ -91,6 +113,32 @@
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));
             }
+        }
+
+
+        function validateTimeInput(startDateChosen, start_time, endDateChosen, end_time){
+            let startTimeArr = start_time.value.toString().split(':');
+            let startHour = startTimeArr[0];
+            let startMinutes = startTimeArr[1];
+
+            let endTimeArr = end_time.value.toString().split(':');
+            let endHour = endTimeArr[0];
+            let endMinutes = endTimeArr[1];
+
+            if(startDateChosen == endDateChosen){
+                if(startHour > endHour){
+                    console.log("No, since " + startHour + " is greater than " + endHour);
+                    return false;
+                }else if(endHour == startHour && startMinutes > endMinutes){
+                    console.log("No, since " + startMinutes + " is greater than " + endMinutes);
+                    return false;
+                }
+            }
+            if(endDateChosen < startDateChosen){
+                console.log("No, since start date can't be after end date")
+                return false;
+            }
+            return true;
         }
     </script>
 
