@@ -29,9 +29,8 @@
     let url = "http://localhost:8090";
     let nameInput = document.getElementById('name');
     let emailInput = document.getElementById('email');
-
     let profile = null;
-   getMe();
+    getMe();
 
     function getMe(){
         var requestOptions = {
@@ -64,15 +63,16 @@
 
     function editProfile(){
         console.log(profile);
-        console.log(nameInput.value);
-        console.log(emailInput.value);
-
         let photoUrl = profile.photoUrl;
         let role = profile.role;
         let disabled = profile.disabled;
 
         var raw = JSON.stringify({"name":nameInput.value, "email":emailInput.value, "photoUrl":photoUrl, disabled:disabled, role:role});
 
+        if(emailInput.value != profile.name){
+            // Email has been changed
+            // Todo: Send verification email
+        }
         var requestOptions = {
             method: 'PUT',
             body: raw,
