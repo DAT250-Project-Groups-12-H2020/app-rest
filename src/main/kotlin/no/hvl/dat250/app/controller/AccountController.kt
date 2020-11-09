@@ -7,8 +7,11 @@ import no.hvl.dat250.app.dto.AccountResponse
 import no.hvl.dat250.app.dto.PublicAccountResponse
 import no.hvl.dat250.app.dto.toPublicResponse
 import no.hvl.dat250.app.dto.toResponse
+import no.hvl.dat250.app.model.Role
 import no.hvl.dat250.app.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -73,5 +76,15 @@ class AccountController {
   @GetMapping("/{id}")
   fun getAccount(@PathVariable id: String): AccountResponse {
     return accountService.getAccountByUid(id).toResponse()
+  }
+
+  @GetMapping("/list")
+  fun findAllAccounts(@RequestParam role: Role?, @RequestParam disabled: Boolean?, page: Pageable): Page<PublicAccountResponse> {
+    return when {
+      role != null && disabled != null -> accountService.findAllByRoleAndDisabled(role, disabled, page).map { it.toPublicResponse() }
+      role == null && disabled != null -> accountService.findAllByDisabled(disabled, page).map { it.toPublicResponse() }
+      role != null && disabled == null -> accountService.findAllByRole(role, page).map { it.toPublicResponse() }
+      else -> accountService.findAll(page).map { it.toPublicResponse() }
+    }
   }
 }

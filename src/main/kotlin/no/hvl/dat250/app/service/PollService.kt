@@ -2,6 +2,7 @@ package no.hvl.dat250.app.service
 
 import no.hvl.dat250.app.dto.PollCreateRequest
 import no.hvl.dat250.app.dto.PollRequest
+import no.hvl.dat250.app.exception.InvalidPollException
 import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotFoundException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
@@ -19,7 +20,7 @@ interface PollService {
   /**
    * create a poll
    */
-  @ExceptionHandler(NotLoggedInException::class)
+  @ExceptionHandler(NotLoggedInException::class, InvalidPollException::class)
   fun createPoll(request: PollCreateRequest): Poll
 
   /**
@@ -31,18 +32,22 @@ interface PollService {
   /**
    * save and flush changes to a poll
    */
+  @ExceptionHandler(NotLoggedInException::class, InvalidPollException::class)
   fun updatePoll(id: Long, request: PollRequest): Poll
 
   /**
    * deletes a poll
    */
+  @ExceptionHandler(PollNotOwnedByUserException::class, PollNotFoundException::class)
   fun delete(id: Long)
 
   fun getActivePublicPolls(page: Pageable): Page<Poll>
 
   fun getAllPublicPolls(page: Pageable): Page<Poll>
 
+  @ExceptionHandler(NotLoggedInException::class)
   fun getActivePolls(page: Pageable): Page<Poll>
 
+  @ExceptionHandler(NotLoggedInException::class)
   fun getAllPolls(page: Pageable): Page<Poll>
 }
