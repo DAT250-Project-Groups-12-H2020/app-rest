@@ -79,12 +79,12 @@ class AccountController {
   }
 
   @GetMapping("/list")
-  fun findAllAccounts(@RequestParam role: Role?, @RequestParam disabled: Boolean?, page: Pageable): Page<AccountResponse> {
+  fun findAllAccounts(@RequestParam role: Role?, @RequestParam disabled: Boolean?, page: Pageable): Page<PublicAccountResponse> {
     return when {
-      role != null && disabled != null -> accountService.findAllByRoleAndDisabled(role, disabled, page).map { it.toResponse() }
-      role == null && disabled != null -> accountService.findAllByDisabled(disabled, page).map { it.toResponse() }
-      role != null && disabled == null -> accountService.findAllByRole(role, page).map { it.toResponse() }
-      else -> accountService.findAll(page).map { it.toResponse() }
+      role != null && disabled != null -> accountService.findAllByRoleAndDisabled(role, disabled, page).map { it.toPublicResponse() }
+      role == null && disabled != null -> accountService.findAllByDisabled(disabled, page).map { it.toPublicResponse() }
+      role != null && disabled == null -> accountService.findAllByRole(role, page).map { it.toPublicResponse() }
+      else -> accountService.findAll(page).map { it.toPublicResponse() }
     }
   }
 }

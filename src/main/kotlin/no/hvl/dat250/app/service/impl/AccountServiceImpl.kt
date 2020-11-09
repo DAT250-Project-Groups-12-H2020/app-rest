@@ -216,12 +216,7 @@ class AccountServiceImpl(
     if (getCurrentAccount().isNotAdmin()) {
       throw InsufficientAccessException("list accounts")
     }
-    val accounts = query()
-    val refreshedPage = accounts.map { account ->
-      refreshAccount(account.id, false)
-    }
-    accountRepository.flush()
-    return refreshedPage
+    return query()
   }
 
   override fun findAllByRoleAndDisabled(role: Role, disabled: Boolean, pageable: Pageable) =
