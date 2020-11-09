@@ -9,31 +9,12 @@
 <body>
 
     <div id="login_div" class="guest-div">
-        <h1>Poll Overview</h1>
+        <h1>All Public Polls</h1>
     </div>
-
-    <input type="checkbox" id="private" name="private" value="private">
-    <label for="private">View your own polls only</label><br>
-        <table style="width:100%">
+        <table id="table" style="width:100%">
             <tr>
                 <th>Poll Title</th>
-                <th>Owner</th>
-            </tr>
-            <tr>
-                <td onclick="pollfeedback()">Example Poll One</td>
-                <td>Huey</td>
-            </tr>
-            <tr>
-                <td onclick="pollfeedback()">Example Poll Two</td>
-                <td>Dewey</td>
-            </tr>
-            <tr>
-                <td onclick="pollfeedback()">Example Poll Three</td>
-                <td>Louie</td>
-            </tr>
-            <tr>
-                <td onclick="pollfeedback()">Example Poll Four</td>
-                <td>Huey</td>
+                <!-- <th>Owner</th> -->
             </tr>
         </table>
 
@@ -41,10 +22,9 @@
         <button onclick="pollcreate()">Create Poll</button>
     </div>
 
-    <div class="footer">
-        <p>Back to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
+    <div class="button">
+        <p>Go to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
     </div>
-
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
@@ -73,6 +53,70 @@
         firebase.analytics();
     </script>
     <script src="../index.js"></script>
+    <script src="../poll/poll.js"></script>
+
+
+
+    <script>
+        var url = "http://localhost:8090";
+
+        function getAllPublicPolls() {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            let page = 0;
+
+            fetch(url + "/api/v1/polls/public?size=10&page=" + page + "&sort=id,desc", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    result = JSON.parse(result);
+
+                    polls = result.content;
+                    console.log(polls);
+
+                    let table = document.getElementById('table');
+
+                    for(let p of polls){
+                        // Insert poll to table
+                        table.insertRow();
+                        let newCell = table.rows[table.rows.length - 1].insertCell();
+                        newCell.textContent = p.question;
+                        newCell.addEventListener('click', () => {
+                            window.localStorage.setItem('id', p.id);
+                            location.href = "pollvote.html";
+                        })
+
+                        if(isOpen(result)){
+                            newCell.style.color = "green";
+                        }else{
+                            newCell.style.color = "red";
+                        }
+                    }
+
+                    // Todo: Create 'next' and 'back' buttons so that more polls can be shown
+                    if(!result.empty){
+                        // Show 'next' button
+                        console.log("Show 'next' button");
+                    }
+                    if(result.pageable.pageNumber > 0){
+                        // Show 'back' button
+                        console.log("Show 'back' button");
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        window.onload = (event) => {
+            getAllPublicPolls();
+        };
+
+
+    </script>
+
 
 </body>
 </html>

@@ -16,23 +16,7 @@
 <table id="table" style="width:100%">
     <tr>
         <th>Poll Title</th>
-
-
-    <!--
     </tr>
-    <tr>
-        <td onclick="pollfeedback()">Example Poll One</td>
-    </tr>
-    <tr>
-        <td onclick="pollfeedback()">Example Poll Two</td>
-    </tr>
-    <tr>
-        <td onclick="pollfeedback()">Example Poll Three</td>
-    </tr>
-    <tr>
-        <td onclick="pollfeedback()">Example Poll Four</td>
-    </tr>
-    -->
 </table>
 
 <div id="poll_div" class="poll-overview-div">
@@ -40,7 +24,7 @@
 </div>
 
 <div class="footer">
-    <p>Back to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
+    <p>Go to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
 </div>
 
 
@@ -71,8 +55,10 @@
     firebase.analytics();
 </script>
 <script src="../index.js"></script>
+<script src="../poll/poll.js"></script>
+
 <script>
-    var url = "http://localhost:8090/";
+    var url = "http://localhost:8090";
 
     window.onload = (event) => {
         getOwnPolls();
@@ -85,7 +71,7 @@
             credentials: 'include'
         };
 
-        fetch(url + "api/v1/accounts/me", requestOptions)
+        fetch(url + "/api/v1/accounts/me", requestOptions)
             .then(response => response.text())
             .then(result => {
             polls = JSON.parse(result).polls;
@@ -107,7 +93,7 @@
             credentials: 'include'
         };
 
-        fetch(url + "api/v1/polls?id=" + id, requestOptions)
+        fetch(url + "/api/v1/polls?id=" + id, requestOptions)
             .then(response => response.text())
             .then(result => {
                 result = JSON.parse(result);
@@ -130,7 +116,7 @@
                 let question = result.question;
 
                 // Set row to display question
-                newCell.textContent = "Question: " + question;
+                newCell.textContent = question;
                 if(result.private){
                     newCell.textContent += " [Private]";
                 }else{
@@ -156,12 +142,6 @@
             .catch(error => console.log('error', error));
 
         document.body.appendChild(table);
-    }
-
-    function isOpen(result){
-        let start = new Date(result.startDateTime);
-        let now = new Date(Date.now());
-        return result.endDateTime == null || start <= now && result.endDateTime >= now;
     }
 
 </script>
