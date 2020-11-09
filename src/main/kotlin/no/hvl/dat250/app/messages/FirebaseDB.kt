@@ -27,13 +27,10 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
   fun storePoll(poll: Poll) {
     // Load the service account key JSON file
     var path = "./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json"
-    println(path)
     val directory = File("./")
-    System.out.println(directory.getAbsolutePath())
     var serviceAccount = FileInputStream(path)
     // Authenticate a Google credential with the service account
     val googleCred = GoogleCredential.fromStream(serviceAccount)
-
     // Add the required scopes to the Google credential
     val scoped = googleCred.createScoped(
       Arrays.asList(
@@ -44,7 +41,6 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
     // Use the Google credential to generate an access token
     scoped.refreshToken()
     val token = scoped.accessToken
-
     val map = processPoll(poll)
     val firstVotes = poll.votes.sumOf { it.firstVotes }
     val secondVotes = poll.votes.sumOf { it.secondVotes }
