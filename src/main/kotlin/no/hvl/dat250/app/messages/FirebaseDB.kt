@@ -1,16 +1,19 @@
 package no.hvl.dat250.app.messages
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
 import no.hvl.dat250.app.dto.toResponse
 import no.hvl.dat250.app.model.Poll
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Component
+import java.io.File
+import java.io.FileInputStream
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpClient.Version.HTTP_2
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.HttpResponse.BodyHandlers
+import java.util.Arrays
 
 @Component
 class FirebaseDB(@Autowired val mapper: ObjectMapper) {
@@ -22,6 +25,26 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
    * called when the poll is finished/end date expires
    */
   fun storePoll(poll: Poll) {
+    // Load the service account key JSON file
+    var path = "./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json"
+    println(path)
+    val directory = File("./")
+    System.out.println(directory.getAbsolutePath())
+    var serviceAccount = FileInputStream(path)
+    // Authenticate a Google credential with the service account
+    val googleCred = GoogleCredential.fromStream(serviceAccount)
+
+    // Add the required scopes to the Google credential
+    val scoped = googleCred.createScoped(
+      Arrays.asList(
+        "https://www.googleapis.com/auth/firebase.database",
+        "https://www.googleapis.com/auth/userinfo.email"
+      )
+    )
+    // Use the Google credential to generate an access token
+    scoped.refreshToken()
+    val token = scoped.accessToken
+
     val map = processPoll(poll)
     val firstVotes = poll.votes.sumOf { it.firstVotes }
     val secondVotes = poll.votes.sumOf { it.secondVotes }
@@ -34,7 +57,7 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
     map["firstVotes"] = firstVotes
     map["secondVotes"] = secondVotes
     val id = poll.id
-    val PUT_URL = "https://DAT250-Gr-2-H2020-APP.firebaseio.com/rest/closed-polls/$id.json"
+    val PUT_URL = "https://DAT250-Gr-2-H2020-APP.firebaseio.com/rest/closed-polls/$id.json?access_token=$token"
     val request = HttpRequest
       .newBuilder()
       .uri(URI.create(PUT_URL))
