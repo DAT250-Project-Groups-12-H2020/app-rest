@@ -27,7 +27,12 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class AccountServiceImpl : AccountService {
+class AccountServiceImpl(
+  @Autowired
+  private val securityService: SecurityService,
+  @Autowired
+  private val accountRepository: AccountRepository
+) : AccountService {
 
   private fun Account.canNotUpdate(uid: String): Boolean {
     return disabled || uid != this.id && this.role != ADMIN
@@ -36,12 +41,6 @@ class AccountServiceImpl : AccountService {
   private fun Account.isNotAdmin(): Boolean {
     return disabled || this.role != ADMIN
   }
-
-  @Autowired
-  private lateinit var securityService: SecurityService
-
-  @Autowired
-  private lateinit var accountRepository: AccountRepository
 
   @Bean
   fun createAdmin() {
