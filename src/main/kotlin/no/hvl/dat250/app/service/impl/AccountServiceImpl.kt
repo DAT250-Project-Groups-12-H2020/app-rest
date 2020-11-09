@@ -50,6 +50,15 @@ class AccountServiceImpl(
     accountRepository.saveAndFlush(adminAccount)
   }
 
+  @Bean
+  fun loadAccounts() {
+    val page = FirebaseAuth.getInstance().listUsers(null)
+    for (user in page.iterateAll()) {
+      refreshAccount(user, false)
+    }
+    accountRepository.flush()
+  }
+
   override fun createAccount(request: AccountCreationRequest): Account {
     val admin = getCurrentAccount()
     if (admin.isNotAdmin()) {
