@@ -23,6 +23,8 @@ import no.hvl.dat250.app.security.SecurityService
 import no.hvl.dat250.app.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -208,6 +210,77 @@ class AccountServiceImpl(
 
   override fun isOwnerOf(poll: Poll, account: Account): Boolean {
     return poll in account.polls
+  }
+
+  private fun ensureLocalDatabaseSize(pageable: Pageable): Set<String> {
+    if (getCurrentAccount().isNotAdmin()) {
+      throw InsufficientAccessException("list accounts")
+    }
+    val lastUserNeeded = (pageable.pageNumber + 1) * pageable.pageSize
+
+    val refreshedAccount = mutableSetOf<String>()
+
+    // Get users from remote if we don't have enough users in the local database!
+    if (accountRepository.count() < lastUserNeeded) {
+      var pageNr = 0
+      val firebasePageSize = 1000 // note max is 1000
+      var page = FirebaseAuth.getInstance().listUsers(null, firebasePageSize)
+      while (page != null) {
+        if (pageNr * firebasePageSize >= lastUserNeeded) {
+          // we have enough users for now
+          break
+        }
+        page.values.forEach {
+          refreshAccount(it, false)
+          refreshedAccount.add(it.uid)
+        }
+        pageNr++
+        page = page.nextPage
+      }
+      accountRepository.flush()
+    }
+    return refreshedAccount
+  }
+
+  fun ensureRefreshedAccounts(accounts: Page<Account>, refreshedAccount: Set<String>) {
+    for (account in accounts) {
+      if (account.id !in refreshedAccount) {
+        refreshAccount(account.id, false)
+      }
+    }
+    accountRepository.flush()
+  }
+
+  override fun findAllByRoleAndDisabled(role: Role, disabled: Boolean, pageable: Pageable): Page<Account> {
+    System.err.println("ROLE&DIS")
+    val refreshedAccount = ensureLocalDatabaseSize(pageable)
+    val accounts = accountRepository.findAllByRoleAndDisabled(role, disabled, pageable)
+    ensureRefreshedAccounts(accounts, refreshedAccount)
+    return accounts
+  }
+
+  override fun findAllByDisabled(disabled: Boolean, pageable: Pageable): Page<Account> {
+    System.err.println("DIS")
+    val refreshedAccount = ensureLocalDatabaseSize(pageable)
+    val accounts = accountRepository.findAllByDisabled(disabled, pageable)
+    ensureRefreshedAccounts(accounts, refreshedAccount)
+    return accounts
+  }
+
+  override fun findAllByRole(role: Role, pageable: Pageable): Page<Account> {
+    System.err.println("ROLE")
+    val refreshedAccount = ensureLocalDatabaseSize(pageable)
+    val accounts = accountRepository.findAllByRole(role, pageable)
+    ensureRefreshedAccounts(accounts, refreshedAccount)
+    return accounts
+  }
+
+  override fun findAll(pageable: Pageable): Page<Account> {
+    System.err.println("ALL")
+    val refreshedAccount = ensureLocalDatabaseSize(pageable)
+    val accounts = accountRepository.findAll(pageable)
+    ensureRefreshedAccounts(accounts, refreshedAccount)
+    return accounts
   }
 
   companion object {
