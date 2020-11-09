@@ -1,5 +1,6 @@
 package no.hvl.dat250.app.service
 
+import com.google.firebase.auth.UserRecord
 import no.hvl.dat250.app.dto.AccountCreationRequest
 import no.hvl.dat250.app.dto.AccountRequest
 import no.hvl.dat250.app.exception.AccountCreationFailedException
@@ -37,7 +38,9 @@ interface AccountService {
   fun deleteAccount(uid: String)
 
   @ExceptionHandler(AccountNotFoundException::class)
-  fun refreshAccount(uid: String): Account
+  fun refreshAccount(uid: String, flush: Boolean = true): Account
+
+  fun refreshAccount(userRecord: UserRecord, flush: Boolean = true): Account
 
   @ExceptionHandler(NotLoggedInException::class)
   fun getCurrentAccount(): Account

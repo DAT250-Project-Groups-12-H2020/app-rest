@@ -72,7 +72,7 @@ class AccountServiceImpl(
       throw AccountCreationFailedException(e.message)
     }
 
-    return refreshAccount(userRecord.uid)
+    return refreshAccount(userRecord)
   }
 
   override fun updateAccount(uid: String, request: AccountRequest): Account {
@@ -123,13 +123,16 @@ class AccountServiceImpl(
     FirebaseAuth.getInstance().deleteUserAsync(uid)
   }
 
-  override fun refreshAccount(uid: String): Account {
+  override fun refreshAccount(uid: String, flush: Boolean): Account {
     val userRecord: UserRecord = try {
       FirebaseAuth.getInstance().getUser(uid)
     } catch (_: FirebaseAuthException) {
       throw AccountNotFoundException(uid)
     }
+    return refreshAccount(userRecord, flush)
+  }
 
+  override fun refreshAccount(userRecord: UserRecord, flush: Boolean): Account {
     val accountOptional = accountRepository.findById(userRecord.uid)
     val account: Account = if (accountOptional.isEmpty) {
       // first time we have seen this account
@@ -149,7 +152,7 @@ class AccountServiceImpl(
     } catch (e: Exception) {
       account.role = USER
     }
-    return accountRepository.saveAndFlush(account)
+    return accountRepository.save(account).also { if (flush) accountRepository.flush() }
   }
 
   override fun getCurrentAccount(): Account {
