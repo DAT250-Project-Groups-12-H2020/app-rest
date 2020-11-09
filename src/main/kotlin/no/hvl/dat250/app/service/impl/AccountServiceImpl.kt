@@ -23,11 +23,18 @@ import no.hvl.dat250.app.security.SecurityService
 import no.hvl.dat250.app.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class AccountServiceImpl : AccountService {
+class AccountServiceImpl(
+  @Autowired
+  private val securityService: SecurityService,
+  @Autowired
+  private val accountRepository: AccountRepository
+) : AccountService {
 
   private fun Account.canNotUpdate(uid: String): Boolean {
     return disabled || uid != this.id && this.role != ADMIN
@@ -37,18 +44,21 @@ class AccountServiceImpl : AccountService {
     return disabled || this.role != ADMIN
   }
 
-  @Autowired
-  private lateinit var securityService: SecurityService
-
-  @Autowired
-  private lateinit var accountRepository: AccountRepository
-
   @Bean
   fun createAdmin() {
     val uid = "aPUGQjz0OLdyCObODLJ4gtZzXd12"
     val adminAccount = getAccountByUid(uid)
     FirebaseAuth.getInstance().setCustomUserClaims(uid, mapOf(ROLE_CUSTOM_CLAIM to ADMIN.name))
     accountRepository.saveAndFlush(adminAccount)
+  }
+
+  @Bean
+  fun loadAccounts() {
+    val page = FirebaseAuth.getInstance().listUsers(null)
+    for (user in page.iterateAll()) {
+      refreshAccount(user, false)
+    }
+    accountRepository.flush()
   }
 
   override fun createAccount(request: AccountCreationRequest): Account {
@@ -73,7 +83,7 @@ class AccountServiceImpl : AccountService {
       throw AccountCreationFailedException(e.message)
     }
 
-    return refreshAccount(userRecord.uid)
+    return refreshAccount(userRecord)
   }
 
   override fun updateAccount(uid: String, request: AccountRequest): Account {
@@ -124,13 +134,16 @@ class AccountServiceImpl : AccountService {
     FirebaseAuth.getInstance().deleteUserAsync(uid)
   }
 
-  override fun refreshAccount(uid: String): Account {
+  override fun refreshAccount(uid: String, flush: Boolean): Account {
     val userRecord: UserRecord = try {
       FirebaseAuth.getInstance().getUser(uid)
     } catch (_: FirebaseAuthException) {
       throw AccountNotFoundException(uid)
     }
+    return refreshAccount(userRecord, flush)
+  }
 
+  override fun refreshAccount(userRecord: UserRecord, flush: Boolean): Account {
     val accountOptional = accountRepository.findById(userRecord.uid)
     val account: Account = if (accountOptional.isEmpty) {
       // first time we have seen this account
@@ -150,7 +163,7 @@ class AccountServiceImpl : AccountService {
     } catch (e: Exception) {
       account.role = USER
     }
-    return accountRepository.saveAndFlush(account)
+    return accountRepository.save(account).also { if (flush) accountRepository.flush() }
   }
 
   override fun getCurrentAccount(): Account {
@@ -198,6 +211,25 @@ class AccountServiceImpl : AccountService {
   override fun isOwnerOf(poll: Poll, account: Account): Boolean {
     return poll in account.polls
   }
+
+  private fun findAllAccounts(query: () -> Page<Account>): Page<Account> {
+    if (getCurrentAccount().isNotAdmin()) {
+      throw InsufficientAccessException("list accounts")
+    }
+    return query()
+  }
+
+  override fun findAllByRoleAndDisabled(role: Role, disabled: Boolean, pageable: Pageable) =
+    findAllAccounts { accountRepository.findAllByRoleAndDisabled(role, disabled, pageable) }
+
+  override fun findAllByDisabled(disabled: Boolean, pageable: Pageable) =
+    findAllAccounts { accountRepository.findAllByDisabled(disabled, pageable) }
+
+  override fun findAllByRole(role: Role, pageable: Pageable) =
+    findAllAccounts { accountRepository.findAllByRole(role, pageable) }
+
+  override fun findAll(pageable: Pageable) =
+    findAllAccounts { accountRepository.findAll(pageable) }
 
   companion object {
     const val ROLE_CUSTOM_CLAIM = "role"
