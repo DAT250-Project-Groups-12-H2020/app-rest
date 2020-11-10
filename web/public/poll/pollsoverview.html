@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Public Polls Overview</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="poll.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>Public Polls Overview</h1>
+        </div>
+        <div class="container">
+            <table id="table" style="width:100%">
+                <tr>
+                    <th>Poll Title:</th>
+                    <!-- <th>Owner</th> -->
+                </tr>
+            </table>
+                <!--
+                <div class="row mb-3">
+                    <div class="col-md-8 themed-grid-col">.col-md-8</div>
+                    <div class="col-md-4 themed-grid-col">.col-md-4</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8 themed-grid-col">.col-md-8</div>
+                    <div class="col-md-4 themed-grid-col">.col-md-4</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8 themed-grid-col">.col-md-8</div>
+                    <div class="col-md-4 themed-grid-col">.col-md-4</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8 themed-grid-col">.col-md-8</div>
+                    <div class="col-md-4 themed-grid-col">.col-md-4</div>
+                </div>
+                -->
+            <br>
+            <div class="text-center">
+                <button type="submit" class="btn btn-block send-button tx-tfm" onclick="ownPolls()">Your Private Polls</button>
+            </div>
+            <br>
+            <div class="text-center">
+                <button type="submit" class="btn btn-block send-button tx-tfm" onclick="pollCreate()">Create Poll</button>
+            </div>
+        </div>
+
+
+        <hr class="footer-line">
+    </main>
+
+
+    <div class="footer">
+        <p>&copy; FeedApp 2020</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+    <script>
+        //Yourwebapp'sFirebaseconfiguration
+        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+        var firebaseConfig = {
+            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+            projectId: "dat250-gr-2-h2020-app",
+            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+            messagingSenderId: "851900401969",
+            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+            measurementId: "G-03WHQEL0R0"
+        };
+        //InitializeFirebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="pollsoverview.js"></script>
+    <script src="poll.js"></script>
+</body>
+</html>
