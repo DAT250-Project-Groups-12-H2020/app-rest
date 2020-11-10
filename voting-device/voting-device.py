@@ -6,6 +6,7 @@ TODO: create a new user with a api call??
 '''
 import requests
 import configparser
+import sys
 
 config = configparser.ConfigParser()
 config.read('device_config.ini')
@@ -48,11 +49,12 @@ def login():
         'Authorization': f'Bearer {auth_token}',
     }
     response = session.post(url, headers=headers, data={})
-    session_token = response.headers.get('Set-Cookie').split(';')[0]
-    cookies = f'authenticated=true; {session_token}'
     if not response.ok:
         print('login failed',response.status_code, response.reason)
+        sys.exit()
     else:
+        session_token = response.headers.get('Set-Cookie').split(';')[0]
+        cookies = f'authenticated=true; {session_token}'
         print('success')
 
 
