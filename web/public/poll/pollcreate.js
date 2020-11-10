@@ -54,13 +54,16 @@ async function createPoll() {
     let isDateChosen = false;
     if(endDate.value === "" || startDate.value === "") {
         // Date is not chosen
+
         pollBody = {
             "question": pollQuestion.value,
             "firstAnswer": firstAnswer.value,
             "secondAnswer": secondAnswer.value,
             "private": private.checked,
             "startDateTime":now.toISOString()
+
         }
+        console.log("NOT CHOSEN" + JSON.stringify(pollBody));
     }else{
         // Date is chosen
         // Todo: It is currently possible to choose a time interval that is up to 1 hour behind the current time (when choosing the current day as start date) - needs fix
@@ -120,7 +123,7 @@ async function createPoll() {
             return false;
         }
         if(!isDateChosen){
-            return false;
+            return true;
         }
         return true;
     }
@@ -146,7 +149,7 @@ async function createPoll() {
             .then(result => {
                 console.log(result)
                 if(checkIfAllInputsAreValid()){
-                    //location.href = "privatepollsoverview.html";
+                    //location.href = "ownpollsoverview.html";
                 }
 
             })

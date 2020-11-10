@@ -14,98 +14,98 @@
     <link href="poll.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
-        <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
-    </div>
-</nav>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+        </div>
+    </nav>
 
-<main role="main" class="container">
-    <div class="poll-title">
-        <h1>Create Poll</h1>
-    </div>
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>Create Poll</h1>
+        </div>
 
-    <div class="row">
-        <div class="col-md-4 mx-auto">
-            <div class="myform form ">
-                <form action="" method="post" name="login">
-                    <div class="form-group text-center">
-                        <input class="form-control my-input" type="poll code" placeholder="Poll Question" id="poll_question_field"/><br>
-                        <input class="form-control my-input" type="poll code" type="poll code" placeholder="First Answer" id="first_ans_field"/><br>
-                        <input class="form-control my-input" type="poll code" placeholder="Second Answer" id="second_ans_field"/><br>
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form ">
+                    <form action="" method="post" name="login">
+                        <div class="form-group text-center">
+                            <input class="form-control my-input" type="poll code" placeholder="Poll Question" id="poll_question_field"/><br>
+                            <input class="form-control my-input" type="poll code" type="poll code" placeholder="First Answer" id="first_ans_field"/><br>
+                            <input class="form-control my-input" type="poll code" placeholder="Second Answer" id="second_ans_field"/><br>
 
-                        <form class="text-center"> <!--<form action="/action_page.php">-->
-                            <label for="start_date">Select Start time:</label><br>
-                            <input type="date" id="start_date" name="day">
-                            <input type="time" id="start_time" name="start_time">
-                        </form>
+                            <form class="text-center"> <!--<form action="/action_page.php">-->
+                                <label for="start_date">Select Start time:</label><br>
+                                <input type="date" id="start_date" name="day">
+                                <input type="time" id="start_time" name="start_time">
+                            </form>
 
-                        <form class="text-center">
-                            <label for="end_date">Select End time:</label><br>
-                            <input type="date" id="end_date" name="day">
-                            <input type="time" id="end_time" name="end_time">
-                        </form>
+                            <form class="text-center">
+                                <label for="end_date">Select End time:</label><br>
+                                <input type="date" id="end_date" name="day">
+                                <input type="time" id="end_time" name="end_time">
+                            </form>
 
-                        <br>
+                            <br>
 
-                        <div class="text-center">
-                            <input type="checkbox" id="private" name="private" value="false">
-                            <label for="private">Private</label><br>
+                            <div class="text-center">
+                                <input type="checkbox" id="private" name="private" value="false">
+                                <label for="private">Private</label><br>
+                            </div>
+                            <button class="btn btn-block send-button tx-tfm" onclick="createPoll()" type="submit">Create Poll</button>
+
                         </div>
-                        <button class="btn btn-block send-button tx-tfm" onclick="createPoll()" type="submit">Create Poll</button>
-
-                    </div>
-                    <div class="text-center">
-                        <p>Don't have poll code? Go to <a href="../poll/pollsoverview.html">poll overview!</a></p>
-                    </div>
-                </form>
+                        <div class="text-center">
+                            <p>Don't have poll code? Go to <a href="../poll/pollsoverview.html">poll overview!</a></p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
+        <hr class="footer-line">
+    </main><!-- /.container -->
+
+    <div class="footer">
+        <p>&copy; FeedApp 2020</p>
     </div>
 
-    <hr class="footer-line">
-</main><!-- /.container -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-<div class="footer">
-    <p>&copy; FeedApp 2020</p>
-</div>
+    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
 
-<!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
-<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-<script>
-    //Yourwebapp'sFirebaseconfiguration
-    //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
-    var firebaseConfig = {
-        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-        projectId: "dat250-gr-2-h2020-app",
-        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-        messagingSenderId: "851900401969",
-        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-        measurementId: "G-03WHQEL0R0"
-    };
-    //InitializeFirebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-</script>
-<script src="pollcreate.js"></script>
-<script src="poll.js"></script>
+    <script>
+        //Yourwebapp'sFirebaseconfiguration
+        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+        var firebaseConfig = {
+            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+            projectId: "dat250-gr-2-h2020-app",
+            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+            messagingSenderId: "851900401969",
+            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+            measurementId: "G-03WHQEL0R0"
+        };
+        //InitializeFirebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="pollcreate.js"></script>
+    <script src="poll.js"></script>
 </body>
 </html>

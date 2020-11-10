@@ -30,7 +30,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
 function ownPolls(){
-    location.href = "privatepollsoverview.html";
+    location.href = "ownpollsoverview.html";
 }
 
 function pollCreate(){
