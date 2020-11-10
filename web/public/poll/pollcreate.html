@@ -1,224 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FeedApp Create Poll</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Create Poll</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="poll.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+    </div>
+</nav>
 
-    <div>
+<main role="main" class="container">
+    <div class="poll-title">
         <h1>Create Poll</h1>
-        <input type="poll code" placeholder="Poll Question" id="poll_question_field"/><br>
-        <input type="poll code" placeholder="First Answer" id="first_ans_field"/><br>
-        <input type="poll code" placeholder="Second Answer" id="second_ans_field"/><br>
-
-        <form> <!--<form action="/action_page.php">-->
-            <label for="start_date">Select Start time and date:</label>
-            <input type="date" id="start_date" name="day">
-            <input type="time" id="start_time" name="start_time">
-        </form>
-        <form>
-            <label for="end_date">Select End time:</label>
-            <input type="date" id="end_date" name="day">
-            <input type="time" id="end_time" name="end_time">
-        </form>
-
-        <input type="checkbox" id="private" name="private" value="false">
-        <label for="private">Private</label><br>
-
-        <button onclick="createPoll()" type="button">Create Poll</button>
     </div>
 
-    <div class="footer">
-        <p>Back to <a href="ownpollsoverview.html">poll overview</a>.</p>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="myform form ">
+                <form action="" method="post" name="login">
+                    <div class="form-group text-center">
+                        <input class="form-control my-input" type="poll code" placeholder="Poll Question" id="poll_question_field"/><br>
+                        <input class="form-control my-input" type="poll code" type="poll code" placeholder="First Answer" id="first_ans_field"/><br>
+                        <input class="form-control my-input" type="poll code" placeholder="Second Answer" id="second_ans_field"/><br>
+
+                        <form class="text-center"> <!--<form action="/action_page.php">-->
+                            <label for="start_date">Select Start time:</label><br>
+                            <input type="date" id="start_date" name="day">
+                            <input type="time" id="start_time" name="start_time">
+                        </form>
+
+                        <form class="text-center">
+                            <label for="end_date">Select End time:</label><br>
+                            <input type="date" id="end_date" name="day">
+                            <input type="time" id="end_time" name="end_time">
+                        </form>
+
+                        <br>
+
+                        <div class="text-center">
+                            <input type="checkbox" id="private" name="private" value="false">
+                            <label for="private">Private</label><br>
+                        </div>
+                        <button class="btn btn-block send-button tx-tfm" onclick="createPoll()" type="submit">Create Poll</button>
+
+                    </div>
+                    <div class="text-center">
+                        <p>Don't have poll code? Go to <a href="../poll/pollsoverview.html">poll overview!</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <script src="../poll/poll.js"></script>
+    <hr class="footer-line">
+</main><!-- /.container -->
 
-    <script>
-        let url = 'http://localhost:8090';
+<div class="footer">
+    <p>&copy; FeedApp 2020</p>
+</div>
 
-        async function createPoll() {
-            let pollQuestion = document.getElementById("poll_question_field");
-            let firstAnswer = document.getElementById("first_ans_field");
-            let secondAnswer = document.getElementById("second_ans_field");
-            let private = document.getElementById("private");
-            let startDate = document.getElementById("start_date");
-            let endDate = document.getElementById("end_date");
-            let now = new Date(Date.now());
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-            let startDateChosen = new Date(startDate.value);
-            let endDateChosen = new Date(endDate.value);
+<!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
 
-            let start_time = document.getElementById('start_time');
-            let end_time = document.getElementById('end_time');
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
 
-            let pollBody = {};
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
 
-            let isDateChosen = false;
-            if(endDate.value === "" || startDate.value === "") {
-                // Date is not chosen
-                pollBody = {
-                    "question": pollQuestion.value,
-                    "firstAnswer": firstAnswer.value,
-                    "secondAnswer": secondAnswer.value,
-                    "private": private.checked,
-                    "startDateTime":now.toISOString()
-                }
-            }else{
-                // Date is chosen
-                // Todo: It is currently possible to choose a time interval that is up to 1 hour behind the current time (when choosing the current day as start date) - needs fix
-
-                let startTimeArr = start_time.value.toString().split(':');
-                let startHour = startTimeArr[0];
-                let startMinutes = startTimeArr[1];
-
-                let endTimeArr = end_time.value.toString().split(':');
-                let endHour = endTimeArr[0];
-                let endMinutes = endTimeArr[1];
-
-                if(startDateChosen.getFullYear() == now.getFullYear() &&
-                    startDateChosen.getDate() == now.getDate() &&
-                    startDateChosen.getDay() == now.getDay() &&
-                    startHour == now.getHours() &&
-                    startMinutes == now.getMinutes()
-                ){
-                    // Same day as now. This is to set start date correctly (bug with seconds)
-                    startDateChosen = now;
-                }else{
-                    startDateChosen.setUTCHours(parseInt(startHour));
-                    startDateChosen.setUTCMinutes(parseInt(startMinutes));
-                    startDateChosen.setUTCSeconds(now.getSeconds());
-                }
-
-                endDateChosen.setUTCHours(parseInt(endHour));
-                endDateChosen.setUTCMinutes(parseInt(endMinutes));
-
-                if(!(validateTimeInput(startDateChosen, endDateChosen))){
-                    alert("Time input is not valid");
-                    console.log("Returning");
-                    return;
-                }else{
-                    isDateChosen = true;
-                }
-
-                pollBody = {
-                    "question":pollQuestion.value,
-                    "firstAnswer":firstAnswer.value,
-                    "secondAnswer":secondAnswer.value,
-                    "startDateTime":startDateChosen.toISOString(),
-                    "endDateTime":endDateChosen.toISOString(),
-                    "private":private.checked
-                }
-            }
-
-            function checkIfAllInputsAreValid(){
-                if(pollQuestion.value === ""
-                    || firstAnswer.value === ""
-                    || secondAnswer.value === ""
-                ) {
-                    alert("Please make sure to choose a question and answers");
-                    return false;
-                }else if(isDateChosen && (start_time.value === "" || end_time.value === "")){
-                    alert("Please choose time intervals");
-                    return false;
-                }
-                if(!isDateChosen){
-                    return false;
-                }
-                return true;
-            }
-
-            if(checkIfAllInputsAreValid()){
-                pollPOST();
-            }
-
-            function pollPOST(){
-                console.log(JSON.stringify(pollBody));
-                var requestOptions = {
-                    method: 'POST',
-                    redirect: 'follow',
-                    credentials: 'include',
-                    body: JSON.stringify(pollBody),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                };
-
-                fetch(url + '/api/v1/polls/create/', requestOptions)
-                    .then(response => response.text())
-                    .then(result => {
-                        console.log(result)
-                        if(checkIfAllInputsAreValid()){
-                            location.href = "ownpollsoverview.html";
-                        }
-
-                    })
-                    .catch(error => console.log('error', error));
-            }
-        }
-
-
-
-        function validateTimeInput(startDateChosen, endDateChosen){
-            let startHour = startDateChosen.getHours();
-            let startMinutes = startDateChosen.getMinutes();
-
-            let endHour = endDateChosen.getHours();
-            let endMinutes = endDateChosen.getMinutes();
-            let now = new Date(Date.now());
-
-            if(!(startDateChosen >= now)){
-                console.log(startDateChosen.toISOString() + " not >= " + now.toISOString());
-                return false;
-            }
-            if(startDateChosen == endDateChosen){
-                if(startHour > endHour){
-                    console.log("No, since " + startHour + " is greater than " + endHour);
-                    return false;
-                }else if(endHour == startHour && startMinutes > endMinutes){
-                    console.log("No, since " + startMinutes + " is greater than " + endMinutes);
-                    return false;
-                }
-            }
-            if(endDateChosen < startDateChosen){
-                console.log("No, since start date can't be after end date")
-                return false;
-            }
-            return true;
-        }
-    </script>
-
-
-    <!--The core Firebase JS SDK is always required and must be listed first-->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-    <script>
-        // Your webapp's Firebase configuration
-        //For Firebase JS SDK v7.20.0 and later, measurement Id is optional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-            projectId: "dat250-gr-2-h2020-app",
-            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-            messagingSenderId: "851900401969",
-            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-            measurementId: "G-03WHQEL0R0"
-        };
-        //Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
-    <script src="pollvote.js"></script>
-
+<script>
+    //Yourwebapp'sFirebaseconfiguration
+    //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+        projectId: "dat250-gr-2-h2020-app",
+        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+        messagingSenderId: "851900401969",
+        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+        measurementId: "G-03WHQEL0R0"
+    };
+    //InitializeFirebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="pollcreate.js"></script>
+<script src="pollvote.js"></script>
+<script src="poll.js"></script>
 </body>
 </html>

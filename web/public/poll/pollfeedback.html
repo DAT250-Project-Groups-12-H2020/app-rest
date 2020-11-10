@@ -1,110 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FeedApp Total Votes</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Poll Feedback</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="poll.css" rel="stylesheet">
 </head>
 <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+        </div>
+    </nav>
 
-    <div id="login_div" class="guest-div">
-        <h1 id="poll_question">Poll Question here</h1>
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>Poll Feedback</h1>
+            <p class="lead"></p>
+        </div>
 
-        <h4>Total votes:</h4>
-        <textarea id="total_votes_textarea" cols="40" rows="6" readonly="true" style="resize: none">
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form text-center">
+                    <h1 id="poll_question">Poll Title here</h1>
+                    <br>
+                    <h4>Total votes:</h4>
+                    <br>
+                    <textarea id="total_votes_textarea" cols="20" rows="2" readonly="true" style="text-align: center;resize: none; font-size:2vw">
+                        First answer: 2
+                        Second answer: 5
+                    </textarea> <br><br>
+                    <button class="btn btn-block send-button tx-tfm" onclick="pollvote()">Take this poll</button>
+                </div>
+            </div>
+        </div>
 
+        <div class="footer-time">
+            <p id="time_remaining">3 min</p>
+        </div>
+        <hr class="footer-line">
+    </main><!-- /.container -->
 
-            First answer: 2
-            Second answer: 5
-        </textarea> <br><br>
-        <button onclick="pollvote()">Take this poll</button>
-    </div>
-
-    <script>
-        var url = "http://localhost:8090/";
-        let id = window.localStorage.getItem('id');
-        getPoll(id);
-
-        function getPoll(id){
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow',
-                credentials: 'include'
-            };
-
-            console.log("id:" + id);
-            fetch(url + "api/v1/polls?id=" + id, requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    console.log(result)
-                    let poll = JSON.parse(result);
-                    console.log(poll);
-
-                    let question = document.getElementById('poll_question');
-                    question.innerText = poll.question;
-
-                    let pollVotes = poll.votes;
-                    let indexOfNewestId = findIndexOfNewestId(pollVotes);
-
-                    let totalVotesText = document.getElementById('total_votes_textarea');
-
-                    console.log(pollVotes);
-                    if(pollVotes.length != 0){
-                        totalVotesText.innerText = poll.firstAnswer + ": " + pollVotes[indexOfNewestId].firstVotes;
-                        totalVotesText.value += '\r\n' + poll.secondAnswer + ": " + pollVotes[indexOfNewestId].secondVotes;
-                    }else{
-                        totalVotesText.innerText = poll.firstAnswer + ": " + 0;
-                        totalVotesText.value += '\r\n' + poll.secondAnswer + ": " + 0;
-                    }
-
-                    let time_remaining = document.getElementById('time_remaining');
-                    if(poll.endDateTime == null){
-                        time_remaining.innerText = "Time remaining: Unlimited";
-                    } else{
-                        time_remaining.innerText = "Time remaining: " + poll.endDateTime;
-                    }
-                })
-                .catch(error => console.log('error', error));
-        }
-
-
-        function findIndexOfNewestId(pollVotes){
-            let indexOfNewestId = 0;
-            let newestId = 0;
-
-            for(let i = 0; i < pollVotes.length; i++){
-                if(pollVotes[i].id > newestId){
-                    indexOfNewestId = i;
-                    newestId = pollVotes[i].id;
-                }
-            }
-            return indexOfNewestId;
-        }
-
-    </script>
-
-
-
-
-
-
-
-
-        <!--
-    <script>
-        var toInsert = document.createElement("div");
-        toInsert.innerHTML = "Time remaining: 23 hours, 5 min";
-        toInsert.style.position = "absolute";
-        toInsert.style.bottom = "0px";
-        toInsert.style.textAlign = "center";
-        toInsert.style.width = "100%";
-        document.body.appendChild(toInsert);
-    </script>
-    -->
-
-    <div id="time_remaining" class="footer">
-        <p>Time remaining: 23 hours, 5 min. Back to <a href="polloverview.html">poll overview</a>.</p>
+    <div class="footer">
+        <p>&copy; FeedApp 2020</p>
     </div>
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
@@ -133,7 +84,7 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="../index.js"></script>
+    <script src="pollfeedback.js"></script>
 
 </body>
 </html>

@@ -1,28 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FeedApp Poll Code</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Poll Code</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="poll.css" rel="stylesheet">
 </head>
 <body>
-
-    <div id="login_div" class="guest-div">
-        <h1>FeedApp Poll Code</h1>
-        <input type="poll code" placeholder="Poll Code" id="poll_field" value=""/>
-        <br><br>
-        <button onclick="goToPoll()">Enter</button>
-
-        <br>
-        <div class="button">
-            <p>Go to <a href="../poll/polloverview.html">Poll Overview</a>.</p>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
         </div>
-    </div>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>Poll Code</h1>
+            <p class="lead">Enter poll code and you will be able to vote!</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form ">
+                    <form action="" method="post" name="login">
+                        <div class="form-group">
+                            <input class="form-control my-input" type="text" maxlength="50" placeholder="Poll Code" id="poll_field" value=""/>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-block send-button tx-tfm" onclick=goToPoll()>Enter</button>
+                        </div>
+                        <div class="text-center">
+                            <br>
+                            <p>Don't have poll code? Go to <a href="../poll/pollsoverview.html">poll overview!</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-line">
+    </main><!-- /.container -->
 
     <div class="footer">
-    <p>Don't have poll code? <a href="../index.html">Log in/sign up</a> and get poll overview!</p>
+        <p>&copy; FeedApp 2020</p>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
@@ -32,44 +69,6 @@
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-    <script>
-        var url = "http://localhost:8090/";
-
-        function goToPoll(){
-            let id = document.getElementById('poll_field').value;
-
-            // Bruker id som pollcode
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow',
-                credentials: 'include'
-            };
-            console.log(id);
-
-            fetch(url + "api/v1/polls?id=" + id, requestOptions)
-                .then(response => response.text())
-                .then(result => {
-
-                    result = JSON.parse(result);
-                    console.log("status:");
-                    console.log(result.status);
-
-                    if(result.status == 404){
-                        // can't access poll with the id given
-                        alert("You can't access this poll");
-                    }else{
-                        // go to poll
-                        window.localStorage.setItem('id', result.id);
-                        location.href = "pollvote.html";
-                    }
-
-
-                })
-                .catch(error => console.log('error', error));
-        }
-
-    </script>
 
     <script>
         //Yourwebapp'sFirebaseconfiguration
@@ -88,7 +87,6 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="../index.js"></script>
-
+    <script src="pollcode.js"></script>
 </body>
 </html>

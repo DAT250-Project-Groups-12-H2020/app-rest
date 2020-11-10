@@ -1,22 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FeedApp Vote</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Poll Vote</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="poll.css" rel="stylesheet">
 </head>
 <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+        </div>
+    </nav>
 
-    <div id="login_div"> <!-- class="guest-div" -->
-        <h1>Thank you for voting!</h1>
-        <h3> For more, click here: </h3>
-        <button onclick="more_polls()">Other Polls</button>
-        <h3> To log in, click here: </h3>
-        <button onclick="index()">Start Menu</button>
-        <h3> To look at poll results, click here: </h3>
-        <button onclick="pollfeedback()">Results</button>
-    </div>
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>Thank you for voting!</h1>
+            <p class="lead"></p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form text-center">
+
+                        <div class="text-center">
+                            <h3> For more: </h3>
+                            <button class="btn btn-block send-button tx-tfm" onclick="more_polls_code()">Poll Code</button>
+
+                            <br>
+
+                            <button class="btn btn-block send-button tx-tfm" onclick="more_polls()">Public Polls Overview</button>
+
+                            <br>
+
+                            <h3> Poll results: </h3>
+                            <button class="btn btn-block send-button tx-tfm" onclick="pollfeedback()">Results</button>
+                        </div>
+                </div>
+            </div>
+        </div>
 
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
@@ -45,7 +80,6 @@
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
     </script>
-    <script src="pollvote.js"></script>
-
+    <script src="pollvotedone.js"></script>
 </body>
 </html>

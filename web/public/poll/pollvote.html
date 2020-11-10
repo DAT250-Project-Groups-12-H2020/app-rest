@@ -1,168 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FeedApp Vote</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Poll Vote</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="poll.css" rel="stylesheet">
 </head>
 <body>
-    <div id="login_div"> <!-- class="guest-div" -->
-        <!-- <h1>Vote</h1> -->
-        <h2 id="poll_question">Poll Title here</h2>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+        </div>
+    </nav>
 
-        <form id="ans" action="/action_page.php">
-            <input type="radio" id="radio_first" name="answer" checked="true">
-            <label id="first_answer">Option 1</label>
-            <br>
-            <input type="radio" id="radio_second" name="answer">
-            <label id="second_answer">Option 1</label>
-        </form>
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>Vote</h1>
+            <p class="lead"></p>
+        </div>
 
-        <button onclick="sendVote(localStorage.getItem('id'))">Send Vote</button>
-    </div>
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form text-center">
+                    <form action="" method="post" name="login">
+                        <h1 id="poll_question">Poll Title here</h1>
+
+                        <br>
+                        <form id="ans">
+                            <input type="radio" id="radio_first" name="answer" checked="true">
+                            <label style="font-size:2vw; height:35px; width:50px; vertical-align: middle;" id="first_answer">Option 1</label>
+                            <br>
+                            <input type="radio" id="radio_second" name="answer">
+                            <label style="font-size:2vw; height:35px; width:50px; vertical-align: middle;" id="second_answer">Option 1</label>
+                        </form>
+                        <br>
+
+                        <div class="text-center">
+                            <button class="btn btn-block send-button tx-tfm" onclick="sendVote(localStorage.getItem('id'))">Send Vote</button>
+                        </div>
+
+                        <br>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-time">
+            <p style="display: inline;">Time remaining: </p>
+            <p id="time_remaining">3 min</p>
+        </div>
+
+        <hr class="footer-line">
+    </main><!-- /.container -->
 
     <div class="footer">
-        <p style="margin: 0; display: inline;">Time remaining: </p>
-        <p id="time_remaining" style="color:black;margin: 0; display: inline;" align="right">3 min</p>
+        <p>&copy; FeedApp 2020</p>
     </div>
 
-    <script>
-        var url = "http://localhost:8090/";
-        let vote = "first";
-
-        let question = document.getElementById('poll_question');
-        let time_remaining = document.getElementById('time_remaining');
-
-        // id of poll the user is voting on
-        let id = localStorage.getItem('id');
-        getPollAndShowIt(id);
-
-        function getPollAndShowIt(id) {
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow',
-                credentials: 'include'
-            };
-
-            fetch(url + "api/v1/polls?id=" + id, requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    let poll = JSON.parse(result);
-                    console.log(poll);
-
-                    question.innerText = poll.question;
-
-                    document.getElementById('first_answer').innerText = poll.firstAnswer;
-                    document.getElementById('second_answer').innerText = poll.secondAnswer;
-
-                    if(poll.startDateTime == null && poll.endDateTime == null){
-                        time_remaining.innerText = "Always open";
-                        time_remaining.style.color = 'green';
-                    }else{
-                        // Todo: show time remaining, not just end date
-                        if(poll.endDateTime == null){
-                            time_remaining.innerText = "Unlimited";
-                        }else{
-                            time_remaining.innerText = poll.endDateTime;
-                        }
-                    }
-
-                    // Radio buttons
-                    let first_radio = document.getElementById('radio_first');
-                    let second_radio = document.getElementById('radio_second');
-
-                    first_radio.addEventListener('click', () => {
-                        vote = "first";
-                    });
-                    second_radio.addEventListener('click', () => {
-                        vote = "second";
-                    });
-                })
-                .catch(error => console.log('error', error));
-        }
-
-        function findIndexOfNewestId(pollVotes){
-            let indexOfNewestId = 0;
-            let newestId = 0;
-
-            for(let i = 0; i < pollVotes.length; i++){
-                if(pollVotes[i].id > newestId){
-                    indexOfNewestId = i;
-                    newestId = pollVotes[i].id;
-                }
-            }
-            return indexOfNewestId;
-        }
-
-        function sendVote(id) {
-            let firstVotes = 0;
-            let secondVotes = 0;
-
-            // Get votes from poll
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow',
-                credentials: 'include'
-            };
-
-            fetch(url + "api/v1/polls?id=" + id, requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    let poll = JSON.parse(result);
-                    let pollVotes = poll.votes;
-
-                    let indexOfNewestId = findIndexOfNewestId(pollVotes);
-
-                    if (pollVotes.length != 0) {
-                        // Poll has been voted on before
-                        firstVotes = pollVotes[indexOfNewestId].firstVotes;
-                        secondVotes = pollVotes[indexOfNewestId].secondVotes;
-                    }
-                    sendPollUpdate(firstVotes, secondVotes);
-                })
-                .catch(error => console.log('error', error));
-        }
-
-
-        function sendPollUpdate(firstVotes, secondVotes){
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-
-            console.log("Before:");
-            console.log(firstVotes);
-            console.log(secondVotes);
-
-            if(vote == "first"){
-                firstVotes = firstVotes + 1;
-            }else if(vote == "second"){
-                secondVotes = secondVotes + 1;
-            }
-
-            console.log("After:");
-            console.log(firstVotes);
-            console.log(secondVotes);
-
-            var raw = JSON.stringify({"firstVotes":firstVotes,"secondVotes":secondVotes});
-
-            var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow',
-                credentials: 'include'
-            };
-
-            fetch(url + "api/v1/polls/" + id + "/vote", requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    console.log(result)
-                    location.href = "pollvotedone.html";
-                })
-                .catch(error => console.log('error', error));
-        }
-
-    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
     <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
@@ -191,6 +101,5 @@
         firebase.analytics();
     </script>
     <script src="pollvote.js"></script>
-
 </body>
 </html>
