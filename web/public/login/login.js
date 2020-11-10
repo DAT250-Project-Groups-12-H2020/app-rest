@@ -31,7 +31,7 @@ function RESTLogin(refreshToken, redirect = "../login/loggedinoverview.html") {
             fetch("http://localhost:8090/api/v1/session/login", requestOptions)
                 .then(response => response.text())
                 .then(result => {
-                    location.href = redirect
+                    location.href = redirect;
                 })
                 .catch(error => console.log('error', error));
         })

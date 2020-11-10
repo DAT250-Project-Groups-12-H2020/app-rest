@@ -43,6 +43,13 @@ function initApp() {
             // This gives you a Google Access Token. You can use it to access the Google API.
             let details = document.getElementById('quickstart-account-details').textContent;
 
+            console.log(details);
+            console.log(result);
+            /*
+            let result = user.refreshToken;
+            console.log("Refresh token: " + result);
+            RESTLogin(user.refreshToken);
+             */
 
             // [START_EXCLUDE]
             document.getElementById('quickstart-oauthtoken').textContent = details;
@@ -90,7 +97,7 @@ function initApp() {
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
 
             /*here*/
-            location.href = "loggedinoverview.html"
+            //location.href = "loggedinoverview.html"
 
             // on console instead
             let details = document.getElementById('quickstart-account-details').textContent;
