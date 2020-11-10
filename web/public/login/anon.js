@@ -26,6 +26,8 @@ function toggleSignIn() {
         // [END authanon]
     }
     document.getElementById('quickstart-sign-in').disabled = true;
+    document.getElementById('quickstart-poll-enter').disabled = true;
+    document.getElementById('quickstart-poll-create').disabled = true;
 }
 
 
