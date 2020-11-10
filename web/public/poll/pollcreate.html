@@ -35,6 +35,8 @@
         <p>Back to <a href="ownpollsoverview.html">poll overview</a>.</p>
     </div>
 
+    <script src="../poll/poll.js"></script>
+
     <script>
         let url = 'http://localhost:8090';
 
@@ -45,7 +47,6 @@
             let private = document.getElementById("private");
             let startDate = document.getElementById("start_date");
             let endDate = document.getElementById("end_date");
-
             let now = new Date(Date.now());
 
             let startDateChosen = new Date(startDate.value);
@@ -68,9 +69,7 @@
                 }
             }else{
                 // Date is chosen
-                isDateChosen = true;
-
-                //Todo: Make a poll with date picked today at current time be an open poll
+                // Todo: It is currently possible to choose a time interval that is up to 1 hour behind the current time (when choosing the current day as start date) - needs fix
 
                 let startTimeArr = start_time.value.toString().split(':');
                 let startHour = startTimeArr[0];
@@ -80,38 +79,59 @@
                 let endHour = endTimeArr[0];
                 let endMinutes = endTimeArr[1];
 
-                startDateChosen.setHours(parseInt(startHour));
-                startDateChosen.setMinutes(parseInt(startMinutes));
+                if(startDateChosen.getFullYear() == now.getFullYear() &&
+                    startDateChosen.getDate() == now.getDate() &&
+                    startDateChosen.getDay() == now.getDay() &&
+                    startHour == now.getHours() &&
+                    startMinutes == now.getMinutes()
+                ){
+                    // Same day as now. This is to set start date correctly (bug with seconds)
+                    startDateChosen = now;
+                }else{
+                    startDateChosen.setUTCHours(parseInt(startHour));
+                    startDateChosen.setUTCMinutes(parseInt(startMinutes));
+                    startDateChosen.setUTCSeconds(now.getSeconds());
+                }
 
-                endDateChosen.setHours(parseInt(endHour));
-                endDateChosen.setMinutes(parseInt(endMinutes));
+                endDateChosen.setUTCHours(parseInt(endHour));
+                endDateChosen.setUTCMinutes(parseInt(endMinutes));
 
-                let isValidTimeInput = validateTimeInput(startDateChosen, endDateChosen);
-
-                if(!isValidTimeInput){
+                if(!(validateTimeInput(startDateChosen, endDateChosen))){
                     alert("Time input is not valid");
                     console.log("Returning");
                     return;
+                }else{
+                    isDateChosen = true;
                 }
 
-                    pollBody = {
-                        "question":pollQuestion.value,
-                        "firstAnswer":firstAnswer.value,
-                        "secondAnswer":secondAnswer.value,
-                        "startDateTime":startDateChosen,
-                        "endDateTime":endDateChosen,
-                        "private":private.checked
+                pollBody = {
+                    "question":pollQuestion.value,
+                    "firstAnswer":firstAnswer.value,
+                    "secondAnswer":secondAnswer.value,
+                    "startDateTime":startDateChosen.toISOString(),
+                    "endDateTime":endDateChosen.toISOString(),
+                    "private":private.checked
                 }
             }
 
-            if(pollQuestion.value === ""
-                || firstAnswer.value === ""
-                || secondAnswer.value === ""
-            ) {
-                alert("Please make sure to choose a question and answers");
-            }else if(isDateChosen && (start_time.value === "" || end_time.value === "")){
-                alert("Please choose time intervals");
-            }else{
+            function checkIfAllInputsAreValid(){
+                if(pollQuestion.value === ""
+                    || firstAnswer.value === ""
+                    || secondAnswer.value === ""
+                ) {
+                    alert("Please make sure to choose a question and answers");
+                    return false;
+                }else if(isDateChosen && (start_time.value === "" || end_time.value === "")){
+                    alert("Please choose time intervals");
+                    return false;
+                }
+                if(!isDateChosen){
+                    return false;
+                }
+                return true;
+            }
+
+            if(checkIfAllInputsAreValid()){
                 pollPOST();
             }
 
@@ -131,11 +151,15 @@
                     .then(response => response.text())
                     .then(result => {
                         console.log(result)
-                        location.href = "ownpollsoverview.html";
+                        if(checkIfAllInputsAreValid()){
+                            location.href = "ownpollsoverview.html";
+                        }
+
                     })
                     .catch(error => console.log('error', error));
             }
         }
+
 
 
         function validateTimeInput(startDateChosen, endDateChosen){
@@ -144,7 +168,12 @@
 
             let endHour = endDateChosen.getHours();
             let endMinutes = endDateChosen.getMinutes();
+            let now = new Date(Date.now());
 
+            if(!(startDateChosen >= now)){
+                console.log(startDateChosen.toISOString() + " not >= " + now.toISOString());
+                return false;
+            }
             if(startDateChosen == endDateChosen){
                 if(startHour > endHour){
                     console.log("No, since " + startHour + " is greater than " + endHour);
