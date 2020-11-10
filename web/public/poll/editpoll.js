@@ -64,7 +64,7 @@ function pollPUT(pollBody) {
         .then(response => response.text())
         .then(result => {
             console.log(result)
-            location.href = "../poll/pollsoverview.html";
+            location.href = "../poll/ownpollsoverview.html";
         })
         .catch(error => console.log('error', error));
 }

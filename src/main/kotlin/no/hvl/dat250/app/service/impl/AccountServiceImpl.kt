@@ -49,7 +49,7 @@ class AccountServiceImpl(
 
   @Bean
   fun createAdmin() {
-    val uid = "qLUNh27jGiP2V0yrJtpfOLwkbVA3"
+    val uid = "2DDjwrgKpbh11VIIehKC1HYglJv2"
     val adminAccount = getAccountByUid(uid)
     FirebaseAuth.getInstance().setCustomUserClaims(uid, mapOf(ROLE_CUSTOM_CLAIM to ADMIN.name))
     accountRepository.saveAndFlush(adminAccount)
