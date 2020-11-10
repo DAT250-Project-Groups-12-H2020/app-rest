@@ -31,9 +31,11 @@ function getOwnPolls(){
         .then(result => {
             polls = JSON.parse(result).polls;
 
-            // Find all polls that belong to the current user
-            for(let i=0; i < polls.length; i++){
-                getPoll(polls[i].id);
+            if (polls != null) {
+                // Find all polls that belong to the current user
+                for(let i=0; i < polls.length; i++) {
+                    getPoll(polls[i].id);
+                }
             }
         })
         .catch(error => console.log('error', error));
