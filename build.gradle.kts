@@ -30,6 +30,7 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("com.google.firebase:firebase-admin:7.0.0")
+  implementation("com.google.api-client:google-api-client:1.30.10")
   implementation("org.projectlombok:lombok")
   implementation("org.springframework.boot:spring-boot-starter-amqp")
   implementation("org.postgresql:postgresql:42.2.18")

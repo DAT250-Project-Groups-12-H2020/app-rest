@@ -44,12 +44,6 @@ class Dweet(@Autowired val mapper: ObjectMapper) {
     map[EVENT_TYPE] = EVENT_CLOSED
     val firstVotes = poll.votes.sumOf { it.firstVotes }
     val secondVotes = poll.votes.sumOf { it.secondVotes }
-    val winner = when {
-      firstVotes > secondVotes -> "first"
-      firstVotes < secondVotes -> "second"
-      else -> "tie"
-    }
-    map["winner"] = winner
     map["firstVotes"] = firstVotes
     map["secondVotes"] = secondVotes
     sendDweet(map)
