@@ -1,33 +1,4 @@
 
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        // User is signed in.
-
-        //document.getElementById("user_div").style.display = "block";
-        //document.getElementById("login_div").style.display = "block";
-        //document.getElementById("poll_div").style.display = "block";
-
-        var user = firebase.auth().currentUser;
-
-        if(user != null){
-
-            //var email_id = user.email;
-            //document.getElementById("user_para").innerHTML = "Welcome User : " + email_id;
-
-        }
-
-    } else {
-        // No user is signed in.
-
-        //document.getElementById("user_div").style.display = "block";
-        //document.getElementById("login_div").style.display = "block";
-
-    }
-    //document.getElementById("poll_div").style.display = "block";
-
-});
-
-
 
 function publicPolls(){
     location.href = "pollsoverview.html";
@@ -64,9 +35,11 @@ function getOwnPolls(){
         .then(result => {
             polls = JSON.parse(result).polls;
 
-            // Find all polls that belong to the current user
-            for(let i=0; i < polls.length; i++){
-                getPoll(polls[i].id);
+            if (polls != null) {
+                // Find all polls that belong to the current user
+                for(let i=0; i < polls.length; i++) {
+                    getPoll(polls[i].id);
+                }
             }
         })
         .catch(error => console.log('error', error));
