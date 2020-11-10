@@ -89,7 +89,7 @@ function initApp() {
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
 
-            /*here lol*/
+            /*here*/
             location.href = "loggedinoverview.html"
 
             // on console instead
@@ -108,7 +108,7 @@ function initApp() {
             // [START_EXCLUDE]
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
             document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
-            document.getElementById('quickstart-account-details').textContent = '';
+            document.getElementById('quickstart-account-details').textContent = 'null';
             document.getElementById('quickstart-oauthtoken').textContent = '';
             // [END_EXCLUDE]
         }
