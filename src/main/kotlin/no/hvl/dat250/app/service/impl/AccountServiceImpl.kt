@@ -203,7 +203,7 @@ class AccountServiceImpl(
 
   override fun deletePoll(poll: Poll, account: Account) {
     // check user owns poll
-    if (isNotOwnerOf(poll, account) && account.isNotAdmin()) {
+    if (isNotOwnerOf(poll, account)) {
       throw PollNotOwnedByUserException(poll.id)
     }
 
@@ -213,7 +213,7 @@ class AccountServiceImpl(
   }
 
   override fun isOwnerOf(poll: Poll, account: Account): Boolean {
-    return poll in account.polls
+    return poll in account.polls || account.role == ADMIN
   }
 
   private fun findAllAccounts(query: () -> Page<Account>): Page<Account> {
