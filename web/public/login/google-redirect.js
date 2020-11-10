@@ -47,7 +47,7 @@ function initApp() {
             // [START_EXCLUDE]
             document.getElementById('quickstart-oauthtoken').textContent = details;
         } else {
-            document.getElementById('quickstart-oauthtoken').textContent = 'null';
+            document.getElementById('quickstart-oauthtoken').textContent = '';
             // [END_EXCLUDE]
         }
         // The signed-in user info.
@@ -88,7 +88,14 @@ function initApp() {
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+
+            /*here lol*/
+            location.href = "loggedinoverview.html"
+
             // on console instead
+            let details = document.getElementById('quickstart-account-details').textContent;
+            details = JSON.stringify(user, null, ' ');
+            console.log(details)
 
             let result = user.refreshToken;
             console.log("Refresh token: " + result);
@@ -102,7 +109,7 @@ function initApp() {
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
             document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
             document.getElementById('quickstart-account-details').textContent = '';
-            document.getElementById('quickstart-oauthtoken').textContent = 'null';
+            document.getElementById('quickstart-oauthtoken').textContent = '';
             // [END_EXCLUDE]
         }
         // [START_EXCLUDE]

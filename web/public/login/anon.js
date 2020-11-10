@@ -26,8 +26,6 @@ function toggleSignIn() {
         // [END authanon]
     }
     document.getElementById('quickstart-sign-in').disabled = true;
-    document.getElementById('quickstart-poll-enter').disabled = true;
-    document.getElementById('quickstart-poll-create').disabled = true;
 }
 
 
@@ -48,11 +46,8 @@ function initApp() {
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
 
-            document.getElementById('quickstart-poll-enter').textContent = 'Poll Code';
-            document.getElementById('quickstart-poll-create').textContent = 'Create Poll';
-
-            document.getElementById('quickstart-poll-enter').hidden = false;
-            document.getElementById('quickstart-poll-create').hidden = false;
+            /*here*/
+            location.href = "../poll/pollcode.html"
 
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, ' ');
 
@@ -73,21 +68,11 @@ function initApp() {
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
             document.getElementById('quickstart-sign-in').textContent = 'Sign in';
 
-            document.getElementById('quickstart-poll-enter').textContent = '';
-            document.getElementById('quickstart-poll-create').textContent = '';
-
-            document.getElementById('quickstart-poll-enter').hidden = true;
-            document.getElementById('quickstart-poll-create').hidden = true;
-
-
-
             document.getElementById('quickstart-account-details').textContent = '';
             // [END_EXCLUDE]
         }
         // [START_EXCLUDE]
         document.getElementById('quickstart-sign-in').disabled = false;
-        document.getElementById('quickstart-poll-enter').disabled = false;
-        document.getElementById('quickstart-poll-create').disabled = false;
         // [END_EXCLUDE]
     });
     // [END authstatelistener]

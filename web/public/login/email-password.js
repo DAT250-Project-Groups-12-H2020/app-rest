@@ -86,26 +86,26 @@ firebase.auth().currentUser.sendEmailVerification().then(function() {
 }
 
 function sendPasswordReset() {
-var email = document.getElementById('email').value;
-// [START sendpasswordemail]
-firebase.auth().sendPasswordResetEmail(email).then(function() {
-// Password Reset Email Sent!
-// [START_EXCLUDE]
-alert('Password Reset Email Sent!');
-// [END_EXCLUDE]
-}).catch(function(error) {
-// Handle Errors here.
-var errorCode = error.code;
-var errorMessage = error.message;
-// [START_EXCLUDE]
-if (errorCode == 'auth/invalid-email') {
-alert(errorMessage);
-} else if (errorCode == 'auth/user-not-found') {
-alert(errorMessage);
-}
-console.log(error);
-// [END_EXCLUDE]
-});
+    var email = document.getElementById('email').value;
+    // [START sendpasswordemail]
+    firebase.auth().sendPasswordResetEmail(email).then(function() {
+        // Password Reset Email Sent!
+        // [START_EXCLUDE]
+        alert('Password Reset Email Sent!');
+        // [END_EXCLUDE]
+    }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/invalid-email') {
+            alert(errorMessage);
+        } else if (errorCode == 'auth/user-not-found') {
+            alert(errorMessage);
+        }
+    console.log(error);
+    // [END_EXCLUDE]
+    });
 // [END sendpasswordemail];
 }
 
@@ -119,13 +119,17 @@ function initApp() {
 // [START authstatelistener]
 firebase.auth().onAuthStateChanged(function(user) {
     // [START_EXCLUDE silent]
+    /*
     document.getElementById('quickstart-verify-email').disabled = true;
+    */
     // [END_EXCLUDE]
     if (user) {
         // User is signed in.
         var displayName = user.displayName;
         var email = user.email;
+        /*
         var emailVerified = user.emailVerified;
+        */
         var photoURL = user.photoURL;
         var isAnonymous = user.isAnonymous;
         var uid = user.uid;
@@ -133,16 +137,20 @@ firebase.auth().onAuthStateChanged(function(user) {
         // [START_EXCLUDE]
         document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
         document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+        /*here lol*/
+        location.href = "loggedinoverview.html"
+
         //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, ' ');
 
         // on console instead
         let details = document.getElementById('quickstart-account-details').textContent;
         details = JSON.stringify(user, null, ' ');
         console.log(details)
-
+        /*
         if (!emailVerified) {
-            document.getElementById('quickstart-verify-email').disabled = false;
+        document.getElementById('quickstart-verify-email').disabled = false;
         }
+        */
         // [END_EXCLUDE]
     } else {
         // User is signed out.
@@ -160,11 +168,18 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
-document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
-document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
+//document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
+//document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
+//document.getElementById('quickstart-sign-in').addEventListener('click', loggedInOverview, false);
+
 }
 
 window.onload = function() {
 initApp();
 };
+
+function loggedInOverview(){
+    location.href = "loggedinoverview.html"
+
+}
 

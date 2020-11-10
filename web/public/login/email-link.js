@@ -135,6 +135,10 @@ function initApp() {
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+
+            /*here lol*/
+            location.href = "loggedinoverview.html"
+
             // on console instead
             let details = document.getElementById('quickstart-account-details').textContent;
             details = JSON.stringify(user, null, ' ');
@@ -146,7 +150,7 @@ function initApp() {
             // Update UI.
             // [START_EXCLUDE]
             document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
-            document.getElementById('quickstart-sign-in').textContent = 'Sign In without password';
+            document.getElementById('quickstart-sign-in').textContent = 'Sign in without password';
             document.getElementById('quickstart-account-details').textContent = '';
             // [END_EXCLUDE]
         }

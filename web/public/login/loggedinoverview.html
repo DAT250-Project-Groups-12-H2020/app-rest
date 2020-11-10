@@ -1,51 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>FeedApp login</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Overview</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/jumbotron/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="loggedinoverview.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="loggedinoverview.html">FeedApp</a>
+    <!--
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+     </button>
+     -->
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <!--
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            -->
+        </ul>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
 
-    <div id="login_div" class="main-div">
-        <h1>Welcome to FeedApp</h1>
-        <p>Choose what you want to do:</p>
-
-        <button onclick="poll_overview()">Poll Overview</button>
-        <button onclick="poll_code()">Poll Code</button>
-        <button onclick="admin_overview()">Admin Overview</button>
-        <button onclick="logout()">Log out</button>
 
     </div>
+</nav>
+<main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Polls Overview</h1>
+            <p>An overview of all of the greatest polls in history!</p>
+            <p><a class="btn btn-primary btn-lg" href="../poll/pollsoverview.html" role="button">See polls &raquo;</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Poll Code</h2>
+                <p> Got poll code? Head over here and get started immediately! </p>
+                <p><a class="btn btn-secondary" href="../poll/pollcode.html" role="button">Poll Code &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>Admin</h2>
+                <p>If you're admin, you can click here for more advanced settings and overview.</p>
+                <p><a class="btn btn-secondary" href="../admin/adminoverview.html" role="button">View details &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>About Us</h2>
+                <p> Get to know our company, leadership, jobs (we are hiring!), press, investor relations and more! </p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            </div>
+        </div>
+
+        <hr class="footer-line">
+
+    </div> <!-- /container -->
+
+</main>
 
 
-    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+<div class="footer">
+    <p>&copy; FeedApp 2020</p>
+</div>
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
 
-    <script>
-        //Yourwebapp'sFirebaseconfiguration
-        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-            projectId: "dat250-gr-2-h2020-app",
-            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-            messagingSenderId: "851900401969",
-            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-            measurementId: "G-03WHQEL0R0"
-        };
-        //InitializeFirebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
-    <script src="loggedinoverview.js"></script>
+<!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+<script>
+    //Yourwebapp'sFirebaseconfiguration
+    //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+        projectId: "dat250-gr-2-h2020-app",
+        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+        messagingSenderId: "851900401969",
+        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+        measurementId: "G-03WHQEL0R0"
+    };
+    //InitializeFirebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="loggedinoverview.js"></script>
 </body>
 </html>

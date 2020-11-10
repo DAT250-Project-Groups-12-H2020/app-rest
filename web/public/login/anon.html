@@ -1,69 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--
+    source:
+    https://www.mockplus.com/blog/post/bootstrap-form-template
+    https://bootsnipp.com/snippets/orMGB
+    -->
     <meta charset="UTF-8">
-    <title>FeedApp login</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <title>FeedApp · Guest</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    -->
+    <!------ Include the above in your HEAD tag ---------->
+    <!-- Custom styles for this template below-->
+    <link href="login.css" rel="stylesheet">
+
 </head>
 <body>
 
-    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-        <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
-            <h1 class="mdl-card__title-text">Anonymous Authentication</h1>
+<main>
+    <div class="container">
+        <div class="col-md-6 mx-auto text-center">
+            <div class="header-title">
+                <h1 class="wv-heading--title">
+                    FeedApp - Guest
+                </h1>
+                <h2 class="wv-heading--subtitle">
+                    Sign in anonymously
+                </h2>
+            </div>
         </div>
 
-        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-            <h2>Sign in anonymously.</h2>
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form ">
+                    <div class="form-group">
+                        <button class=" btn btn-block send-button tx-tfm" id="quickstart-sign-in" name="signin">Sign in</button>
+                    </div>
 
-            <button disabled class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-in" name="signin">Sign in</button>
-
-            <div class="mdl-card__supporting-text_idk mdl-color-text--grey-600">
-
-                <button disabled class="ok" id="quickstart-poll-enter" name="enter" onclick="pollcode()"></button>
-
-                <button disabled class="ok" id="quickstart-poll-create" name="enter" onclick="pollcreate()"></button>
+                    <div class="quickstart-user-details-container">
+                        Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+                        <!--<div>Firebase auth <code>currentUser</code> object value:</div>-->
+                        <pre><code id="quickstart-account-details"></code></pre>
+                    </div>
+                </div>
             </div>
-            <!-- Container where we'll display the user details -->
-
-            <div class="quickstart-user-details-container">
-                Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-                <!--<div>Firebase auth <code>currentUser</code> object value:</div>-->
-                <pre><code id="quickstart-account-details"></code></pre>
-            </div>
-
         </div>
-
     </div>
+</main>
 
-    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+<!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
 
-    <script>
-        //Yourwebapp'sFirebaseconfiguration
-        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-            projectId: "dat250-gr-2-h2020-app",
-            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-            messagingSenderId: "851900401969",
-            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-            measurementId: "G-03WHQEL0R0"
-        };
-        //InitializeFirebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
-    <script src="login.js"></script>
-    <script src="anon.js"></script>
+<script>
+    //Yourwebapp'sFirebaseconfiguration
+    //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+        projectId: "dat250-gr-2-h2020-app",
+        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+        messagingSenderId: "851900401969",
+        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+        measurementId: "G-03WHQEL0R0"
+    };
+    //InitializeFirebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+
+<script src="login.js"></script>
+<script src="anon.js"></script>
 
 </body>
+
 </html>
