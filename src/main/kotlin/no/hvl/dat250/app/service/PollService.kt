@@ -35,12 +35,6 @@ interface PollService {
   @ExceptionHandler(NotLoggedInException::class, InvalidPollException::class)
   fun updatePoll(id: Long, request: PollRequest): Poll
 
-  /**
-   * deletes a poll
-   */
-  @ExceptionHandler(PollNotOwnedByUserException::class, PollNotFoundException::class)
-  fun delete(id: Long)
-
   fun getActivePublicPolls(page: Pageable): Page<Poll>
 
   fun getAllPublicPolls(page: Pageable): Page<Poll>

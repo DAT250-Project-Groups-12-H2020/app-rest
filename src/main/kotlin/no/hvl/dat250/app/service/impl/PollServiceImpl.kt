@@ -101,10 +101,6 @@ class PollServiceImpl(
     return pollRepository.saveAndFlush(poll)
   }
 
-  override fun delete(id: Long) {
-    pollRepository.delete(getOwnedPoll(id))
-  }
-
   override fun getActivePublicPolls(page: Pageable): Page<Poll> {
     val now = OffsetDateTime.now()
     return pollRepository.findAllByPrivateFalseAndStartDateTimeBeforeAndEndDateTimeAfterOrEndDateTimeNull(now, now, page)
