@@ -1,31 +1,3 @@
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        // User is signed in.
-
-        //document.getElementById("user_div").style.display = "block";
-        //document.getElementById("login_div").style.display = "block";
-        //document.getElementById("poll_div").style.display = "block";
-
-        var user = firebase.auth().currentUser;
-
-        if(user != null){
-
-            //var email_id = user.email;
-            //document.getElementById("user_para").innerHTML = "Welcome User : " + email_id;
-
-        }
-
-    } else {
-        // No user is signed in.
-
-        //document.getElementById("user_div").style.display = "block";
-        //document.getElementById("login_div").style.display = "block";
-
-    }
-    //document.getElementById("poll_div").style.display = "block";
-
-});
-
 var url = "http://localhost:8090";
 
 function goToPoll(){
@@ -62,7 +34,18 @@ function goToPoll(){
 }
 
 function logout(){
-    firebase.auth().signOut();
-    /*here lol */
-    location.href = "../index.html";
+    var requestOptions = {
+        method: 'POST',
+        redirect: 'follow',
+        credentials: 'include'
+    };
+
+    fetch(url + "/api/v1/session/logout", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result)
+            location.href = "../index.html";
+        })
+        .catch(error => console.log('error', error));
+
 }

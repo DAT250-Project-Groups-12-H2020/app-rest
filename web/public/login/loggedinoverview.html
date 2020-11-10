@@ -45,7 +45,7 @@
             </li>
             -->
         </ul>
-        <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
 
 
     </div>
@@ -69,7 +69,7 @@
                 <p> Got poll code? Head over here and get started immediately! </p>
                 <p><a class="btn btn-secondary" href="../poll/pollcode.html" role="button">Poll Code &raquo;</a></p>
             </div>
-            <div class="col-md-4">
+            <div id="admin" class="col-md-4">
                 <h2>Admin</h2>
                 <p>If you're admin, you can click here for more advanced settings and overview.</p>
                 <p><a class="btn btn-secondary" href="../admin/adminoverview.html" role="button">View details &raquo;</a></p>
@@ -106,6 +106,28 @@
 <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
 
 <script>
+    let url = "http://localhost:8090";
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        credentials: 'include'
+    };
+
+    fetch(url + "/api/v1/accounts/me", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            profile = result;
+            let user = JSON.parse(result);
+            console.log(user);
+            if(user.role != "ADMIN"){
+                document.getElementById('admin').hidden = true;
+            }
+        })
+        .catch(error => console.log('error', error));
+
+</script>
+<script>
     //Yourwebapp'sFirebaseconfiguration
     //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
     var firebaseConfig = {
@@ -123,5 +145,6 @@
     firebase.analytics();
 </script>
 <script src="loggedinoverview.js"></script>
+<script src="../login/login.js"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@ security:
     database-url: ${FIREBASE_DATABASE}
     enable-strict-server-session: true
     enable-check-session-revoked: false
-    enable-logout-everywhere: false
+    enable-logout-everywhere: true
     session-expiry-in-days: 5
   cookie-props:
     max-age-in-minutes: 7200

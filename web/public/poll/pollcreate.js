@@ -28,7 +28,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 function logout(){
     firebase.auth().signOut();
-    /*here lol */
     location.href = "../index.html";
 }
 
@@ -127,7 +126,6 @@ async function createPoll() {
         return true;
     }
 
-    console.log("hey");
     if(checkIfAllInputsAreValid()){
         pollPOST();
     }
@@ -148,11 +146,8 @@ async function createPoll() {
             .then(response => response.text())
             .then(result => {
                 console.log(result)
-                if(checkIfAllInputsAreValid()){
-                    console.log("bytt her");
-                    location.href = "ownpollsoverview.html";
-                }
-
+                console.log("About to go to ownpollsoverview");
+                location.href = "../poll/ownpollsoverview.html";
             })
             .catch(error => console.log('error', error));
     }

@@ -91,6 +91,8 @@ function handleSignIn() {
                 // Signed-in user's information.
                 var user = result.user;
                 var isNewUser = result.additionalUserInfo.isNewUser;
+
+                RESTLogin(user.refreshToken);
                 console.log(result)
             }).catch(function(error) {
                 // Handle Errors here.
@@ -136,8 +138,8 @@ function initApp() {
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
             //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
 
-            /*here lol*/
-            location.href = "loggedinoverview.html"
+
+            //location.href = "loggedinoverview.html"
 
             // on console instead
             let details = document.getElementById('quickstart-account-details').textContent;

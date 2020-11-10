@@ -138,11 +138,6 @@ firebase.auth().onAuthStateChanged(function(user) {
         document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
         document.getElementById('quickstart-sign-in').textContent = 'Sign out';
 
-        /*here*/
-        location.href = "loggedinoverview.html"
-
-        //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, ' ');
-
         // on console instead
         let details = document.getElementById('quickstart-account-details').textContent;
         details = JSON.stringify(user, null, ' ');
@@ -179,8 +174,4 @@ window.onload = function() {
 initApp();
 };
 
-function loggedInOverview(){
-    location.href = "loggedinoverview.html"
-
-}
 

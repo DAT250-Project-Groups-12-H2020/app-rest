@@ -1,4 +1,4 @@
-function RESTLogin(refreshToken) {
+function RESTLogin(refreshToken, redirect = "../login/loggedinoverview.html") {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -17,13 +17,9 @@ function RESTLogin(refreshToken) {
     fetch("https://securetoken.googleapis.com/v1/token", requestOptions)
         .then(response => response.text())
         .then(result => {
-            //console.log(result);
             var myHeaders = new Headers();
             var json = JSON.parse(result);
-            //console.log("token type: " + json.token_type);
-            //console.log("acctok: " + json.access_token);
             myHeaders.append("Authorization",  json.token_type + " " + json.access_token);
-            //myHeaders.append('content-type', "API-Key");
 
             var requestOptions = {
                 method: 'POST',
@@ -34,7 +30,9 @@ function RESTLogin(refreshToken) {
 
             fetch("http://localhost:8090/api/v1/session/login", requestOptions)
                 .then(response => response.text())
-                .then(result => console.log(result))
+                .then(result => {
+                    location.href = redirect
+                })
                 .catch(error => console.log('error', error));
         })
         .catch(error => console.log('error', error));
@@ -51,7 +49,7 @@ function RESTLogout(){
 
     fetch("http://localhost:8090/api/v1/session/logout", requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => location.href = "../index.html")
         .catch(error => console.log('error', error));
 
 }

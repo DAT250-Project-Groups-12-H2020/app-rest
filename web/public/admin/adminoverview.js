@@ -33,8 +33,3 @@ function poll_overview(){
 function user_overview(){
     location.href = "useroverview.html"
 }
-
-
-function logout(){
-    firebase.auth().signOut();
-}

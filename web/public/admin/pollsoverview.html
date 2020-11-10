@@ -15,6 +15,7 @@
     <tr>
         <th>Poll Question</th>
         <!-- <th>Owner</th> -->
+        <th>Edit</th>
     </tr>
 </table>
 
@@ -22,8 +23,9 @@
     <button onclick="pollcreate()">Create Poll</button>
 </div>
 
-<div class="button">
-    <p>Go to <a href="../login/loggedinoverview.html">Logged in menu</a>.</p>
+
+<div class="footer">
+    <p>Go to <a href="../login/loggedinoverview.html">app overview</a>.</p>
 </div>
 
 <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
@@ -101,7 +103,7 @@
                     pollEdit.addEventListener('click', () => {
                         window.localStorage.setItem('id', p.id);
                         console.log("Edit");
-                        location.href = "../poll/editpoll.html";
+                        location.href = "../admin/editpoll.html";
                     })
                 }
 

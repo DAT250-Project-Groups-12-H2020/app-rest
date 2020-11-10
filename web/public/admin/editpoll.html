@@ -107,7 +107,7 @@
             .then(response => response.text())
             .then(result => {
                 console.log(result)
-                location.href = "../poll/pollsoverview.html";
+                location.href = "../admin/pollsoverview.html";
             })
             .catch(error => console.log('error', error));
     }
@@ -125,7 +125,7 @@
             .then(response => response.text())
             .then(result => {
                 console.log(result)
-                location.href = "../poll/pollsoverview.html";
+                location.href = "../admin/pollsoverview.html";
             })
             .catch(error => console.log('error', error));
     }
@@ -158,7 +158,7 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
 </script>
-<!-- <script src="pollvote.js"></script> -->
+<script src="pollvote.js"></script>
 
 </body>
 </html>

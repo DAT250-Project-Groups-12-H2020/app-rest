@@ -22,7 +22,7 @@
                     <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-            <button class="btn btn-outline-success my-2 my-sm-0" onclick="logout()" type="submit">Log out</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
         </div>
     </nav>
 
@@ -59,8 +59,7 @@
                                 <label for="private">Private</label><br>
                             </div>
                             <button class="btn btn-block send-button tx-tfm" onclick="createPoll()" type="submit">Create Poll</button>
-
-                        </div>
+                            </div>
                         <div class="text-center">
                             <p>Don't have poll code? Go to <a href="../poll/pollsoverview.html">poll overview!</a></p>
                         </div>
@@ -107,5 +106,6 @@
     </script>
     <script src="pollcreate.js"></script>
     <script src="poll.js"></script>
+    <script src="../login/login.js"></script>
 </body>
 </html>
