@@ -1,29 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Edit Profile</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../poll/poll.css" rel="stylesheet">
 </head>
 <body>
-<div>
-    <title>Edit Profile</title>
-    <h1>Edit profile</h1><br><br>
-    <label for="name">Name:</label>
-    <input type="text" id="name"><br>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
+    </div>
+</nav>
 
-    <label for="email">Email:</label>
-    <input type="text" id="email"><br>
+<main role="main" class="container">
+    <div class="poll-title">
+        <h1>Edit Profile</h1>
+        <p class="lead">Modify or delete your profile.</p>
+    </div>
 
-    <button onclick="editProfile(window.localStorage.getItem('id'))">Edit Profile</button>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="myform form ">
+                <div class="form-group">
 
-    <br><br>
+                    <label for="name">Name:</label>
+                    <input class="form-control my-input" type="text" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input class="form-control my-input" type="text" id="email">
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-block send-button tx-tfm" onclick="editProfile(window.localStorage.getItem('id'))">Edit Profile</button><br>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-block send-button tx-tfm" onclick="deleteProfile(window.localStorage.getItem('id'))">Delete Profile</button><br>
+                </div>
+                <div class="text-center">
+                    <br>
+                    <p>Go to back to <a href="adminoverview.html"> admin overview!</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <button onclick="deleteProfile(window.localStorage.getItem('id'))" style="color: red">Delete Profile</button>
-    <br>
-    <p id="message"></p>
+    <hr class="footer-line">
+</main>
+
+<div class="footer">
+    <p>&copy; FeedApp 2020</p>
 </div>
-
 
 <script>
     let url = "http://localhost:8090";
@@ -136,9 +176,8 @@
                 .catch(error => console.log('error', error));
         }
     }
-
-
-</script>
-
+    </script>
+    <script src="../login/login.js"></script>
 </body>
+
 </html>
