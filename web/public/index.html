@@ -2,37 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FeedApp login</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
+    <title>FeedApp · Log-in</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- Custom styles for this template -->
+    <link href="index.css" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
+        <div class="col-md-6 mx-auto text-center">
+            <div class="header-title">
+                <h1 class="wv-heading--title">
+                    FeedApp
+                </h1>
+                <h2 class="wv-heading--subtitle">
+                    Please choose log-in method!
+                </h2>
+            </div>
+        </div>
+    <!--
+        <div id="login_div" class="main-div">
 
-    <div id="login_div" class="main-div">
         <h1>FeedApp Login</h1>
-
+    -->
 
         <!--<input type="email" placeholder="Email" id="email_field" />
         <input type="password" placeholder="Password" id="password_field" />
         -->
-
-        <button onclick="email_password()">Email & Password</button>
-        <button onclick="email_link()">Email & Link</button>
-        <button onclick="guest()">Guest</button>
-        <button onclick="google()">Google Sign-in</button>
-        <button onclick="REST_accounts_me()">REST accounts/me</button>
-
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form ">
+                        <div class="form-group">
+                            <button class=" btn btn-block send-button tx-tfm" onclick="email_password()">Email & Password</button>
+                        </div>
+                        <div class="form-group">
+                            <button class=" btn btn-block send-button tx-tfm" onclick="email_link()">Email & Link</button>
+                        </div>
+                        <div class="form-group">
+                            <button class=" btn btn-block send-button tx-tfm" onclick="guest()">Guest</button>
+                        </div>
+                        <div class="form-group">
+                            <button class=" btn btn-block send-button tx-tfm" onclick="google()">Google Sign-in</button>
+                        </div>
+                        <div class="form-group">
+                            <button class=" btn btn-block send-button tx-tfm" onclick="REST_accounts_me()">REST accounts/me</button>
+                        </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <!--
-    <div id="user_div" class="loggedin-div">
-        <h3>Welcome User</h3>
-        <p id="user_para">Welcome to Firebase web login Example. You're currently logged in.</p>
-        <button onclick="logout()">Logout</button>
-    </div>
-    -->
-
     <script>
-
         function REST_accounts_me(){
             var myHeaders = new Headers();
 
@@ -48,7 +68,6 @@
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
         }
-
     </script>
 
 
