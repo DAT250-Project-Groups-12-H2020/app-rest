@@ -19,6 +19,7 @@ import no.hvl.dat250.app.model.Role
 import no.hvl.dat250.app.model.Role.ADMIN
 import no.hvl.dat250.app.model.Role.USER
 import no.hvl.dat250.app.repository.AccountRepository
+import no.hvl.dat250.app.repository.PollRepository
 import no.hvl.dat250.app.security.SecurityService
 import no.hvl.dat250.app.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +34,9 @@ class AccountServiceImpl(
   @Autowired
   private val securityService: SecurityService,
   @Autowired
-  private val accountRepository: AccountRepository
+  private val accountRepository: AccountRepository,
+  @Autowired
+  private val pollRepository: PollRepository
 ) : AccountService {
 
   private fun Account.canNotUpdate(uid: String): Boolean {
@@ -198,7 +201,7 @@ class AccountServiceImpl(
     accountRepository.saveAndFlush(account)
   }
 
-  override fun removePoll(poll: Poll, account: Account) {
+  override fun deletePoll(poll: Poll, account: Account) {
     // check user owns poll
     if (isNotOwnerOf(poll, account)) {
       throw PollNotOwnedByUserException(poll.id)
@@ -206,10 +209,11 @@ class AccountServiceImpl(
 
     account.polls.remove(poll)
     accountRepository.saveAndFlush(account)
+    pollRepository.delete(poll)
   }
 
   override fun isOwnerOf(poll: Poll, account: Account): Boolean {
-    return poll in account.polls
+    return poll in account.polls || account.role == ADMIN
   }
 
   private fun findAllAccounts(query: () -> Page<Account>): Page<Account> {
