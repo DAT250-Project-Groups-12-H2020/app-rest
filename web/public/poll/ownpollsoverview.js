@@ -117,6 +117,8 @@ function getPoll(id){
                 newCell.style.color = "red";
             }
 
+            let pollCodeColumn = table.rows[table.rows.length - 1].insertCell();
+            pollCodeColumn.textContent = result.id;
 
             // New column/cell to the right
             let nC = table.rows[table.rows.length - 1].insertCell();
@@ -127,6 +129,8 @@ function getPoll(id){
                 location.href = "../poll/editpoll.html";
             })
         })
+
+
         .catch(error => console.log('error', error));
 
     document.body.appendChild(table);
