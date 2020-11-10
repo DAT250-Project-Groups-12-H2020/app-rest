@@ -26,7 +26,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 });
 
-var url = "http://localhost:8090/";
+var url = "http://localhost:8090";
 
 function goToPoll(){
     let id = document.getElementById('poll_field').value;
@@ -39,7 +39,7 @@ function goToPoll(){
     };
     console.log(id);
 
-    fetch(url + "api/v1/polls?id=" + id, requestOptions)
+    fetch(url + "/api/v1/polls?id=" + id, requestOptions)
         .then(response => response.text())
         .then(result => {
 

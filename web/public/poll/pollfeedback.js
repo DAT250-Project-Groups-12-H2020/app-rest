@@ -48,7 +48,7 @@ function pollvote(){
     location.href = "pollvote.html";
 }
 
-var url = "http://localhost:8090/";
+var url = "http://localhost:8090";
 let id = window.localStorage.getItem('id');
 getPoll(id);
 
@@ -60,7 +60,7 @@ function getPoll(id){
     };
 
     console.log("id:" + id);
-    fetch(url + "api/v1/polls?id=" + id, requestOptions)
+    fetch(url + "/api/v1/polls?id=" + id, requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result)

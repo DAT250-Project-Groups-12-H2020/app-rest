@@ -146,7 +146,7 @@ async function createPoll() {
             .then(result => {
                 console.log(result)
                 if(checkIfAllInputsAreValid()){
-                    location.href = "ownpollsoverview.html";
+                    //location.href = "privatepollsoverview.html";
                 }
 
             })

@@ -44,7 +44,7 @@ function logout(){
     location.href = "../index.html";
 }
 
-var url = "http://localhost:8090/";
+var url = "http://localhost:8090";
 let vote = "first";
 
 let question = document.getElementById('poll_question');
@@ -61,7 +61,7 @@ function getPollAndShowIt(id) {
         credentials: 'include'
     };
 
-    fetch(url + "api/v1/polls?id=" + id, requestOptions)
+    fetch(url + "/api/v1/polls?id=" + id, requestOptions)
         .then(response => response.text())
         .then(result => {
             let poll = JSON.parse(result);
@@ -122,7 +122,7 @@ function sendVote(id) {
         credentials: 'include'
     };
 
-    fetch(url + "api/v1/polls?id=" + id, requestOptions)
+    fetch(url + "/api/v1/polls?id=" + id, requestOptions)
         .then(response => response.text())
         .then(result => {
             let poll = JSON.parse(result);
@@ -169,7 +169,7 @@ function sendPollUpdate(firstVotes, secondVotes){
         credentials: 'include'
     };
 
-    fetch(url + "api/v1/polls/" + id + "/vote", requestOptions)
+    fetch(url + "/api/v1/polls/" + id + "/vote", requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result)
