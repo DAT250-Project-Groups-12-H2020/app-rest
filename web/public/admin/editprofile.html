@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<div>
+    <title>Edit Profile</title>
+    <h1>Edit profile</h1><br><br>
+    <label for="name">Name:</label>
+    <input type="text" id="name"><br>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email"><br>
+
+    <button onclick="editProfile(window.localStorage.getItem('id'))">Edit Profile</button>
+
+    <br><br>
+
+    <button onclick="deleteProfile(window.localStorage.getItem('id'))" style="color: red">Delete Profile</button>
+    <br>
+    <p id="message"></p>
+</div>
+
+
+<script>
+    let url = "http://localhost:8090";
+    let nameInput = document.getElementById('name');
+    let emailInput = document.getElementById('email');
+    let profile = null;
+    let meId = "";
+
+    // Whether or not the user editing this profile is admin
+    isAdmin = false;
+    getMe();
+    getProfile(window.localStorage.getItem('id'));
+
+    function getMe(){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            credentials: 'include'
+        };
+
+        fetch(url + "/api/v1/accounts/me", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+                profile = JSON.parse(result);
+                if(profile.role == "ADMIN"){
+                    isAdmin = true;
+                }
+                meId = profile.id;
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function getProfile(id){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            credentials: 'include'
+        };
+
+        fetch(url + "/api/v1/accounts/" + id, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result);
+                let profile = JSON.parse(result);
+                if(profile.name != null){
+                    nameInput.value = profile.name;
+                    console.log(profile.name);
+                }
+                if(profile.email != null){
+                    emailInput.value = profile.email;
+                    console.log(profile.email);
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
+
+    function editProfile(id){
+        console.log(profile);
+        let photoUrl = profile.photoUrl;
+        let role = profile.role;
+        let disabled = profile.disabled;
+
+        var raw = JSON.stringify({"name":nameInput.value, "email":emailInput.value, "photoUrl":photoUrl, disabled:disabled, role:role});
+
+        if(emailInput.value != profile.name){
+            // Email has been changed
+            // Todo: Send verification email
+        }
+        var requestOptions = {
+            method: 'PUT',
+            body: raw,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            credentials: 'include'
+        };
+
+        fetch(url + "/api/v1/accounts/" + id, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+                //document.getElementById('message').innerText = "Account edited!";
+                location.href = "../admin/useroverview.html";
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function deleteProfile(id){
+        if(confirm('Are you sure?')){
+            var requestOptions = {
+                method: 'DELETE',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "/api/v1/accounts/" + id, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    if(meId == id){
+                        // If admin deleted own account
+                        location.href = "../index.html";
+                    }else{
+                        location.href = "../admin/useroverview.html";
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

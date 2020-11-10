@@ -8,78 +8,114 @@
 </head>
 <body>
 
-    <div id="login_div" class="guest-div">
-        <h1>User Overview</h1>
-    </div>
-    <table style="width:100%">
-        <tr>
-            <td onclick = "userinfo()" >Ola</td>
-            <td>Normal User</td>
-            <td>Inspect</td>
-            <td>Remove</td>
-        </tr>
-        <tr>
-            <td onclick="userinfo()">Tobias</td>
-            <td>Admin</td>
-            <td>Inspect</td>
-            <td>Remove</td>
-        </tr>
-        <tr>
-            <td onclick="userinfo()">Simen</td>
-            <td>Admin</td>
-            <td>Inspect</td>
-            <td>Remove</td>
-        </tr>
-        <tr>
-            <td onclick="userinfo()">Elg</td>
-            <td>Admin</td>
-            <td>Inspect</td>
-            <td>Remove</td>
-        </tr>
-        <tr>
-            <td onclick="userinfo()">Emily</td>
-            <td>Admin</td>
-            <td>Inspect</td>
-            <td>Remove</td>
-        </tr>
-    </table>
+<div id="login_div" class="guest-div">
+    <h1>User Overview</h1>
+</div>
+<table id="users_table" style="width:100%">
 
-    <div id="poll_div" class="poll-overview-div">
-        <!-- knappen funker ikke-->
-        <button onclick="">Create new user</button>
-    </div>
+</table>
 
-    <div class="footer">
-        <p>Back to <a href="adminoverview.html">admin overview</a>.</p>
-    </div>
+<div id="poll_div" class="poll-overview-div">
+    <!-- knappen funker ikke-->
+    <button onclick="">Create new user</button>
+</div>
 
-    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+<div class="footer">
+    <p>Back to <a href="adminoverview.html">admin overview</a>.</p>
+</div>
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+<script>
+    let url = "http://localhost:8090";
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+    getMe();
+    //getAllActiveUsers();
+    let usersTable = document.getElementById('users_table');
 
-    <script>
-        //Yourwebapp'sFirebaseconfiguration
-        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-            projectId: "dat250-gr-2-h2020-app",
-            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-            messagingSenderId: "851900401969",
-            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-            measurementId: "G-03WHQEL0R0"
+    function getMe(){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            credentials: 'include'
         };
-        //InitializeFirebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
-    <script src="../index.js"></script>
+
+        fetch(url + "/api/v1/accounts/me", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+                profile = JSON.parse(result);
+                usersTable.insertRow();
+
+                let nameCell = usersTable.rows[usersTable.rows.length - 1].insertCell();
+                nameCell.addEventListener('click', () => {
+                    window.localStorage.setItem('id', profile.id);
+                    location.href = "../admin/editprofile.html";
+                });
+                nameCell.textContent = profile.name;
+
+                let roleColumn = usersTable.rows[usersTable.rows.length - 1].insertCell();
+                if(profile.role == "ADMIN"){
+                    roleColumn.textContent = "Admin";
+                }else if(profile.role == "USER"){
+                    roleColumn.textContent = "User";
+                }
+
+                // New column/cell to the right
+                let editProfileColumn = usersTable.rows[usersTable.rows.length - 1].insertCell();
+                editProfileColumn.textContent = "Edit";
+                editProfileColumn.addEventListener('click', () => {
+                    window.localStorage.setItem('id', profile.id);
+                    location.href = "../admin/editprofile.html";
+                })
+            })
+            .catch(error => console.log('error', error));
+    }
+
+
+    function getAllActiveUsers(){
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            credentials: 'include'
+        };
+
+        fetch(url + "/api/v1/accounts/list?&disabled=false&size=100&page=0", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+
+            })
+            .catch(error => console.log('error', error));
+    }
+
+</script>
+
+<!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+<script>
+    //Yourwebapp'sFirebaseconfiguration
+    //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
+    var firebaseConfig = {
+        apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
+        authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
+        databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
+        projectId: "dat250-gr-2-h2020-app",
+        storageBucket: "dat250-gr-2-h2020-app.appspot.com",
+        messagingSenderId: "851900401969",
+        appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
+        measurementId: "G-03WHQEL0R0"
+    };
+    //InitializeFirebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script src="../index.js"></script>
 
 </body>
 </html>
