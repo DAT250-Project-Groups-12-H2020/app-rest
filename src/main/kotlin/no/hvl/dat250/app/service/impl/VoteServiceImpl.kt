@@ -17,16 +17,16 @@ import org.springframework.stereotype.Service
  * @author Elg
  */
 @Service
-class VoteServiceImpl : VoteService {
+class VoteServiceImpl(
+  @Autowired
+  private val voteRepository: VoteRepository,
 
   @Autowired
-  private lateinit var voteRepository: VoteRepository
+  private val pollRepository: PollRepository,
 
   @Autowired
-  private lateinit var pollRepository: PollRepository
-
-  @Autowired
-  private lateinit var pollService: PollService
+  private val pollService: PollService
+) : VoteService {
 
   override fun castVote(pollId: Long, request: VoteRequest): VoteResponse {
     val poll = pollService.getPoll(pollId)

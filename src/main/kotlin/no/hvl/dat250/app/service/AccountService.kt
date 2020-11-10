@@ -1,5 +1,6 @@
 package no.hvl.dat250.app.service
 
+import com.google.firebase.auth.UserRecord
 import no.hvl.dat250.app.dto.AccountCreationRequest
 import no.hvl.dat250.app.dto.AccountRequest
 import no.hvl.dat250.app.exception.AccountCreationFailedException
@@ -10,6 +11,9 @@ import no.hvl.dat250.app.exception.NotLoggedInException
 import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.model.Account
 import no.hvl.dat250.app.model.Poll
+import no.hvl.dat250.app.model.Role
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 interface AccountService {
@@ -37,7 +41,9 @@ interface AccountService {
   fun deleteAccount(uid: String)
 
   @ExceptionHandler(AccountNotFoundException::class)
-  fun refreshAccount(uid: String): Account
+  fun refreshAccount(uid: String, flush: Boolean = true): Account
+
+  fun refreshAccount(userRecord: UserRecord, flush: Boolean = true): Account
 
   @ExceptionHandler(NotLoggedInException::class)
   fun getCurrentAccount(): Account
@@ -81,4 +87,16 @@ interface AccountService {
 
   @ExceptionHandler(NotLoggedInException::class)
   fun isNotOwnerOf(poll: Poll, account: Account = getCurrentAccount()): Boolean = !isOwnerOf(poll, account)
+
+  @ExceptionHandler(NotLoggedInException::class, InsufficientAccessException::class)
+  fun findAllByRoleAndDisabled(role: Role, disabled: Boolean, pageable: Pageable): Page<Account>
+
+  @ExceptionHandler(NotLoggedInException::class, InsufficientAccessException::class)
+  fun findAllByDisabled(disabled: Boolean, pageable: Pageable): Page<Account>
+
+  @ExceptionHandler(NotLoggedInException::class, InsufficientAccessException::class)
+  fun findAllByRole(role: Role, pageable: Pageable): Page<Account>
+
+  @ExceptionHandler(NotLoggedInException::class, InsufficientAccessException::class)
+  fun findAll(pageable: Pageable): Page<Account>
 }
