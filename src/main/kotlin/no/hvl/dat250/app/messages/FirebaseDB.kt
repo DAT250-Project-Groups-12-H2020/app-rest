@@ -26,7 +26,7 @@ class FirebaseDB(@Autowired val mapper: ObjectMapper) {
    */
   fun storePoll(poll: Poll) {
     // Load the service account key JSON file
-    var path = "./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json"
+    var path ="./secrets/dat250-gr-2-h2020-app-firebase-adminsdk.json"
     val directory = File("./")
     var serviceAccount = FileInputStream(path)
     // Authenticate a Google credential with the service account

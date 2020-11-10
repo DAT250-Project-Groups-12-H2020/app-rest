@@ -72,6 +72,7 @@ def send_votes():
     '''send votes to selected voteid and reset'''
     global first_votes, second_votes
     print('sending votes...')
+    print(f'final count - firstVotes: {first_votes}, secondVotes: {second_votes}')
     pollid = config['POLL']['pollid']
     url = f"{base_url}/api/v1/polls/{pollid}/vote"
     payload = '{"firstVotes": ' + str(first_votes) + ',"secondVotes": ' + str(second_votes) + '}'
@@ -80,7 +81,7 @@ def send_votes():
          }
     response = session.request("POST", url, headers=headers, data=payload)
     if response.ok:
-        print('votes sent')
+        print('votes succesfully sent')
         first_votes, second_votes = 0, 0
     else:
         print(response.json()['error'])
