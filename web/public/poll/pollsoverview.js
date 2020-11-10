@@ -41,7 +41,6 @@ function pollCreate(){
 
 function logout(){
     firebase.auth().signOut();
-    /*here lol */
     location.href = "../index.html";
 }
 
@@ -77,26 +76,29 @@ function getAllPublicPolls() {
             newCell.addEventListener('click', () => {
             window.localStorage.setItem('id', p.id);
             location.href = "pollvote.html";
+            })
+
+            let pollCodeColumn = table.rows[table.rows.length - 1].insertCell();
+            pollCodeColumn.textContent = p.id;
+
+            if(isOpen(result)){
+                newCell.style.color = "green";
+            }else{
+                newCell.style.color = "red";
+            }
+        }
+
+        // Todo: Create 'next' and 'back' buttons so that more polls can be shown
+        if(!result.empty){
+        // Show 'next' button
+        console.log("Show 'next' button");
+        }
+        if(result.pageable.pageNumber > 0){
+            // Show 'back' button
+            console.log("Show 'back' button");
+            }
         })
-
-        if(isOpen(result)){
-            newCell.style.color = "green";
-        }else{
-            newCell.style.color = "red";
-        }
-    }
-
-    // Todo: Create 'next' and 'back' buttons so that more polls can be shown
-    if(!result.empty){
-    // Show 'next' button
-    console.log("Show 'next' button");
-    }
-    if(result.pageable.pageNumber > 0){
-        // Show 'back' button
-        console.log("Show 'back' button");
-        }
-    })
-    .catch(error => console.log('error', error));
+        .catch(error => console.log('error', error));
     }
 
     window.onload = (event) => {

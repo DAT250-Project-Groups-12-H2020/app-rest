@@ -16,18 +16,20 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.ExceptionHandler
 import java.time.OffsetDateTime
 
 @Service
 
-class PollServiceImpl : PollService {
+class PollServiceImpl(
+  @Autowired
+  private val pollRepository: PollRepository,
 
   @Autowired
-  private lateinit var pollRepository: PollRepository
+  private val accountService: AccountService
+) : PollService {
 
-  @Autowired
-  private lateinit var accountService: AccountService
-
+  @ExceptionHandler(InvalidPollException::class)
   private fun validatePollTime(currStart: OffsetDateTime?, currEnd: OffsetDateTime?, newStart: OffsetDateTime?, newEnd: OffsetDateTime?) {
     // Disallow ending or opening polls too far back, but do give some slack
     val lastValidTime = OffsetDateTime.now().minusMinutes(5)

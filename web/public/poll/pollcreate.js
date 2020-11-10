@@ -63,7 +63,6 @@ async function createPoll() {
             "startDateTime":now.toISOString()
 
         }
-        console.log("NOT CHOSEN" + JSON.stringify(pollBody));
     }else{
         // Date is chosen
         // Todo: It is currently possible to choose a time interval that is up to 1 hour behind the current time (when choosing the current day as start date) - needs fix
@@ -128,6 +127,7 @@ async function createPoll() {
         return true;
     }
 
+    console.log("hey");
     if(checkIfAllInputsAreValid()){
         pollPOST();
     }
@@ -149,7 +149,8 @@ async function createPoll() {
             .then(result => {
                 console.log(result)
                 if(checkIfAllInputsAreValid()){
-                    //location.href = "ownpollsoverview.html";
+                    console.log("bytt her");
+                    location.href = "ownpollsoverview.html";
                 }
 
             })

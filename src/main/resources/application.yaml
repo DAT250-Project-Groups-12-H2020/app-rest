@@ -3,6 +3,10 @@ server:
   error:
     include-stacktrace: never
 spring:
+  data:
+    web:
+      pageable:
+        max-page-size: 1000
   datasource:
     url: jdbc:postgresql://localhost:5432/feedapp
     password: 87df20a6b2a8440007b601cab55e15dd7b37a6a01add83e7cea97767adc3dea3
