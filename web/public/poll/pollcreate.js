@@ -1,36 +1,3 @@
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        // User is signed in.
-
-        //document.getElementById("user_div").style.display = "block";
-        //document.getElementById("login_div").style.display = "block";
-        //document.getElementById("poll_div").style.display = "block";
-
-        var user = firebase.auth().currentUser;
-
-        if(user != null){
-
-            //var email_id = user.email;
-            //document.getElementById("user_para").innerHTML = "Welcome User : " + email_id;
-
-        }
-
-    } else {
-        // No user is signed in.
-
-        //document.getElementById("user_div").style.display = "block";
-        //document.getElementById("login_div").style.display = "block";
-
-    }
-    //document.getElementById("poll_div").style.display = "block";
-
-});
-
-function logout(){
-    firebase.auth().signOut();
-    location.href = "../index.html";
-}
-
 let url = 'http://localhost:8090';
 
 async function createPoll() {
@@ -146,7 +113,6 @@ async function createPoll() {
             .then(response => response.text())
             .then(result => {
                 console.log(result)
-                console.log("About to go to ownpollsoverview");
                 location.href = "../poll/ownpollsoverview.html";
             })
             .catch(error => console.log('error', error));
