@@ -1,8 +1,7 @@
 '''
-script to simulate a physical voting device, with buttons [green, red, send, rest]
+script to simulate a physical display device 
 that interact with the rest API
 reads config from device_config.ini file
-TODO: create a new user with a api call??
 '''
 import time
 import requests
@@ -27,15 +26,14 @@ def main():
         time.sleep(3)
 
 def update_status():
-    '''get the total poll votes, if changed since last update'''
+    '''print the total poll votes, if changed since last update'''
     global first_votes, second_votes
     pollid = config['POLL']['pollid']
     url = f"{base_url}/api/v1/polls/?id={pollid}"
-    payload = '{}'
     headers = {'Cookie': cookies,
          'Content-Type': 'application/json',
          }
-    response = session.request("GET", url, headers=headers, data=payload)
+    response = session.request("GET", url, headers=headers)
     if response.ok:
         first_count, second_count = get_total_votes(response)
         if first_count != first_votes or second_count != second_votes:
