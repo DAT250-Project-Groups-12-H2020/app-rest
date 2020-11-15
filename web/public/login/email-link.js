@@ -15,6 +15,7 @@ function toggleSignIn() {
             handleError(error);
             // [END_EXCLUDE]
         });
+        RESTLogout();
         // [END signout]
     } else {
         var email = document.getElementById('email').value;
@@ -145,6 +146,11 @@ function initApp() {
             let details = document.getElementById('quickstart-account-details').textContent;
             details = JSON.stringify(user, null, ' ');
             console.log(details)
+
+            let result = user.refreshToken;
+            console.log("Refresh token: " + result);
+
+            RESTLogin(result);
 
             // [END_EXCLUDE]
         } else {

@@ -6,6 +6,7 @@ function toggleSignIn() {
     if (firebase.auth().currentUser) {
         // [START signout]
         firebase.auth().signOut();
+        RESTLogout();
         // [END signout]
     } else {
         var email = document.getElementById('email').value;
@@ -142,6 +143,12 @@ firebase.auth().onAuthStateChanged(function(user) {
         let details = document.getElementById('quickstart-account-details').textContent;
         details = JSON.stringify(user, null, ' ');
         console.log(details)
+
+        let result = user.refreshToken;
+        console.log("Refresh token: " + result);
+
+        RESTLogin(result);
+
         /*
         if (!emailVerified) {
         document.getElementById('quickstart-verify-email').disabled = false;

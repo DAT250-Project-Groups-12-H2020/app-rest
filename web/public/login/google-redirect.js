@@ -17,6 +17,7 @@ function toggleSignIn() {
     } else {
         // [START signout]
         firebase.auth().signOut();
+        RESTLogout();
         // [END signout]
     }
     // [START_EXCLUDE]
@@ -107,7 +108,7 @@ function initApp() {
             let result = user.refreshToken;
             console.log("Refresh token: " + result);
 
-            RESTLogin(user.refreshToken);
+            RESTLogin(result);
 
             // [END_EXCLUDE]
         } else {
