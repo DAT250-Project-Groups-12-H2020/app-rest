@@ -122,7 +122,7 @@
             if(user.role != "ADMIN"){
                 document.getElementById('admin').hidden = true;
             }
-            if(user.role != "USER"){
+            if(user.role != "USER" || user.email == null){
                 document.getElementById('user').hidden = true;
             }
         })
