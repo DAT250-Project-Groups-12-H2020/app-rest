@@ -3,7 +3,7 @@ var url = "http://localhost:8090";
 function goToPoll(){
     let id = document.getElementById('poll_field').value;
 
-    // Bruker id som pollcode
+    // Id is used as poll code
     var requestOptions = {
         method: 'GET',
         redirect: 'follow',
@@ -27,25 +27,6 @@ function goToPoll(){
                 window.localStorage.setItem('id', result.id);
                 location.href = "pollvote.html";
             }
-
-
         })
         .catch(error => console.log('error', error));
-}
-
-function logout(){
-    var requestOptions = {
-        method: 'POST',
-        redirect: 'follow',
-        credentials: 'include'
-    };
-
-    fetch(url + "/api/v1/session/logout", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            console.log(result)
-            location.href = "../index.html";
-        })
-        .catch(error => console.log('error', error));
-
 }

@@ -4,13 +4,6 @@ function publicPolls(){
 
 function pollCreate(){
     location.href = "pollcreate.html"
-
-}
-
-function logout(){
-    firebase.auth().signOut();
-    /*here lol */
-    location.href = "../index.html";
 }
 
 var url = "http://localhost:8090";
@@ -98,10 +91,7 @@ function getPoll(id){
                 location.href = "../poll/editpoll.html";
             })
         })
-
-
         .catch(error => console.log('error', error));
-
     document.body.appendChild(table);
 }
 

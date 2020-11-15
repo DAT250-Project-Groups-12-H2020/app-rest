@@ -23,9 +23,9 @@ fetch(url + "/api/v1/polls?id=" + id, requestOptions)
         private.checked = poll.private;
 
         if(poll.endDateTime == null){
-            document.getElementById('time_remaining').innerText = "Time remaining: " + "Unlimited";
+            document.getElementById('poll_closes_date').innerText = "Poll closes: \n" + "Never";
         }else{
-            document.getElementById('time_remaining').innerText = "Time remaining: " + poll.endDateTime;
+            document.getElementById('poll_closes_date').innerText = "Poll closes: \n" + new Date(poll.endDateTime).toUTCString();
         }
     })
     .catch(error => console.log('error', error));
