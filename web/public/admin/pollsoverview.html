@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Polls Overview</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../poll/poll.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <div class="poll-title">
+        <h1>All Polls Overview</h1>
+    </div>
+        <div class="container">
+            <table id="table" style="width:100%">
+            <tr>
+            <th>Poll Question</th>
+            <th>Edit</th>
+            </tr>
+            </table>
+            <br>
+            <div class="text-center">
+                <button class="btn btn-block send-button tx-tfm" onclick="pollcreate()">Create Poll</button>
+            </div>
+            <div class="text-center">
+                <br>
+                <p>Go to <a href="adminoverview.html">admin overview!</a></p>
+                <br>
+                <br>
+            </div>
+        </div>
+        <hr class="footer-line">
+    </main>
+
+    <div class="footer">
+        <p>&copy; FeedApp 2020</p>
+    </div>
+
+    <script>
+        function pollcreate(){
+            location.href = "../poll/pollcreate.html";
+        }
+        var url = "http://localhost:8090";
+
+        function getAllPublicAndPrivatePolls(){
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "/api/v1/polls/private", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+
+                    result = JSON.parse(result);
+
+                    polls = result.content;
+                    console.log(polls);
+
+                    let table = document.getElementById('table');
+
+                    for(let p of polls){
+                        // Insert poll to table
+                        table.insertRow();
+                        let newCell = table.rows[table.rows.length - 1].insertCell();
+                        newCell.textContent = p.question;
+                        newCell.addEventListener('click', () => {
+                            window.localStorage.setItem('id', p.id);
+                            location.href = "../poll/pollvote.html";
+                        })
+
+                        if(isOpen(result)){
+                            newCell.style.color = "green";
+                        }else{
+                            newCell.style.color = "red";
+                        }
+
+                        // New column/cell to the right
+                        let pollEdit = table.rows[table.rows.length - 1].insertCell();
+                        pollEdit.textContent = "Edit";
+                        pollEdit.addEventListener('click', () => {
+                            window.localStorage.setItem('id', p.id);
+                            console.log("Edit");
+                            location.href = "../admin/editpoll.html";
+                        })
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        function getAllPublicPolls() {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            let page = 0;
+
+            fetch(url + "/api/v1/polls/public?size=10&page=" + page + "&sort=id,desc", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    result = JSON.parse(result);
+
+                    polls = result.content;
+                    console.log(polls);
+
+                    let table = document.getElementById('table');
+
+                    for(let p of polls){
+                        // Insert poll to table
+                        table.insertRow();
+                        let newCell = table.rows[table.rows.length - 1].insertCell();
+                        newCell.textContent = p.question;
+                        newCell.addEventListener('click', () => {
+                            window.localStorage.setItem('id', p.id);
+                            location.href = "pollvote.html";
+                        })
+
+                        if(isOpen(result)){
+                            newCell.style.color = "green";
+                        }else{
+                            newCell.style.color = "red";
+                        }
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        window.onload = (event) => {
+            getAllPublicAndPrivatePolls();
+        };
+
+    </script>
+    <script src="../poll/poll.js"></script>
+    <script src="../login/login.js"></script>
+</body>
+</html>

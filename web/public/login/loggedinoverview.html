@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Overview</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/jumbotron/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="loggedinoverview.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="loggedinoverview.html">FeedApp</a>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
+    </div>
+</nav>
+<main role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Polls Overview</h1>
+            <p>An overview of all of the greatest polls in history!</p>
+            <p><a class="btn btn-primary btn-lg" href="../poll/pollsoverview.html" role="button">See polls &raquo;</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Poll Code</h2>
+                <p> Got poll code? Head over here and get started immediately! </p>
+                <p><a class="btn btn-secondary" href="../poll/pollcode.html" role="button">Poll Code &raquo;</a></p>
+            </div>
+            <div id="admin" class="col-md-4" hidden="true">
+                <h2>Admin</h2>
+                <p>If you're admin, you can click here for more advanced settings and overview.</p>
+                <p><a class="btn btn-secondary" href="../admin/adminoverview.html" role="button">View details &raquo;</a></p>
+            </div>
+            <div id="user" class="col-md-4" hidden="true">
+                <h2>Your Profile</h2>
+                <p>View, modify or remove your profile here</p>
+                <p><a class="btn btn-secondary" href="../profile/editprofile.html" role="button">View details &raquo;</a></p>
+            </div>
+        </div>
+        <hr class="footer-line">
+    </div>
+</main>
+<div class="footer">
+    <p>&copy; FeedApp 2020</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let url = "http://localhost:8090";
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        credentials: 'include'
+    };
+
+    fetch(url + "/api/v1/accounts/me", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            profile = result;
+            let user = JSON.parse(result);
+            console.log(user);
+            if(user.role == "ADMIN"){
+                document.getElementById('admin').hidden = false;
+                document.getElementById('user').hidden = false;
+            }else if(user.role == "USER"){
+                if(user.email == null){
+                    // Logged in as guest
+                    document.getElementById('user').hidden = true;
+                    document.getElementById('admin').hidden = true;
+                }else{
+                    document.getElementById('user').hidden = false;
+                    document.getElementById('admin').hidden = true;
+                }
+            }
+        })
+        .catch(error => console.log('error', error));
+</script>
+<script src="../login/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · Public Polls Overview</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="poll.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>Public Polls Overview</h1>
+        </div>
+        <div class="container">
+            <table id="table" style="width:100%">
+                <tr>
+                    <th>Poll Title</th>
+                    <th>Poll Code</th>
+                </tr>
+            </table>
+
+            <br>
+            <div class="text-center">
+                <button id="view_own_polls_btn" type="submit" class="btn btn-block send-button tx-tfm" onclick="ownPolls()" hidden="true">Your Polls Overview</button>
+            </div>
+            <br>
+            <div class="text-center">
+                <button id="create_poll_btn" type="submit" class="btn btn-block send-button tx-tfm" onclick="pollCreate()" hidden="true">Create Poll</button>
+            </div>
+        </div>
+
+
+        <hr class="footer-line">
+    </main>
+
+
+    <div class="footer">
+        <p>&copy; FeedApp 2020</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="pollsoverview.js"></script>
+    <script src="poll.js"></script>
+    <script src="../login/login.js"></script>
+</body>
+</html>

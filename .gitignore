@@ -36,3 +36,5 @@ web/node_modules/
 
 src/main/resources/secrets/*
 !src/main/resources/secrets/place-secrets-here
+
+.DS_Store

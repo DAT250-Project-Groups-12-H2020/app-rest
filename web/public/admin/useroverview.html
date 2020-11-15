@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>FeedApp · User Overview</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../poll/poll.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="../login/loggedinoverview.html">FeedApp</a>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/loggedinoverview.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="poll-title">
+            <h1>All Users Overview</h1>
+        </div>
+        <div class="container">
+            <table id="users_table" style="width:100%"></table><br>
+            <div class="text-center">
+                <br>
+                <p>Go to <a href="adminoverview.html">admin overview!</a></p>
+                <br>
+                <br>
+            </div>
+        </div>
+
+        <hr class="footer-line">
+    </main>
+
+    <div class="footer">
+        <p>&copy; FeedApp 2020</p>
+    </div>
+
+    <script>
+        let url = "http://localhost:8090";
+
+        getMe();
+        let usersTable = document.getElementById('users_table');
+
+        function getMe(){
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "/api/v1/accounts/me", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    profile = JSON.parse(result);
+                    usersTable.insertRow();
+
+                    let nameCell = usersTable.rows[usersTable.rows.length - 1].insertCell();
+                    nameCell.addEventListener('click', () => {
+                        window.localStorage.setItem('id', profile.id);
+                        location.href = "../admin/editprofile.html";
+                    });
+                    nameCell.textContent = profile.name;
+
+                    let roleColumn = usersTable.rows[usersTable.rows.length - 1].insertCell();
+                    if(profile.role == "ADMIN"){
+                        roleColumn.textContent = "Admin";
+                    }else if(profile.role == "USER"){
+                        roleColumn.textContent = "User";
+                    }
+
+                    // New column/cell to the right
+                    let editProfileColumn = usersTable.rows[usersTable.rows.length - 1].insertCell();
+                    editProfileColumn.textContent = "Edit";
+                    editProfileColumn.addEventListener('click', () => {
+                        window.localStorage.setItem('id', profile.id);
+                        location.href = "../admin/editprofile.html";
+                    })
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        function getAllActiveUsers(){
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow',
+                credentials: 'include'
+            };
+
+            fetch(url + "/api/v1/accounts/list?&disabled=false&size=100&page=0", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+
+                })
+                .catch(error => console.log('error', error));
+        }
+    </script>
+    <script src="../login/login.js"></script>
+</body>
+</html>
