@@ -74,17 +74,14 @@
                 <p>If you're admin, you can click here for more advanced settings and overview.</p>
                 <p><a class="btn btn-secondary" href="../admin/adminoverview.html" role="button">View details &raquo;</a></p>
             </div>
-            <div class="col-md-4">
-                <h2>About Us</h2>
-                <p> Get to know our company, leadership, jobs (we are hiring!), press, investor relations and more! </p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <div id="user" class="col-md-4">
+                <h2>Your Profile</h2>
+                <p>View, modify or remove your profile here</p>
+                <p><a class="btn btn-secondary" href="../profile/editprofile.html" role="button">View details &raquo;</a></p>
             </div>
         </div>
-
         <hr class="footer-line">
-
     </div> <!-- /container -->
-
 </main>
 
 
@@ -120,8 +117,13 @@
             profile = result;
             let user = JSON.parse(result);
             console.log(user);
+            window.localStorage.setItem('user_role', user.role);
+            //console.log(user.role);
             if(user.role != "ADMIN"){
                 document.getElementById('admin').hidden = true;
+            }
+            if(user.role != "USER"){
+                document.getElementById('user').hidden = true;
             }
         })
         .catch(error => console.log('error', error));
