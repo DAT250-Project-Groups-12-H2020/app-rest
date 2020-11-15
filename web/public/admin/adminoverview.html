@@ -25,7 +25,6 @@
             <button class="btn btn-outline-success my-2 my-sm-0" onclick="RESTLogout()" type="submit">Log out</button>
         </div>
     </nav>
-
     <main role="main" class="container">
         <div class="poll-title">
             <h1>Admin Overview</h1>
@@ -39,7 +38,6 @@
                         <button class="btn btn-block send-button tx-tfm" onclick="poll_overview()">Poll Overview as Admin</button>
                         <button class="btn btn-block send-button tx-tfm" onclick="user_overview()">User Overview</button>
                     </div>
-
                     <div class="text-center">
                         <p>Back to <a href="../login/loggedinoverview.html">logged in menu</a>.</p>
                     </div>
@@ -50,37 +48,10 @@
 
     <hr class="footer-line">
     </main>
-
     <div class="footer">
         <p>&copy; FeedApp 2020</p>
     </div>
 
-    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-    <script>
-        //Yourwebapp'sFirebaseconfiguration
-        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-            projectId: "dat250-gr-2-h2020-app",
-            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-            messagingSenderId: "851900401969",
-            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-            measurementId: "G-03WHQEL0R0"
-        };
-        //InitializeFirebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
     <script src="adminoverview.js"></script>
     <script src="../login/login.js"></script>
 </body>

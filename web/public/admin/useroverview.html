@@ -31,15 +31,7 @@
             <h1>All Users Overview</h1>
         </div>
         <div class="container">
-            <table id="users_table" style="width:100%">
-
-            </table>
-
-            <br>
-            <div class="text-center">
-                <!-- knappen funker ikke-->
-                <button class="btn btn-block send-button tx-tfm" onclick="">Create new user</button>
-            </div>
+            <table id="users_table" style="width:100%"></table><br>
             <div class="text-center">
                 <br>
                 <p>Go to <a href="adminoverview.html">admin overview!</a></p>
@@ -49,7 +41,7 @@
         </div>
 
         <hr class="footer-line">
-    </main><!-- /.container -->
+    </main>
 
     <div class="footer">
         <p>&copy; FeedApp 2020</p>
@@ -59,7 +51,6 @@
         let url = "http://localhost:8090";
 
         getMe();
-        //getAllActiveUsers();
         let usersTable = document.getElementById('users_table');
 
         function getMe(){
@@ -101,7 +92,6 @@
                 .catch(error => console.log('error', error));
         }
 
-
         function getAllActiveUsers(){
             var requestOptions = {
                 method: 'GET',
@@ -117,36 +107,7 @@
                 })
                 .catch(error => console.log('error', error));
         }
-
     </script>
-
-    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-    <script>
-        //Yourwebapp'sFirebaseconfiguration
-        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-            projectId: "dat250-gr-2-h2020-app",
-            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-            messagingSenderId: "851900401969",
-            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-            measurementId: "G-03WHQEL0R0"
-        };
-        //InitializeFirebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
-    <script src="../index.js"></script>
     <script src="../login/login.js"></script>
 </body>
 </html>
