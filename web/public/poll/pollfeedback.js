@@ -38,11 +38,12 @@ function getPoll(id){
                 totalVotesText.value += '\r\n' + poll.secondAnswer + ": " + 0;
             }
 
-            let time_remaining = document.getElementById('time_remaining');
+            let poll_closes = document.getElementById('poll_closes_date');
             if(poll.endDateTime == null){
-                time_remaining.innerText = "Time remaining: Unlimited";
+                poll_closes.innerText = "Poll closes: \nNever";
             } else{
-                time_remaining.innerText = "Time remaining: " + poll.endDateTime;
+                let time = new Date(poll.endDateTime);
+                poll_closes.innerText = "Poll closes: \n" + time.toUTCString();
             }
         })
         .catch(error => console.log('error', error));

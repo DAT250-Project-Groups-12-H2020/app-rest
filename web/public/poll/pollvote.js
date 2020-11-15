@@ -2,7 +2,7 @@ var url = "http://localhost:8090";
 let vote = "first";
 
 let question = document.getElementById('poll_question');
-let time_remaining = document.getElementById('time_remaining');
+let poll_closes = document.getElementById('poll_closes_date');
 
 // Id of poll the user is voting on
 let id = localStorage.getItem('id');
@@ -27,14 +27,14 @@ function getPollAndShowIt(id) {
             document.getElementById('second_answer').innerText = poll.secondAnswer;
 
             if(poll.startDateTime == null && poll.endDateTime == null){
-                time_remaining.innerText = "Always open";
-                time_remaining.style.color = 'green';
+                poll_closes.innerText = "Always open";
+                poll_closes.style.color = 'green';
             }else{
-                // Todo: show time remaining, not just end date
                 if(poll.endDateTime == null){
-                    time_remaining.innerText = "Unlimited";
+                    poll_closes.innerText = "Never";
                 }else{
-                    time_remaining.innerText = poll.endDateTime;
+                    let time = new Date(poll.endDateTime);
+                    poll_closes.innerText = time.toUTCString();
                 }
             }
 
