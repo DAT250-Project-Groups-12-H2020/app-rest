@@ -36,9 +36,7 @@ function RESTLogin(refreshToken, redirect = "../login/loggedinoverview.html") {
                 .catch(error => console.log('error', error));
         })
         .catch(error => console.log('error', error));
-
 }
-
 
 function RESTLogout(){
     var requestOptions = {
@@ -51,5 +49,4 @@ function RESTLogout(){
         .then(response => response.text())
         .then(result => location.href = "../index.html")
         .catch(error => console.log('error', error));
-
 }

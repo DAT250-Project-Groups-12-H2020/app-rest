@@ -1,4 +1,3 @@
-
 /**
  * Function called when clicking the Login/Logout button.
  */
@@ -35,22 +34,15 @@ function toggleSignIn() {
  *    the auth redirect flow. It is where you can get the OAuth access token from the IDP.
  */
 function initApp() {
-
     // Result from Redirect auth flow.
     // [START getidptoken]
     firebase.auth().getRedirectResult().then(function(result) {
         if (result.credential) {
-
             // This gives you a Google Access Token. You can use it to access the Google API.
             let details = document.getElementById('quickstart-account-details').textContent;
 
             console.log(details);
             console.log(result);
-            /*
-            let result = user.refreshToken;
-            console.log("Refresh token: " + result);
-            RESTLogin(user.refreshToken);
-             */
 
             // [START_EXCLUDE]
             document.getElementById('quickstart-oauthtoken').textContent = details;
@@ -58,16 +50,9 @@ function initApp() {
             document.getElementById('quickstart-oauthtoken').textContent = '';
             // [END_EXCLUDE]
         }
-        // The signed-in user info.
-        var user = result.user;
     }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
         // [START_EXCLUDE]
         if (errorCode === 'auth/account-exists-with-different-credential') {
             alert('You have already signed up with a different auth provider for that email.');
@@ -85,39 +70,31 @@ function initApp() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             // User is signed in.
-            var displayName = user.displayName;
-            var email = user.email;
-            var emailVerified = user.emailVerified;
-            var photoURL = user.photoURL;
-            var isAnonymous = user.isAnonymous;
-            var uid = user.uid;
-            var providerData = user.providerData;
             // [START_EXCLUDE]
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+            document.getElementById('quickstart-sign-in-status').textContent = '';
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-            //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
-
-            /*here*/
-            //location.href = "loggedinoverview.html"
 
             // on console instead
-            let details = document.getElementById('quickstart-account-details').textContent;
-            details = JSON.stringify(user, null, ' ');
+            let details = JSON.stringify(user, null, ' ');
             console.log(details)
+
+            let status = 'Signed in';
+            console.log(status)
 
             let result = user.refreshToken;
             console.log("Refresh token: " + result);
 
             RESTLogin(result);
-
             // [END_EXCLUDE]
         } else {
             // User is signed out.
             // [START_EXCLUDE]
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+            document.getElementById('quickstart-sign-in-status').textContent = '';
             document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
-            document.getElementById('quickstart-account-details').textContent = 'null';
+            document.getElementById('quickstart-account-details').textContent = '';
             document.getElementById('quickstart-oauthtoken').textContent = '';
+            let status = 'Signed out';
+            console.log(status)
             // [END_EXCLUDE]
         }
         // [START_EXCLUDE]
@@ -125,7 +102,6 @@ function initApp() {
         // [END_EXCLUDE]
     });
     // [END authstatelistener]
-
     document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 }
 

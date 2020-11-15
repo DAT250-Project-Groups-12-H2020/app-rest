@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--
-    source:
-    https://www.mockplus.com/blog/post/bootstrap-form-template
-    https://bootsnipp.com/snippets/orMGB
-    -->
     <meta charset="UTF-8">
     <title>FeedApp · Guest</title>
 
     <!-- Bootstrap core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <!--
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    -->
-    <!------ Include the above in your HEAD tag ---------->
     <!-- Custom styles for this template below-->
     <link href="login.css" rel="stylesheet">
 
@@ -42,11 +32,11 @@
                         <button class=" btn btn-block send-button tx-tfm" id="quickstart-sign-in" name="signin">Sign in</button>
                     </div>
 
-                    <div class="quickstart-user-details-container">
-                        Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-                        <!--<div>Firebase auth <code>currentUser</code> object value:</div>-->
+                    <div>
+                        <span id="quickstart-sign-in-status"></span>
                         <pre><code id="quickstart-account-details"></code></pre>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -79,10 +69,7 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
 </script>
-
 <script src="login.js"></script>
 <script src="anon.js"></script>
-
 </body>
-
 </html>

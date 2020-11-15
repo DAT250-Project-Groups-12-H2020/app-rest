@@ -1,23 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!--
-    source:
-    https://www.mockplus.com/blog/post/bootstrap-form-template
-    https://bootsnipp.com/snippets/orMGB
-    -->
     <meta charset="UTF-8">
     <title>FeedApp · Google Authentication</title>
 
     <!-- Bootstrap core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
     <!-- Custom styles for this template below-->
     <link href="login.css" rel="stylesheet">
-
 </head>
 <body>
-
 <main>
     <div class="container">
         <div class="col-md-6 mx-auto text-center">
@@ -37,15 +29,12 @@
                     <div class="form-group">
                         <button class=" btn btn-block send-button tx-tfm" id="quickstart-sign-in" name="signin">Sign in with Google</button>
                     </div>
-
                     <p class="small mt-3">By signing up, you are indicating that you have read and agree to the <a href="#" class="ps-hero__content__link">Terms of Use</a> and <a href="#">Privacy Policy</a>.
                     </p>
 
-                    <div class="quickstart-user-details-container">
-                        Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
-                        <!--<div>Firebase auth <code>currentUser</code> object value:</div>-->
+                    <div>
+                        <span id="quickstart-sign-in-status"></span>
                         <pre><code id="quickstart-account-details"></code></pre>
-                        <!--<div>Google OAuth Access Token:</div>-->
                         <pre><code id="quickstart-oauthtoken"></code></pre>
                     </div>
                 </div>

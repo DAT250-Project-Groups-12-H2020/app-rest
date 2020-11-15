@@ -4,13 +4,10 @@
 function toggleSignIn() {
     // Disable the sign-in button during async sign-in tasks.
     document.getElementById('quickstart-sign-in').disabled = true;
-
     if (firebase.auth().currentUser) {
         // [START signout]
         firebase.auth().signOut().catch(function(error) {
             // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
             // [START_EXCLUDE]
             handleError(error);
             // [END_EXCLUDE]
@@ -40,8 +37,6 @@ function toggleSignIn() {
             // [END_EXCLUDE]
         }).catch(function(error) {
             // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
             // [START_EXCLUDE]
             handleError(error);
             // [END_EXCLUDE]
@@ -71,13 +66,11 @@ function handleSignIn() {
         // Disable the sign-in button during async sign-in tasks.
         document.getElementById('quickstart-sign-in').disabled = true;
         // [END_EXCLUDE]
-
-        // You can also get the other parameters passed in the query string such as state=STATE.
         // Get the email if available.
         var email = window.localStorage.getItem('emailForSignIn');
         if (!email) {
             // User opened the link on a different device. To prevent session fixation attacks, ask the
-            // user to provide the associated email again. For example:
+            // user to provide the associated email again.
             email = window.prompt('Please provide the email you\'d like to sign-in with for confirmation.');
         }
         if (email) {
@@ -91,14 +84,11 @@ function handleSignIn() {
                 window.localStorage.removeItem('emailForSignIn');
                 // Signed-in user's information.
                 var user = result.user;
-                var isNewUser = result.additionalUserInfo.isNewUser;
 
                 RESTLogin(user.refreshToken);
                 console.log(result)
             }).catch(function(error) {
                 // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
                 // [START_EXCLUDE]
                 handleError(error);
                 // [END_EXCLUDE]
@@ -117,7 +107,6 @@ function initApp() {
     // Restore the previously used value of the email.
     var email = window.localStorage.getItem('emailForSignIn');
     document.getElementById('email').value = email;
-
     // Automatically signs the user-in using the link.
     handleSignIn();
 
@@ -126,40 +115,32 @@ function initApp() {
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             // User is signed in.
-            var displayName = user.displayName;
-            var email = user.email;
-            var emailVerified = user.emailVerified;
-            var photoURL = user.photoURL;
-            var isAnonymous = user.isAnonymous;
-            var uid = user.uid;
-            var providerData = user.providerData;
             // Update UI.
             // [START_EXCLUDE]
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+            document.getElementById('quickstart-sign-in-status').textContent = '';
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-            //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
-
-
-            //location.href = "loggedinoverview.html"
 
             // on console instead
-            let details = document.getElementById('quickstart-account-details').textContent;
-            details = JSON.stringify(user, null, ' ');
+            let details = JSON.stringify(user, null, ' ');
             console.log(details)
+
+            let status = 'Signed in';
+            console.log(status)
 
             let result = user.refreshToken;
             console.log("Refresh token: " + result);
 
             RESTLogin(result);
-
             // [END_EXCLUDE]
         } else {
             // User is signed out.
             // Update UI.
             // [START_EXCLUDE]
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+            document.getElementById('quickstart-sign-in-status').textContent = '';
             document.getElementById('quickstart-sign-in').textContent = 'Sign in without password';
             document.getElementById('quickstart-account-details').textContent = '';
+            let status = 'Signed out';
+            console.log(status)
             // [END_EXCLUDE]
         }
         // [START_EXCLUDE silent]
@@ -167,7 +148,6 @@ function initApp() {
         // [END_EXCLUDE]
     });
     // [END authstatelistener]
-
     document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 }
 

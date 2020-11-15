@@ -1,4 +1,3 @@
-
 /**
  * Handles the sign in button press.
  */
@@ -7,14 +6,12 @@ function toggleSignIn() {
         // [START signout]
         firebase.auth().signOut();
         RESTLogout();
-
         // [END signout]
     } else {
         // [START authanon]
         firebase.auth().signInAnonymously().catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
-            var errorMessage = error.message;
             // [START_EXCLUDE]
             if (errorCode === 'auth/operation-not-allowed') {
                 alert('You must enable Anonymous auth in the Firebase Console.');
@@ -27,7 +24,6 @@ function toggleSignIn() {
     }
     document.getElementById('quickstart-sign-in').disabled = true;
 }
-
 
 /**
  * initApp handles setting up UI event listeners and registering Firebase auth listeners:
@@ -43,27 +39,29 @@ function initApp() {
             var isAnonymous = user.isAnonymous;
             var uid = user.uid;
             // [START_EXCLUDE]
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+            document.getElementById('quickstart-sign-in-status').textContent = '';
             document.getElementById('quickstart-sign-in').textContent = 'Sign out';
 
-
             // on console instead
-            let details = document.getElementById('quickstart-account-details').textContent;
-            details = JSON.stringify(user, null, ' ');
+            let details = JSON.stringify(user, null, ' ');
             console.log(details)
+
+            let status = 'Signed in';
+            console.log(status)
 
             let result = user.refreshToken;
             console.log("Refresh token: " + result);
-
             RESTLogin(result);
-
             // [END_EXCLUDE]
         } else {
             // User is signed out.
             // [START_EXCLUDE]
-            document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
-            document.getElementById('quickstart-sign-in').textContent = 'Sign in';
+            document.getElementById('quickstart-sign-in-status').textContent = '';
 
+            let status = 'Signed out';
+            console.log(status)
+
+            document.getElementById('quickstart-sign-in').textContent = 'Sign in';
             document.getElementById('quickstart-account-details').textContent = '';
             // [END_EXCLUDE]
         }
@@ -72,11 +70,8 @@ function initApp() {
         // [END_EXCLUDE]
     });
     // [END authstatelistener]
-
     document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 }
-
-
 window.onload = function() {
     initApp();
 };

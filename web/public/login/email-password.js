@@ -120,47 +120,33 @@ function initApp() {
 // [START authstatelistener]
 firebase.auth().onAuthStateChanged(function(user) {
     // [START_EXCLUDE silent]
-    /*
-    document.getElementById('quickstart-verify-email').disabled = true;
-    */
     // [END_EXCLUDE]
     if (user) {
         // User is signed in.
-        var displayName = user.displayName;
-        var email = user.email;
-        /*
-        var emailVerified = user.emailVerified;
-        */
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
         // [START_EXCLUDE]
-        document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+        document.getElementById('quickstart-sign-in-status').textContent = '';
         document.getElementById('quickstart-sign-in').textContent = 'Sign out';
 
         // on console instead
-        let details = document.getElementById('quickstart-account-details').textContent;
-        details = JSON.stringify(user, null, ' ');
+        let details = JSON.stringify(user, null, ' ');
         console.log(details)
+
+        let status = 'Signed in';
+        console.log(status)
 
         let result = user.refreshToken;
         console.log("Refresh token: " + result);
 
         RESTLogin(result);
-
-        /*
-        if (!emailVerified) {
-        document.getElementById('quickstart-verify-email').disabled = false;
-        }
-        */
         // [END_EXCLUDE]
     } else {
         // User is signed out.
         // [START_EXCLUDE]
-        document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+        document.getElementById('quickstart-sign-in-status').textContent = '';
         document.getElementById('quickstart-sign-in').textContent = 'Sign in';
         document.getElementById('quickstart-account-details').textContent = '';
+        let status = 'Signed out';
+        console.log(status)
         // [END_EXCLUDE]
     }
     // [START_EXCLUDE silent]
@@ -168,15 +154,10 @@ firebase.auth().onAuthStateChanged(function(user) {
     // [END_EXCLUDE]
 });
 // [END authstatelistener]
-
 document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
-//document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
 document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
-//document.getElementById('quickstart-sign-in').addEventListener('click', loggedInOverview, false);
-
 }
-
 window.onload = function() {
 initApp();
 };
