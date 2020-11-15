@@ -72,8 +72,6 @@
     let profile = null;
     let meId = "";
 
-    // Whether or not the user editing this profile is admin
-    isAdmin = false;
     getMe();
     getProfile(window.localStorage.getItem('id'));
 
@@ -89,9 +87,6 @@
             .then(result => {
                 console.log(result)
                 profile = JSON.parse(result);
-                if(profile.role == "ADMIN"){
-                    isAdmin = true;
-                }
                 meId = profile.id;
             })
             .catch(error => console.log('error', error));

@@ -15,8 +15,32 @@ function logout(){
 var url = "http://localhost:8090";
 
 window.onload = (event) => {
+    getMe();
     getAllPublicPolls();
 };
+
+function getMe(){
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        credentials: 'include'
+    };
+
+    fetch(url + "/api/v1/accounts/me", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result)
+            let user = JSON.parse(result);
+            if(user.email == null){
+                document.getElementById('view_own_polls_btn').hidden = true;
+                document.getElementById('create_poll_btn').hidden = true;
+            }else{
+                document.getElementById('view_own_polls_btn').hidden = false;
+                document.getElementById('create_poll_btn').hidden = false;
+            }
+        })
+        .catch(error => console.log('error', error));
+}
 
 function getAllPublicPolls() {
     var requestOptions = {

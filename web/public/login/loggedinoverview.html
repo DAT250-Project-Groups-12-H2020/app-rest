@@ -69,12 +69,12 @@
                 <p> Got poll code? Head over here and get started immediately! </p>
                 <p><a class="btn btn-secondary" href="../poll/pollcode.html" role="button">Poll Code &raquo;</a></p>
             </div>
-            <div id="admin" class="col-md-4">
+            <div id="admin" class="col-md-4" hidden="true">
                 <h2>Admin</h2>
                 <p>If you're admin, you can click here for more advanced settings and overview.</p>
                 <p><a class="btn btn-secondary" href="../admin/adminoverview.html" role="button">View details &raquo;</a></p>
             </div>
-            <div id="user" class="col-md-4">
+            <div id="user" class="col-md-4" hidden="true">
                 <h2>Your Profile</h2>
                 <p>View, modify or remove your profile here</p>
                 <p><a class="btn btn-secondary" href="../profile/editprofile.html" role="button">View details &raquo;</a></p>
@@ -117,13 +117,18 @@
             profile = result;
             let user = JSON.parse(result);
             console.log(user);
-            window.localStorage.setItem('user_role', user.role);
-            //console.log(user.role);
-            if(user.role != "ADMIN"){
-                document.getElementById('admin').hidden = true;
-            }
-            if(user.role != "USER" || user.email == null){
-                document.getElementById('user').hidden = true;
+            if(user.role == "ADMIN"){
+                document.getElementById('admin').hidden = false;
+                document.getElementById('user').hidden = false;
+            }else if(user.role == "USER"){
+                if(user.email == null){
+                    // Logged in as guest
+                    document.getElementById('user').hidden = true;
+                    document.getElementById('admin').hidden = true;
+                }else{
+                    document.getElementById('user').hidden = false;
+                    document.getElementById('admin').hidden = true;
+                }
             }
         })
         .catch(error => console.log('error', error));
