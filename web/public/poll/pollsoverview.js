@@ -4,12 +4,6 @@ function ownPolls(){
 
 function pollCreate(){
     location.href = "pollcreate.html"
-
-}
-
-function logout(){
-    firebase.auth().signOut();
-    location.href = "../index.html";
 }
 
 var url = "http://localhost:8090";
@@ -81,16 +75,6 @@ function getAllPublicPolls() {
                 newCell.style.color = "red";
             }
         }
-
-        // Todo: Create 'next' and 'back' buttons so that more polls can be shown
-        if(!result.empty){
-        // Show 'next' button
-        console.log("Show 'next' button");
-        }
-        if(result.pageable.pageNumber > 0){
-            // Show 'back' button
-            console.log("Show 'back' button");
-            }
         })
         .catch(error => console.log('error', error));
     }

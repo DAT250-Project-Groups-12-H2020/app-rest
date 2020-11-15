@@ -42,7 +42,6 @@
                         <form id="ans">
                             <input type="radio" id="radio_first" name="answer" checked="true">
                             <label style="font-size:2vw;" id="first_answer">Option 1</label>
-                            <!-- style="font-size:2vw; height:35px; width:50px; vertical-align: middle;" -->
                             <br>
                             <input type="radio" id="radio_second" name="answer">
                             <label style="font-size:2vw;" id="second_answer">Option 1</label>
@@ -54,8 +53,6 @@
                         </div>
 
                         <br>
-
-
                     </form>
                 </div>
             </div>
@@ -66,7 +63,7 @@
         </div>
 
         <hr class="footer-line">
-    </main><!-- /.container -->
+    </main>
 
     <div class="footer">
         <p>&copy; FeedApp 2020</p>
@@ -74,33 +71,6 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!--ThecoreFirebaseJSSDKisalwaysrequiredandmustbelistedfirst-->
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-    <script>
-        //Yourwebapp'sFirebaseconfiguration
-        //ForFirebaseJSSDKv7.20.0andlater,measurementIdisoptional
-        var firebaseConfig = {
-            apiKey: "AIzaSyBVaiwbASOUfS4GoXaPYS62LgMaxsbSZG0",
-            authDomain: "dat250-gr-2-h2020-app.firebaseapp.com",
-            databaseURL: "https://dat250-gr-2-h2020-app.firebaseio.com",
-            projectId: "dat250-gr-2-h2020-app",
-            storageBucket: "dat250-gr-2-h2020-app.appspot.com",
-            messagingSenderId: "851900401969",
-            appId: "1:851900401969:web:32372ee6e94b18bbb4c810",
-            measurementId: "G-03WHQEL0R0"
-        };
-        //InitializeFirebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
     <script src="pollvote.js"></script>
     <script src="../login/login.js"></script>
 </body>
