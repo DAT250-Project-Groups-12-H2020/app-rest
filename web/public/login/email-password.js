@@ -172,7 +172,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
 document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
 //document.getElementById('quickstart-verify-email').addEventListener('click', sendEmailVerification, false);
-//document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
+document.getElementById('quickstart-password-reset').addEventListener('click', sendPasswordReset, false);
 //document.getElementById('quickstart-sign-in').addEventListener('click', loggedInOverview, false);
 
 }
