@@ -38,12 +38,19 @@ function getPoll(id){
                 totalVotesText.value += '\r\n' + poll.secondAnswer + ": " + 0;
             }
 
-            let poll_closes = document.getElementById('poll_closes_date');
-            if(poll.endDateTime == null){
-                poll_closes.innerText = "Poll closes: \nNever";
-            } else{
-                let time = new Date(poll.endDateTime);
-                poll_closes.innerText = "Poll closes: \n" + time.toUTCString();
+            let poll_period = document.getElementById('poll_period_date');
+            if(poll.startDateTime == null && poll.endDateTime == null){
+                poll_period.innerText = "Always open";
+                poll_period.style.color = 'green';
+            }else{
+                if(poll.endDateTime == null){
+                    let time = new Date(poll.startDateTime);
+                    poll_period.innerText = time.toUTCString() + ' - Never Ends';
+                }else{
+                    let time_s = new Date(poll.startDateTime);
+                    let time_e = new Date(poll.endDateTime);
+                    poll_period.innerText = time_s.toUTCString() + ' - ' + time_e.toUTCString();
+                }
             }
         })
         .catch(error => console.log('error', error));

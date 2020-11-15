@@ -22,11 +22,22 @@ fetch(url + "/api/v1/polls?id=" + id, requestOptions)
         secondAnswer.value = poll.secondAnswer;
         private.checked = poll.private;
 
-        if(poll.endDateTime == null){
-            document.getElementById('poll_closes_date').innerText = "Poll closes: \n" + "Never";
+        // poll active period
+        let poll_period = document.getElementById('poll_period_date');
+        if(poll.startDateTime == null && poll.endDateTime == null){
+            poll_period.innerText = "Always open";
+            poll_period.style.color = 'green';
         }else{
-            document.getElementById('poll_closes_date').innerText = "Poll closes: \n" + new Date(poll.endDateTime).toUTCString();
+            if(poll.endDateTime == null){
+                let time = new Date(poll.startDateTime);
+                poll_period.innerText = time.toUTCString() + ' - Never Ends';
+            }else{
+                let time_s = new Date(poll.startDateTime);
+                let time_e = new Date(poll.endDateTime);
+                poll_period.innerText = time_s.toUTCString() + ' - ' + time_e.toUTCString();
+            }
         }
+
     })
     .catch(error => console.log('error', error));
 

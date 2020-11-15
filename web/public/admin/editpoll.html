@@ -40,7 +40,8 @@
                     <input class="form-control my-input" type="poll code" id="second_ans_field"/>
                 </div>
                 <div class="form-group text-center">
-                    <label id="poll_closes_date">Poll closes: </label><br>
+                    <p style="display: inline;">Poll Active Period: </p>
+                    <p id="poll_period_date"></p>
                 </div>
                 <div class="form-group text-center">
                     <input type="checkbox" id="private" name="private" value="false">
@@ -91,10 +92,20 @@
             secondAnswer.value = poll.secondAnswer;
             private.checked = poll.private;
 
-            if(poll.endDateTime == null){
-                document.getElementById('poll_closes_date').innerText = "Poll closes: \n" + "Never";
+            // poll active period
+            let poll_period = document.getElementById('poll_period_date');
+            if(poll.startDateTime == null && poll.endDateTime == null){
+                poll_period.innerText = "Always open";
+                poll_period.style.color = 'green';
             }else{
-                document.getElementById('poll_closes_date').innerText = "Poll closes: \n" + new Date(poll.endDateTime).toUTCString();
+                if(poll.endDateTime == null){
+                    let time = new Date(poll.startDateTime);
+                    poll_period.innerText = time.toUTCString() + ' - Never Ends';
+                }else{
+                    let time_s = new Date(poll.startDateTime);
+                    let time_e = new Date(poll.endDateTime);
+                    poll_period.innerText = time_s.toUTCString() + ' - ' + time_e.toUTCString();
+                }
             }
         })
         .catch(error => console.log('error', error));

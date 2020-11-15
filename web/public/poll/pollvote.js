@@ -2,7 +2,7 @@ var url = "http://localhost:8090";
 let vote = "first";
 
 let question = document.getElementById('poll_question');
-let poll_closes = document.getElementById('poll_closes_date');
+let poll_period = document.getElementById('poll_period_date');
 
 // Id of poll the user is voting on
 let id = localStorage.getItem('id');
@@ -27,14 +27,16 @@ function getPollAndShowIt(id) {
             document.getElementById('second_answer').innerText = poll.secondAnswer;
 
             if(poll.startDateTime == null && poll.endDateTime == null){
-                poll_closes.innerText = "Always open";
-                poll_closes.style.color = 'green';
+                poll_period.innerText = "Always open";
+                poll_period.style.color = 'green';
             }else{
                 if(poll.endDateTime == null){
-                    poll_closes.innerText = "Never";
+                    let time = new Date(poll.startDateTime);
+                    poll_period.innerText = time.toUTCString() + ' - Never Ends';
                 }else{
-                    let time = new Date(poll.endDateTime);
-                    poll_closes.innerText = time.toUTCString();
+                    let time_s = new Date(poll.startDateTime);
+                    let time_e = new Date(poll.endDateTime);
+                    poll_period.innerText = time_s.toUTCString() + ' - ' + time_e.toUTCString();
                 }
             }
 
