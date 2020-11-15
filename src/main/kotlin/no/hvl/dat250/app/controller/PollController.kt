@@ -8,7 +8,6 @@ import no.hvl.dat250.app.dto.VoteRequest
 import no.hvl.dat250.app.dto.VoteResponse
 import no.hvl.dat250.app.dto.toResponse
 import no.hvl.dat250.app.exception.NotLoggedInException
-import no.hvl.dat250.app.exception.PollNotOwnedByUserException
 import no.hvl.dat250.app.service.AccountService
 import no.hvl.dat250.app.service.PollService
 import no.hvl.dat250.app.service.VoteService
@@ -56,24 +55,18 @@ class PollController {
 
   @PutMapping("/{id}")
   fun updatePoll(@PathVariable id: Long, @Valid @RequestBody pollRequest: PollRequest): PollResponse {
-    val poll = pollService.updatePoll(id, pollRequest)
-    return poll.toResponse()
+    return pollService.updatePoll(id, pollRequest).toResponse()
   }
 
   @GetMapping
   fun getPoll(@RequestParam("id") id: Long): PollResponse {
-    val poll = pollService.getPoll(id)
-    return poll.toResponse()
+    return pollService.getPoll(id).toResponse()
   }
 
   @DeleteMapping("/{id}")
   fun deletePoll(@PathVariable id: Long): PollResponse {
     val poll = pollService.getPoll(id)
-    if (accountService.isNotOwnerOf(poll)) {
-      throw PollNotOwnedByUserException(id)
-    }
-    accountService.removePoll(poll)
-    pollService.delete(id)
+    accountService.deletePoll(poll)
     return poll.toResponse()
   }
 

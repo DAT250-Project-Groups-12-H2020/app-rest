@@ -77,7 +77,7 @@ interface AccountService {
    * @throws PollNotOwnedByUserException If the given poll is not owned by the currently logged in user
    */
   @ExceptionHandler(NotLoggedInException::class, PollNotOwnedByUserException::class)
-  fun removePoll(poll: Poll, account: Account = getCurrentAccount())
+  fun deletePoll(poll: Poll, account: Account = getCurrentAccount())
 
   /**
    * If the given account owns the given poll
