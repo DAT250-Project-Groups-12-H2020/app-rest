@@ -1,4 +1,4 @@
-# App
+# FeedApp - DAT250 Advanced Software Technologies
 
 ## Setup
 
