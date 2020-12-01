@@ -16,7 +16,7 @@
 
 * Download Docker Desktop https://www.docker.com/products/docker-desktop.
 * Navigate on terminal to where the `app-rest`directory is.
-* Then `docker-compose up` to build, (re)start and attach to containers for a service.
+* Then run the command `docker-compose up` to build, (re)start and attach to containers for a service.
 
 ### Spring Boot
 * To start the server
